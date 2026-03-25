@@ -99,10 +99,10 @@ export function useSettings() {
   }, [])
 
   const parseSettings = useCallback((data: SiteSettings) => {
-    const navbarConfig = data.navbarConfig && data.navbarConfig.trim() !== ''
+    const navbarConfig = typeof data.navbarConfig === 'string' && data.navbarConfig.trim() !== ''
       ? JSON.parse(data.navbarConfig)
       : null
-    const footerConfig = data.footerConfig && data.footerConfig.trim() !== ''
+    const footerConfig = typeof data.footerConfig === 'string' && data.footerConfig.trim() !== ''
       ? JSON.parse(data.footerConfig)
       : null
 
@@ -118,11 +118,11 @@ export function useSettings() {
       backgroundLight: data.backgroundLight || DEFAULT_SETTINGS.backgroundLight,
       backgroundDark: data.backgroundDark || DEFAULT_SETTINGS.backgroundDark,
       navbarLinks: navbarConfig?.links || DEFAULT_SETTINGS.navbarLinks,
-      navbarCta: data.navbarCta && data.navbarCta.trim() !== ''
+      navbarCta: typeof data.navbarCta === 'string' && data.navbarCta.trim() !== ''
         ? JSON.parse(data.navbarCta)
         : DEFAULT_SETTINGS.navbarCta,
       footerColumns: footerConfig?.columns || DEFAULT_SETTINGS.footerColumns,
-      footerSocials: data.footerSocials && data.footerSocials.trim() !== ''
+      footerSocials: typeof data.footerSocials === 'string' && data.footerSocials.trim() !== ''
         ? JSON.parse(data.footerSocials)
         : DEFAULT_SETTINGS.footerSocials,
       theme: data.theme || DEFAULT_SETTINGS.theme,
