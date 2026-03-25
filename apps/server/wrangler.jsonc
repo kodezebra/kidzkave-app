@@ -1,0 +1,26 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "kidzkave",
+	"main": "src/index.ts",
+	"compatibility_date": "2026-03-10",
+	"assets": {
+		"directory": "public"
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "kidzkave-db",
+			"database_id": "9c714e46-2ec0-4aa5-acad-0f620561570c",
+			"migrations_dir": "./drizzle"
+		}
+	],
+	"r2_buckets": [
+		{
+			"binding": "ASSETS",
+			"bucket_name": "your-school-assets"
+		}
+	],
+	"vars": {
+		"FRONTEND_URL": "http://localhost:5173"
+	}
+}

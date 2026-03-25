@@ -1,0 +1,29 @@
+node_modules
+dist
+.tanstack
+.wrangler
+.dev.vars
+*.log
+
+# Turborepo
+.turbo
+bun.lock
+bun.lockb
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
+
+# DB
+*.db
+*.sqlite

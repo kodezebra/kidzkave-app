@@ -1,0 +1,311 @@
+import { Button } from "@/components/ui/button"
+import { ArrowLeft, Settings2, Globe, ExternalLink, Rocket, Undo2, Redo2, Trash2, Sun, Moon } from 'lucide-react'
+import { Link } from '@tanstack/react-router'
+import { useState, useEffect } from 'react'
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+  SheetFooter,
+} from "@/components/ui/sheet"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Switch } from "@/components/ui/switch"
+import { SITE_URL } from '@/config'
+// import { cn } from "@/lib/utils"
+
+export function EditorHeader({ 
+  pageData, 
+  settings, 
+  setSettings,
+  onSaveSettings,
+  onSaveBlocks,
+  onDeletePage,
+  isDeletingPage,
+  isSavingBlocks,
+  isSavingSettings,
+  canUndo,
+  canRedo,
+  onUndo,
+  onRedo
+}: {
+  pageData: any,
+  settings: any,
+  setSettings: (s: any) => void,
+  onSaveSettings: () => void,
+  onSaveBlocks: () => void,
+  onDeletePage: () => void,
+  isDeletingPage: boolean,
+  isSavingBlocks: boolean,
+  isSavingSettings: boolean,
+  canUndo: boolean,
+  canRedo: boolean,
+  onUndo: () => void,
+  onRedo: () => void
+}) {
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+  const [showSuccess, setShowSuccess] = useState(false)
+  const [isDark, setIsDark] = useState(() => document.documentElement.classList.contains('dark'))
+
+  const toggleDarkMode = () => {
+    const newIsDark = !isDark
+    setIsDark(newIsDark)
+    if (newIsDark) {
+      document.documentElement.classList.add('dark')
+      localStorage.setItem('theme', 'dark')
+    } else {
+      document.documentElement.classList.remove('dark')
+      localStorage.setItem('theme', 'light')
+    }
+  }
+
+  useEffect(() => {
+    if (isSavingBlocks === false && showSuccess === false && isSavingSettings === false) {
+      // Logic to detect if we just finished saving
+      // This is a bit of a hack without a proper toast system
+    }
+  }, [isSavingBlocks, isSavingSettings])
+
+  const handleSaveBlocks = async () => {
+    await onSaveBlocks()
+    setShowSuccess(true)
+    setTimeout(() => setShowSuccess(false), 3000)
+  }
+
+  const handleUpdateSettings = async () => {
+    await onSaveSettings()
+    setIsSettingsOpen(false)
+    setShowSuccess(true)
+    setTimeout(() => setShowSuccess(false), 3000)
+  }
+
+  const handleDeletePage = () => {
+    onDeletePage()
+    setIsDeleteDialogOpen(false)
+    setIsSettingsOpen(false)
+  }
+
+  // Keyboard shortcuts for undo/redo
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Don't trigger when typing in inputs
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return
+      
+      if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+        e.preventDefault()
+        if (e.shiftKey) {
+          onRedo()
+        } else {
+          onUndo()
+        }
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [onUndo, onRedo])
+
+  return (
+    <header className="h-14 border-b flex items-center justify-between px-4 bg-background z-20 shadow-sm shrink-0">
+      <div className="flex items-center gap-3">
+        <Link to="/cms">
+          <Button variant="ghost" size="sm" className="h-8 gap-2 hover:bg-muted px-2">
+            <ArrowLeft className="h-4 w-4" />
+            <span className="text-[10px] font-bold uppercase tracking-wider">Back</span>
+          </Button>
+        </Link>
+        <div className="h-4 w-[1px] bg-border mx-1" />
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="font-bold text-xs tracking-tight">{pageData?.title}</span>
+            <span className="text-[9px] text-muted-foreground bg-muted border border-border px-1.5 py-0.5 rounded uppercase font-bold tracking-widest">
+              {settings.status}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex items-center gap-3">
+        {showSuccess && (
+          <div className="flex items-center gap-2 text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-100 animate-in fade-in zoom-in duration-300">
+            <Rocket className="h-3 w-3" />
+            Changes Saved!
+          </div>
+        )}
+
+        {/* Undo/Redo */}
+        <div className="flex items-center gap-1 mr-2">
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8"
+            onClick={onUndo}
+            disabled={!canUndo}
+            title="Undo (Ctrl+Z)"
+          >
+            <Undo2 className="h-4 w-4" />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="h-8 w-8"
+            onClick={onRedo}
+            disabled={!canRedo}
+            title="Redo (Ctrl+Shift+Z)"
+          >
+            <Redo2 className="h-4 w-4" />
+          </Button>
+        </div>
+
+        <Button 
+          variant="ghost" 
+          size="icon" 
+          className="h-8 w-8"
+          onClick={toggleDarkMode}
+          title="Toggle Theme"
+        >
+          <Sun className="h-4 w-4 dark:hidden" />
+          <Moon className="h-4 w-4 hidden dark:block" />
+        </Button>
+
+        <Sheet open={isSettingsOpen} onOpenChange={setIsSettingsOpen}>
+          <SheetTrigger asChild>
+            <Button variant="ghost" size="sm" className="text-muted-foreground hover:text-foreground hover:bg-muted h-8 px-3 gap-2 text-[10px] font-bold uppercase tracking-wider">
+              <Settings2 className="h-3.5 w-3.5" />
+              Settings
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right" className="w-[400px] sm:w-[540px] p-10 overflow-auto">
+            <SheetHeader>
+              <SheetTitle>Page Settings</SheetTitle>
+              <SheetDescription>
+                Configure your page's metadata, status, and SEO settings.
+              </SheetDescription>
+            </SheetHeader>
+            <div className="grid gap-6 py-6">
+              <div className="flex items-center justify-between rounded-lg border p-4 bg-muted/20">
+                <div className="space-y-0.5">
+                  <Label className="text-base">Published Status</Label>
+                  <div className="text-sm text-muted-foreground">Make this page live for the world.</div>
+                </div>
+                <Switch 
+                  checked={settings.status === 'published'} 
+                  onCheckedChange={(checked) => setSettings({ ...settings, status: checked ? 'published' : 'draft' })} 
+                />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="s-title">Page Title</Label>
+                <Input id="s-title" value={settings.title} onChange={(e) => setSettings({ ...settings, title: e.target.value })} />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="s-slug">Slug (URL)</Label>
+                <Input id="s-slug" value={settings.slug} onChange={(e) => setSettings({ ...settings, slug: e.target.value })} />
+              </div>
+              <div className="grid gap-2 border-t pt-4">
+                 <div className="flex items-center gap-2 text-primary font-semibold mb-2">
+                   <Globe className="h-4 w-4" />
+                   <span>SEO & Metadata</span>
+                 </div>
+                 <div className="grid gap-4">
+                   <div className="grid gap-2">
+                     <Label htmlFor="m-title">Meta Title</Label>
+                     <Input id="m-title" value={settings.metaTitle} onChange={(e) => setSettings({ ...settings, metaTitle: e.target.value })} placeholder="SEO Title Tag" />
+                   </div>
+                   <div className="grid gap-2">
+                     <Label htmlFor="m-desc">Meta Description</Label>
+                     <textarea 
+                       id="m-desc" 
+                       className="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring"
+                       value={settings.metaDescription} 
+                       onChange={(e) => setSettings({ ...settings, metaDescription: e.target.value })} 
+                       placeholder="Description for search engines..."
+                     />
+                   </div>
+                 </div>
+              </div>
+
+              <div className="mt-4 border-t pt-6">
+                <div className="rounded-lg border border-destructive/20 bg-destructive/5 p-4">
+                  <h4 className="text-sm font-semibold text-destructive mb-1">Danger Zone</h4>
+                  <p className="text-xs text-muted-foreground mb-4">Permanently delete this page and all its content blocks.</p>
+                  <Button 
+                    variant="destructive" 
+                    size="sm" 
+                    className="w-full text-xs font-bold"
+                    onClick={() => setIsDeleteDialogOpen(true)}
+                  >
+                    <Trash2 className="h-3.5 w-3.5 mr-2" />
+                    Delete Page
+                  </Button>
+                </div>
+              </div>
+            </div>
+            <SheetFooter className="mt-4">
+              <Button className="w-full" onClick={handleUpdateSettings} disabled={isSavingSettings}>
+                {isSavingSettings ? 'Saving...' : 'Update Settings'}
+              </Button>
+            </SheetFooter>
+          </SheetContent>
+        </Sheet>
+
+        <Dialog open={isDeleteDialogOpen} onOpenChange={setIsDeleteDialogOpen}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Delete Page</DialogTitle>
+              <DialogDescription>
+                Are you sure you want to delete <span className="font-semibold">{pageData?.title}</span>? 
+                This action cannot be undone and will permanently remove all associated content blocks.
+              </DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button variant="outline" onClick={() => setIsDeleteDialogOpen(false)}>Cancel</Button>
+              <Button 
+                variant="destructive" 
+                onClick={handleDeletePage}
+                disabled={isDeletingPage}
+              >
+                {isDeletingPage ? 'Deleting...' : 'Delete Page'}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+
+        <div className="h-4 w-[1px] bg-border mx-2" />
+
+        {pageData?.status === 'published' && (
+          <a 
+            href={`${SITE_URL}/${pageData.slug === 'home' ? '' : pageData.slug}`} 
+            target="_blank" 
+            rel="noreferrer"
+          >
+            <Button variant="outline" size="sm" className="h-8 w-8 p-0 rounded-full">
+              <ExternalLink className="h-3.5 w-3.5" />
+            </Button>
+          </a>
+        )}
+
+        <Button 
+          size="sm" 
+          className="h-8 gap-2 bg-primary hover:bg-primary/90 shadow-sm px-4 text-xs font-bold"
+          onClick={handleSaveBlocks} 
+          disabled={isSavingBlocks}
+        >
+          <Rocket className="h-3.5 w-3.5" />
+          {isSavingBlocks ? 'Saving...' : 'Save Changes'}
+        </Button>
+      </div>
+    </header>
+  )
+}
