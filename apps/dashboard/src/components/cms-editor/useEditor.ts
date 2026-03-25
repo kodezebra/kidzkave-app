@@ -70,6 +70,9 @@ export function useEditor(initialBlocks: any[] = []) {
       case 'values':
         content = { tagline: 'Our Values', title: 'What We Believe', subtitle: 'Core principles guiding us.', items: [{ icon: 'heart', title: 'Integrity', description: 'We do the right thing.' }, { icon: 'users', title: 'Teamwork', description: 'Together we achieve more.' }] }
         break
+      case 'programs':
+        content = { tagline: 'Programs', title: 'Our Learning Programs', subtitle: 'Age-appropriate curriculum designed for holistic development.', items: [{ icon: 'graduation-cap', title: 'Play Group', description: 'Early childhood development through play.', list: ['Age 18 months - 2 years', 'Child-centered curriculum', 'Motor skill development'] }, { icon: 'book', title: 'Nursery', description: 'Building foundations for learning.', list: ['Age 3-4 years', 'Phonics & numeracy', 'Creative arts & crafts'] }] }
+        break
       case 'splitContent':
         content = { eyebrow: 'Since 2024', title: 'About Our Vision', description: 'We believe in innovation.', image: '', cta: { label: 'Learn More', href: '#' }, imagePosition: 'left' }
         break

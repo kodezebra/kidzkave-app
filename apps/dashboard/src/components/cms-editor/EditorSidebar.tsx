@@ -6,7 +6,8 @@ import {
   BarChart3, Users, MessageSquare, Megaphone,
   ListFilter, HeartHandshake, ImagePlay, CircleHelp,
   Search, Sparkles, FileText, Image as ImageIcon, MessageCircle,
-  ChevronUp, ChevronDown, Map as MapIcon, Flag, Banknote
+  ChevronUp, ChevronDown, Map as MapIcon, Flag, Banknote,
+  GraduationCap
 } from 'lucide-react'
 import { useState, useEffect, useRef } from 'react'
 import {
@@ -44,6 +45,7 @@ const AVAILABLE_BLOCKS: BlockDefinition[] = [
   { type: 'steps', icon: ListFilter, label: 'Steps/Process', description: 'Numbered steps or process flow', category: 'content', color: 'from-cyan-500 to-blue-500' },
   { type: 'values', icon: HeartHandshake, label: 'Values Grid', description: 'Company values with icons', category: 'content', color: 'from-green-500 to-emerald-500' },
   { type: 'fees', icon: Banknote, label: 'Fees Table', description: 'School fees, charges, and pricing', category: 'content', color: 'from-emerald-500 to-teal-500' },
+  { type: 'programs', icon: GraduationCap, label: 'Programs List', description: 'Programs with checklist items', category: 'content', color: 'from-amber-500 to-yellow-500' },
   { type: 'faq', icon: CircleHelp, label: 'FAQ', description: 'Accordion questions and answers', category: 'content', color: 'from-indigo-500 to-violet-500' },
   { type: 'text', icon: Type, label: 'Basic Text', description: 'Simple text block', category: 'content', color: 'from-gray-500 to-slate-500' },
   

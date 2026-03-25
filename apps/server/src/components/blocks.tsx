@@ -20,6 +20,7 @@ export { ContactForm } from './blocks/contact-form/ContactForm'
 export { Map } from './blocks/map/Map'
 export { Banner } from './blocks/banner/Banner'
 export { Fees } from './blocks/fees/Fees'
+export { Programs } from './blocks/programs/Programs'
 
 // 404 Page Component
 export const NotFound = ({ homeUrl = "/", dashboardUrl }: { homeUrl?: string; dashboardUrl: string }) => (
