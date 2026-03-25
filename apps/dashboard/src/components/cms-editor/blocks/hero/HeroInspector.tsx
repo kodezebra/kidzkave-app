@@ -6,6 +6,7 @@ import { MediaPicker } from '../../MediaPicker'
 import { IconPicker } from '../../IconPicker'
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Label } from "@/components/ui/label"
+import { PageSelector } from '../../PageSelector'
 
 // Inspector for editing hero section content
 export function HeroInspector({ content, onUpdateContent }: { content: any, onUpdateContent: (c: any) => void }) {
@@ -51,13 +52,25 @@ export function HeroInspector({ content, onUpdateContent }: { content: any, onUp
       <Section title="Primary Button">
         <div className="p-3 border rounded-lg bg-muted/20 space-y-3">
           <Field label="Label"><Input value={content.primaryCta?.label || ''} onChange={(e) => onUpdateContent({ ...content, primaryCta: { ...content.primaryCta, label: e.target.value } })} /></Field>
-          <Field label="Href"><Input value={content.primaryCta?.href || ''} onChange={(e) => onUpdateContent({ ...content, primaryCta: { ...content.primaryCta, href: e.target.value } })} /></Field>
+          <Field label="Link">
+            <PageSelector 
+              value={content.primaryCta?.href || ''} 
+              onChange={(href) => onUpdateContent({ ...content, primaryCta: { ...content.primaryCta, href } })}
+              placeholder="Select page or enter URL..."
+            />
+          </Field>
         </div>
       </Section>
       <Section title="Secondary Button">
         <div className="p-3 border rounded-lg bg-muted/20 space-y-3">
           <Field label="Label"><Input value={content.secondaryCta?.label || ''} onChange={(e) => onUpdateContent({ ...content, secondaryCta: { ...content.secondaryCta, label: e.target.value } })} /></Field>
-          <Field label="Href"><Input value={content.secondaryCta?.href || ''} onChange={(e) => onUpdateContent({ ...content, secondaryCta: { ...content.secondaryCta, href: e.target.value } })} /></Field>
+          <Field label="Link">
+            <PageSelector 
+              value={content.secondaryCta?.href || ''} 
+              onChange={(href) => onUpdateContent({ ...content, secondaryCta: { ...content.secondaryCta, href } })}
+              placeholder="Select page or enter URL..."
+            />
+          </Field>
         </div>
       </Section>
     </>

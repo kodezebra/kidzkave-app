@@ -22,5 +22,12 @@
 	],
 	"vars": {
 		"FRONTEND_URL": "http://localhost:5173"
-	}
+	},
+// 	"routes": [
+//     {
+//       "pattern": "kidzkavejuniorschool.com/*",
+// 	  "zone_name": "kidzkavejuniorschool.com",
+//     //   "custom_domain": true
+//     }
+//   ]
 }
