@@ -7,7 +7,8 @@ import {
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { SOCIAL_ICONS, UI_ICONS, BADGE_ICONS, getPhosphorIconComponent, type PhosphorIconEntry } from './phosphor-icons'
+import { SOCIAL_ICONS, UI_ICONS, BADGE_ICONS, type PhosphorIconEntry } from './phosphor-icons'
+import { getIconComponent } from './icon-renderer'
 
 type IconCollection = 'social' | 'ui' | 'badge'
 
@@ -49,15 +50,15 @@ export function IconPicker({
     setSearchTerm('')
   }
 
-  const CurrentIcon = value ? getPhosphorIconComponent(value) : null
+  const SelectedIcon = value ? getIconComponent(value) : null
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         {trigger || (
           <Button variant="outline" size="sm" className="gap-2">
-            {CurrentIcon ? (
-              <CurrentIcon className="h-4 w-4" />
+            {SelectedIcon ? (
+              <SelectedIcon className="h-4 w-4" />
             ) : (
               <MagnifyingGlassIcon className="h-4 w-4" />
             )}
@@ -111,8 +112,8 @@ export function IconPicker({
             </div>
           ) : (
             <div className="grid grid-cols-6 gap-2">
-              {filteredIcons.map((icon) => {
-                const IconComponent = icon.Component
+              {filteredIcons.map((icon: PhosphorIconEntry) => {
+                const IconComponent = getIconComponent(icon.icon)
                 return (
                   <button
                     key={icon.name}
@@ -124,7 +125,11 @@ export function IconPicker({
                     title={icon.label}
                   >
                     <div className={`mb-1.5 group-hover:scale-110 transition-transform ${value === icon.name ? 'text-primary' : 'text-foreground'}`}>
-                      <IconComponent className="h-5 w-5" />
+                      {IconComponent ? (
+                        <IconComponent className="h-5 w-5" />
+                      ) : (
+                        <MagnifyingGlassIcon className="h-5 w-5" />
+                      )}
                     </div>
                     <span className="text-[9px] truncate w-full text-center text-muted-foreground">
                       {icon.label}
