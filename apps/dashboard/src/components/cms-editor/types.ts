@@ -241,6 +241,18 @@ export interface TextContent extends CommonBlockContent {
   text: string;
 }
 
+export interface ProgramsContent extends CommonBlockContent {
+  tagline?: string;
+  title: string;
+  subtitle?: string;
+  items: Array<{
+    icon?: string;
+    title: string;
+    description?: string;
+    list?: string[];
+  }>;
+}
+
 // --- Unified Types ---
 
 export type BlockType =
@@ -248,7 +260,7 @@ export type BlockType =
   | 'team' | 'testimonials' | 'cta' | 'steps' | 'values'
   | 'splitContent' | 'videoGallery' | 'faq' | 'text'
   | 'pricing' | 'gallery' | 'services' | 'contact-form' | 'map'
-  | 'banner' | 'fees';
+  | 'banner' | 'fees' | 'programs';
 
 export interface Block {
   id: string;
@@ -259,7 +271,7 @@ export interface Block {
     | StepsContent | ValuesContent | SplitContentContent | VideoGalleryContent
     | FaqContent | TextContent
     | PricingContent | GalleryContent | ServicesContent | ContactFormContent
-    | MapContent | BannerContent | FeesContent;
+    | MapContent | BannerContent | FeesContent | ProgramsContent;
 }
 
 export interface PageSettings {
