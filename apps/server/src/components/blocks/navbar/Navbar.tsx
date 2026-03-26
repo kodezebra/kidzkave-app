@@ -52,11 +52,19 @@ export const Navbar = ({ content, settings }: { content: any; settings?: any }) 
               ))}
               <button 
                 onclick="window.toggleTheme()"
-                className="p-2 text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors cursor-pointer"
+                className="p-2 text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors cursor-pointer flex-shrink-0"
                 title="Toggle Theme"
               >
-                <IconSvg icon="sun" className="hidden dark:block w-5 h-5" />
-                <IconSvg icon="moon" className="block dark:hidden w-5 h-5" />
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" className="hidden dark:block w-5 h-5">
+                  <g fill="none" stroke="currentColor" stroke-width="1.5">
+                    <circle cx="12" cy="12" r="6"/>
+                    <path stroke-linecap="round" d="M12 2v1m0 18v1m10-10h-1M3 12H2"/>
+                    <path stroke-linecap="round" d="m19.07 4.93l-.392.393M5.322 18.678l-.393.393m14.141-.001l-.392-.393M5.322 5.322l-.393-.393" opacity="0.5"/>
+                  </g>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" className="block dark:hidden w-5 h-5">
+                  <path d="M21 12.808c-.5 5.347-5.849 9.14-11.107 7.983C-.078 18.6 1.15 3.909 11.11 3C6.395 9.296 14.619 17.462 21 12.808"/>
+                </svg>
               </button>
               {content.cta && (
                 <a
@@ -71,10 +79,18 @@ export const Navbar = ({ content, settings }: { content: any; settings?: any }) 
           <div className="md:hidden flex items-center gap-4">
             <button 
               onclick="window.toggleTheme()"
-              className="p-2 text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors cursor-pointer"
+              className="p-2 text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors cursor-pointer flex-shrink-0"
             >
-              <IconSvg icon="sun" className="hidden dark:block w-5 h-5" />
-              <IconSvg icon="moon" className="block dark:hidden w-5 h-5" />
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" className="hidden dark:block w-5 h-5">
+                <g fill="none" stroke="currentColor" stroke-width="1.5">
+                  <circle cx="12" cy="12" r="6"/>
+                  <path stroke-linecap="round" d="M12 2v1m0 18v1m10-10h-1M3 12H2"/>
+                  <path stroke-linecap="round" d="m19.07 4.93l-.392.393M5.322 18.678l-.393.393m14.141-.001l-.392-.393M5.322 5.322l-.393-.393" opacity="0.5"/>
+                </g>
+              </svg>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" className="block dark:hidden w-5 h-5">
+                <path d="M21 12.808c-.5 5.347-5.849 9.14-11.107 7.983C-.078 18.6 1.15 3.909 11.11 3C6.395 9.296 14.619 17.462 21 12.808"/>
+              </svg>
             </button>
             <button 
               id="mobile-menu-button"

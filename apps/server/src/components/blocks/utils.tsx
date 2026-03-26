@@ -12,7 +12,7 @@ export function Icon({ name, className }: { name: string; className?: string }) 
   const path = iconDef?.path
   if (!path) return null
   return (
-    <svg class={className} width="1em" height="1em" viewBox="0 0 256 256" fill="currentColor">
+    <svg className={className} width="1em" height="1em" viewBox="0 0 256 256" fill="currentColor">
       <path d={path} />
     </svg>
   )
@@ -23,7 +23,7 @@ export function IconSvg({ icon, className }: { icon: string; className?: string 
   const path = iconDef?.path
   if (!path) return null
   return (
-    <svg class={className} width="1em" height="1em" viewBox="0 0 256 256" fill="currentColor">
+    <svg className={className} width="1em" height="1em" viewBox="0 0 256 256" fill="currentColor">
       <path d={path} />
     </svg>
   )
