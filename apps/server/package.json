@@ -14,8 +14,7 @@
     "db:studio": "drizzle-kit studio"
   },
   "dependencies": {
-    "@iconify/utils": "^3.1.0",
-    "@kz/icons": "workspace:*",
+    "@phosphor-icons/react": "^2.1.10",
     "@paralleldrive/cuid2": "^3.3.0",
     "drizzle-orm": "^0.45.1",
     "hono": "^4.12.6",

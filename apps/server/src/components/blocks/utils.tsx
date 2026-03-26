@@ -1,6 +1,11 @@
-import { SOCIAL_ICONS, UI_ICONS, BADGE_ICONS, getIconByName, type IconDefinition } from '@kz/icons'
+import { raw } from 'hono/html'
 
-export { SOCIAL_ICONS, UI_ICONS, BADGE_ICONS, getIconByName, type IconDefinition }
+function kebabToPascal(str: string): string {
+  return str
+    .split('-')
+    .map(part => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+    .join('')
+}
 
 export const getPadding = (styles: any) => {
   if (styles?.paddingY !== undefined) return { paddingTop: `${styles.paddingY}px`, paddingBottom: `${styles.paddingY}px` }
@@ -8,30 +13,18 @@ export const getPadding = (styles: any) => {
 }
 
 export function Icon({ name, className }: { name: string; className?: string }) {
-  const iconDef = getIconByName(name)
-  const path = iconDef?.path
-  if (!path) return null
-  return (
-    <svg className={className} width="1em" height="1em" viewBox="0 0 256 256" fill="currentColor">
-      <path d={path} />
-    </svg>
-  )
+  return raw(`<i class="ph ph-${name} ${className || ''}"></i>`)
 }
 
 export function IconSvg({ icon, className }: { icon: string; className?: string }) {
-  const iconDef = getIconByName(icon.replace('ph:', ''))
-  const path = iconDef?.path
-  if (!path) return null
-  return (
-    <svg className={className} width="1em" height="1em" viewBox="0 0 256 256" fill="currentColor">
-      <path d={path} />
-    </svg>
-  )
+  const iconName = icon.replace('ph:', '')
+  return raw(`<i class="ph ph-${iconName} ${className || ''}"></i>`)
 }
 
 export function renderIcon(iconName: string, className: string = ''): string {
-  const iconDef = getIconByName(iconName)
-  const path = iconDef?.path
-  if (!path) return ''
-  return `<svg class="${className}" width="1em" height="1em" viewBox="0 0 256 256" fill="currentColor"><path d="${path}"/></svg>`
+  return `<i class="ph ph-${iconName} ${className}"></i>`
+}
+
+export function getPhosphorIconComponent(iconName: string): string {
+  return iconName
 }

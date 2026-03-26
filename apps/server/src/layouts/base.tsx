@@ -83,6 +83,7 @@ export const BaseLayout = async ({ title, description, children, settings }: Bas
       <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
       <link href="${fontUrl}" rel="stylesheet" />
       <link rel="stylesheet" href="/style.css" />
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
       <style>
         ${raw(`
         :root {
