@@ -1,9 +1,18 @@
-import { Icon } from '@iconify/react'
-import { getIconByName } from '@kz/icons'
+import * as PhosphorIcons from '@phosphor-icons/react'
+
+function kebabToPascal(str: string): string {
+  return str
+    .split('-')
+    .map(part => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+    .join('')
+}
 
 export function renderDynamicIcon(name: string, className?: string) {
   if (!name) return null
-  const iconDef = getIconByName(name)
-  if (!iconDef) return null
-  return <Icon icon={iconDef.iconifyId} className={className} />
+  const pascalName = kebabToPascal(name) + 'Icon'
+  const Icon = (PhosphorIcons as any)[pascalName]
+  if (!Icon) return null
+  return <Icon className={className} />
 }
+
+export { PhosphorIcons }

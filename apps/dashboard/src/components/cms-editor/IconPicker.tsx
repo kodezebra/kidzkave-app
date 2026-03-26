@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react'
-import { Icon } from '@iconify/react'
+import { MagnifyingGlassIcon, XIcon } from '@phosphor-icons/react'
 import { 
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger,
   DialogDescription 
@@ -7,12 +7,9 @@ import {
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Input } from '@/components/ui/input'
 import { Button } from '@/components/ui/button'
-import { SOCIAL_ICONS, UI_ICONS, BADGE_ICONS, getIconByName, type IconDefinition } from '@kz/icons'
+import { SOCIAL_ICONS, UI_ICONS, BADGE_ICONS, getPhosphorIconComponent, type PhosphorIconEntry } from './phosphor-icons'
 
 type IconCollection = 'social' | 'ui' | 'badge'
-
-const SEARCH_ICON = 'ph:magnifying-glass'
-const CLOSE_ICON = 'ph:x'
 
 export function IconPicker({ 
   value, 
@@ -46,23 +43,23 @@ export function IconPicker({
     )
   }, [icons, searchTerm])
 
-  const handleSelect = (icon: IconDefinition) => {
+  const handleSelect = (icon: PhosphorIconEntry) => {
     onSelect(icon.name)
     setIsOpen(false)
     setSearchTerm('')
   }
 
-  const currentIcon = value ? getIconByName(value) : null
+  const CurrentIcon = value ? getPhosphorIconComponent(value) : null
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         {trigger || (
           <Button variant="outline" size="sm" className="gap-2">
-            {currentIcon ? (
-              <Icon icon={currentIcon.iconifyId} className="h-4 w-4" />
+            {CurrentIcon ? (
+              <CurrentIcon className="h-4 w-4" />
             ) : (
-              <Icon icon={SEARCH_ICON} className="h-4 w-4" />
+              <MagnifyingGlassIcon className="h-4 w-4" />
             )}
             <span className="capitalize">{value || 'Select Icon'}</span>
           </Button>
@@ -86,7 +83,7 @@ export function IconPicker({
           </Tabs>
 
           <div className="relative">
-            <Icon icon={SEARCH_ICON} className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input 
               placeholder="Search icons..." 
               className="pl-9 pr-9"
@@ -101,7 +98,7 @@ export function IconPicker({
                 className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7"
                 onClick={() => setSearchTerm('')}
               >
-                <Icon icon={CLOSE_ICON} className="h-3 w-3" />
+                <XIcon className="h-3 w-3" />
               </Button>
             )}
           </div>
@@ -114,24 +111,27 @@ export function IconPicker({
             </div>
           ) : (
             <div className="grid grid-cols-6 gap-2">
-              {filteredIcons.map((icon) => (
-                <button
-                  key={icon.name}
-                  className={`
-                    flex flex-col items-center justify-center p-3 rounded-lg border bg-card hover:border-primary hover:bg-primary/5 transition-all group
-                    ${value === icon.name ? 'border-primary bg-primary/10 ring-1 ring-primary' : ''}
-                  `}
-                  onClick={() => handleSelect(icon)}
-                  title={icon.label}
-                >
-                  <div className={`mb-1.5 group-hover:scale-110 transition-transform ${value === icon.name ? 'text-primary' : 'text-foreground'}`}>
-                    <Icon icon={icon.iconifyId} className="h-5 w-5" />
-                  </div>
-                  <span className="text-[9px] truncate w-full text-center text-muted-foreground">
-                    {icon.label}
-                  </span>
-                </button>
-              ))}
+              {filteredIcons.map((icon) => {
+                const IconComponent = icon.Component
+                return (
+                  <button
+                    key={icon.name}
+                    className={`
+                      flex flex-col items-center justify-center p-3 rounded-lg border bg-card hover:border-primary hover:bg-primary/5 transition-all group
+                      ${value === icon.name ? 'border-primary bg-primary/10 ring-1 ring-primary' : ''}
+                    `}
+                    onClick={() => handleSelect(icon)}
+                    title={icon.label}
+                  >
+                    <div className={`mb-1.5 group-hover:scale-110 transition-transform ${value === icon.name ? 'text-primary' : 'text-foreground'}`}>
+                      <IconComponent className="h-5 w-5" />
+                    </div>
+                    <span className="text-[9px] truncate w-full text-center text-muted-foreground">
+                      {icon.label}
+                    </span>
+                  </button>
+                )
+              })}
             </div>
           )}
         </div>
