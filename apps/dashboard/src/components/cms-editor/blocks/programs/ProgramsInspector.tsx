@@ -126,6 +126,22 @@ export function ProgramsInspector({
           </Button>
         </div>
       </Section>
+      <Section title="Call to Action">
+        <Field label="Button Label">
+          <Input 
+            value={content.cta?.label || ''} 
+            onChange={(e) => onUpdateContent({ ...content, cta: { ...content.cta, label: e.target.value, href: content.cta?.href || '#' } })} 
+            placeholder="Learn More"
+          />
+        </Field>
+        <Field label="Button Link">
+          <Input 
+            value={content.cta?.href || ''} 
+            onChange={(e) => onUpdateContent({ ...content, cta: { ...content.cta, label: content.cta?.label || '', href: e.target.value } })} 
+            placeholder="/programs"
+          />
+        </Field>
+      </Section>
     </>
   )
 }

@@ -54,6 +54,16 @@ export const Programs = ({ content }: { content: any }) => {
             </div>
           `))}
         </div>
+        ${content.cta && content.cta.label ? `
+          <div class="text-center mt-16" data-animate-item>
+            <a href="${content.cta.href || '#'}" class="inline-flex items-center gap-3 px-8 py-4 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-all duration-300 shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-0.5">
+              ${content.cta.label}
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        ` : ''}
       </div>
     </section>
   `

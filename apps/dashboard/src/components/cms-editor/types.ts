@@ -251,6 +251,10 @@ export interface ProgramsContent extends CommonBlockContent {
     description?: string;
     list?: string[];
   }>;
+  cta?: {
+    label: string;
+    href: string;
+  };
 }
 
 // --- Unified Types ---

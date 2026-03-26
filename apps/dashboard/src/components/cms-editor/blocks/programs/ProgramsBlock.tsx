@@ -31,6 +31,19 @@ export function ProgramsBlock({ content }: { content: any }) {
           </div>
         ))}
       </div>
+      {content.cta && content.cta.label && (
+        <div className="text-center mt-12">
+          <a
+            href={content.cta.href || '#'}
+            className="inline-flex items-center gap-2 px-8 py-3 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-colors"
+          >
+            {content.cta.label}
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+      )}
     </div>
   )
 }
