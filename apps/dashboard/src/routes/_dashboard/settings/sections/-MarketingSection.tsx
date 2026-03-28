@@ -24,12 +24,12 @@ export function MarketingSection({ settings, onUpdate }: MarketingSectionProps) 
               <Label htmlFor="whatsappNumber">WhatsApp Number</Label>
               <Input
                 id="whatsappNumber"
-                placeholder="+256 700 000 000"
+                placeholder="0700 123 456"
                 value={settings.whatsappNumber || ''}
                 onChange={(e) => onUpdate('whatsappNumber', e.target.value)}
               />
               <p className="text-xs text-muted-foreground">
-                Include country code (e.g., +256 for Uganda)
+                Enter your local WhatsApp number (country code +256 is added automatically)
               </p>
             </div>
             <div className="space-y-2">
