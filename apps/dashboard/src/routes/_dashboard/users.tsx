@@ -307,7 +307,7 @@ function UsersPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {users?.map((user) => (
+              {users?.filter(u => u.role !== 'owner').map((user) => (
                 <TableRow key={user.id}>
                   <TableCell className="font-medium">{user.name || '—'}</TableCell>
                   <TableCell>{user.email}</TableCell>
@@ -429,14 +429,6 @@ function UsersPage() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {isOwner && (
-                    <SelectItem value="owner">
-                      <div className="flex flex-col">
-                        <span>Owner</span>
-                        <span className="text-xs text-muted-foreground">Full access, cannot be changed</span>
-                      </div>
-                    </SelectItem>
-                  )}
                   <SelectItem value="admin">
                     <div className="flex flex-col">
                       <span>Admin</span>
@@ -457,11 +449,6 @@ function UsersPage() {
                   </SelectItem>
                 </SelectContent>
               </Select>
-              {isAdmin && (
-                <p className="text-xs text-muted-foreground mt-1">
-                  Only owners can create other owners
-                </p>
-              )}
             </div>
           </div>
           <div className="flex justify-end gap-2 pt-4 pb-4">
@@ -527,14 +514,6 @@ function UsersPage() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  {isOwner && (
-                    <SelectItem value="owner">
-                      <div className="flex flex-col">
-                        <span>Owner</span>
-                        <span className="text-xs text-muted-foreground">Full access, cannot be changed</span>
-                      </div>
-                    </SelectItem>
-                  )}
                   <SelectItem value="admin">
                     <div className="flex flex-col">
                       <span>Admin</span>
@@ -558,16 +537,6 @@ function UsersPage() {
               {selectedUser?.id === currentUser?.id && (
                 <p className="text-xs text-muted-foreground flex items-center gap-1">
                   <Shield className="h-3 w-3" /> You cannot change your own role
-                </p>
-              )}
-              {selectedUser?.role === 'owner' && !isOwner && (
-                <p className="text-xs text-destructive flex items-center gap-1">
-                  <Shield className="h-3 w-3" /> Only owners can edit other owners
-                </p>
-              )}
-              {selectedUser?.role === 'owner' && isOwner && ownerCount <= 1 && (
-                <p className="text-xs text-amber-600 flex items-center gap-1">
-                  <Shield className="h-3 w-3" /> You are the only owner - cannot change your role
                 </p>
               )}
             </div>
