@@ -24,8 +24,8 @@ export const Values = ({ content }: { content: any }) => {
             <div class="group relative" data-animate-item>
               <div class="absolute -inset-4 bg-primary/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
               <div class="relative flex flex-col gap-5 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm p-8 value-glow hover:border-primary/30 transition-all duration-300">
-                <div class="w-16 h-16 bg-gradient-to-br from-primary/20 to-accent/10 rounded-2xl flex items-center justify-center icon-bounce border border-primary/20 group-hover:from-primary group-hover:to-accent group-hover:border-primary/30 transition-all duration-300">
-                  ${renderIcon(item.icon || 'star', 'w-8 h-8 text-primary group-hover:text-white transition-colors duration-300')}
+                <div class="w-20 h-20 bg-gradient-to-br from-primary/20 to-accent/10 rounded-2xl flex items-center justify-center icon-bounce border border-primary/20 group-hover:from-primary group-hover:to-accent group-hover:border-primary/30 transition-all duration-300">
+                  ${renderIcon(item.icon || 'star', 'text-4xl text-primary group-hover:text-white transition-colors duration-300')}
                 </div>
                 <div class="flex flex-col gap-3">
                   <h4 class="text-slate-900 dark:text-slate-100 text-xl font-bold group-hover:text-primary transition-colors duration-300">${item.title || "Value"}</h4>

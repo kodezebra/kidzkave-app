@@ -41,12 +41,12 @@ export const VideoGallery = ({ content }: { content: any }) => {
                 ` : ''}
                 <div class="absolute inset-0 bg-slate-900/40 flex items-center justify-center group-hover:bg-slate-900/50 transition-colors">
                   ${item.embedAllowed !== false ? `
-                    <button class="play-btn w-16 h-16 bg-primary/90 backdrop-blur-md rounded-full flex items-center justify-center border border-primary/50 cursor-pointer hover:scale-110 hover:bg-primary transition-all shadow-xl" data-play="${index}">
-                      ${renderIcon('play', 'w-8 h-8 text-white ml-1')}
+                    <button class="play-btn w-20 h-20 bg-primary/90 backdrop-blur-md rounded-full flex items-center justify-center border border-primary/50 cursor-pointer hover:scale-110 hover:bg-primary transition-all shadow-xl" data-play="${index}">
+                      ${renderIcon('play', 'text-3xl text-white')}
                     </button>
                   ` : `
                     <button class="play-btn tiktok-btn flex items-center gap-2 px-5 py-3 bg-slate-900/90 backdrop-blur-md rounded-full border border-slate-700 cursor-pointer hover:bg-slate-800 hover:scale-105 transition-all shadow-xl" data-play="${index}" data-external="${item.url}">
-                      ${renderIcon('play', 'w-5 h-5 text-white')}
+                      ${renderIcon('play', 'text-2xl text-white')}
                       <span class="text-white font-semibold text-sm">Watch on TikTok</span>
                     </button>
                   `}
@@ -80,7 +80,7 @@ export const VideoGallery = ({ content }: { content: any }) => {
                   </div>
                   <p class="text-white font-medium mb-2">Unable to embed video</p>
                   <a href="${item.url}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 px-5 py-2.5 bg-cyan-500 hover:bg-cyan-600 text-white font-semibold rounded-full transition-colors">
-                    ${renderIcon('external-link', 'w-4 h-4')}
+                    ${renderIcon('external-link', 'text-xl')}
                     Watch on TikTok
                   </a>
                 </div>

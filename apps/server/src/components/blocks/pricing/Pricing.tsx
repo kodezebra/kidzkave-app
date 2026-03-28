@@ -41,7 +41,7 @@ export const Pricing = ({ content }: { content: any }) => {
               <ul class="space-y-4 mb-8">
                 ${(tier.features || []).map((feature: string) => `
                   <li class="flex items-start gap-3">
-                    ${renderIcon('check', 'h-5 w-5 text-green-500 flex-shrink-0 mt-0.5')}
+                    ${renderIcon('check', 'text-xl text-green-500 flex-shrink-0 mt-0.5')}
                     <span class="text-slate-600 dark:text-slate-300">${feature}</span>
                   </li>
                 `).join('')}

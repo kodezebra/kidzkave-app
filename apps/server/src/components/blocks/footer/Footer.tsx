@@ -37,7 +37,7 @@ export const Footer = ({ dashboardUrl, content, settings }: { dashboardUrl: stri
               {logoType === 'image' && logoImage ? (
                 <img src={logoImage} alt={logoText} className={`${logoLayout === 'vertical' ? 'h-16' : 'h-9'} w-auto object-contain`} />
               ) : (
-                <IconSvg icon={logoIcon} className={`text-primary ${logoLayout === 'vertical' ? 'w-12 h-12' : 'w-9 h-9'}`} />
+                <IconSvg icon={logoIcon} className={`text-primary ${logoLayout === 'vertical' ? 'w-14 h-14' : 'w-12 h-12'}`} />
               )}
               <span className={`${logoLayout === 'vertical' ? 'text-3xl' : 'text-2xl'} font-display font-bold tracking-tight text-slate-900 dark:text-white`}>
                 {logoText}
@@ -48,13 +48,13 @@ export const Footer = ({ dashboardUrl, content, settings }: { dashboardUrl: stri
             </p>
             <div className="flex gap-4">
               {socials.map((social: any, i: number) => (
-                <a 
-                  key={i} 
-                  href={social.url} 
+                <a
+                  key={i}
+                  href={social.url}
                   title={social.platform}
                   className="w-12 h-12 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center hover:bg-primary hover:text-white hover:border-primary transition-all text-slate-600 dark:text-slate-300 shadow-sm"
                 >
-                  <IconSvg icon={social.icon || "external-link"} className="w-6 h-6" />
+                  <IconSvg icon={social.icon || "external-link"} className="w-8 h-8" />
                 </a>
               ))}
             </div>
@@ -81,15 +81,15 @@ export const Footer = ({ dashboardUrl, content, settings }: { dashboardUrl: stri
               <ul className="space-y-4 text-slate-500 dark:text-slate-400 font-medium">
                 {schoolName && <li>{schoolName}</li>}
                 {schoolAddress && <li className="flex items-start gap-2">
-                  <IconSvg icon="map-pin" className="w-4 h-4 mt-0.5 shrink-0" />
+                  <IconSvg icon="map-pin" className="text-xl mt-0.5 shrink-0" />
                   <span>{schoolAddress}</span>
                 </li>}
                 {schoolPhone && <li className="flex items-center gap-2">
-                  <IconSvg icon="phone" className="w-4 h-4 shrink-0" />
+                  <IconSvg icon="phone" className="text-xl shrink-0" />
                   <a href={`tel:${schoolPhone}`} className="hover:text-primary">{schoolPhone}</a>
                 </li>}
                 {schoolEmail && <li className="flex items-center gap-2">
-                  <IconSvg icon="mail" className="w-4 h-4 shrink-0" />
+                  <IconSvg icon="mail" className="text-xl shrink-0" />
                   <a href={`mailto:${schoolEmail}`} className="hover:text-primary">{schoolEmail}</a>
                 </li>}
               </ul>
@@ -107,7 +107,7 @@ export const Footer = ({ dashboardUrl, content, settings }: { dashboardUrl: stri
           <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">© {new Date().getFullYear()} {logoText} Inc. All rights reserved.</p>
           <div className="flex items-center gap-8">
             <span className="text-sm text-slate-500 dark:text-slate-400 font-medium flex items-center gap-2">
-              <IconSvg icon="globe" className="w-4 h-4" /> English (US)
+              <IconSvg icon="globe" className="text-lg" /> English (US)
             </span>
           </div>
         </div>

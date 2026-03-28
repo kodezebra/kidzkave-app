@@ -36,7 +36,7 @@ export const Fees = ({ content, settings }: { content: any; settings?: any }) =>
                     ${(section.items || []).map((item: any) => raw(`
                       <div class="flex items-center gap-4 p-4 bg-white dark:bg-slate-900/80 rounded-xl border border-slate-200/80 dark:border-slate-800/80 fee-card-lift hover:border-green-300 dark:hover:border-green-700/50 group">
                         <div class="w-10 h-10 bg-gradient-to-br from-green-100 to-green-50 dark:from-green-900/30 dark:to-green-900/10 rounded-full flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
-                          ${renderIcon('check', 'w-5 h-5 text-green-600 dark:text-green-400')}
+                          ${renderIcon('check', 'text-xl text-green-600 dark:text-green-400')}
                         </div>
                         <span class="text-slate-700 dark:text-slate-300 font-medium">${item.name}</span>
                       </div>
@@ -104,7 +104,7 @@ export const Fees = ({ content, settings }: { content: any; settings?: any }) =>
             <a href="${content.ctaHref}" class="inline-flex items-center gap-3 px-8 py-4 bg-primary text-white font-bold rounded-full hover:bg-primary/90 hover:shadow-lg hover:shadow-primary/30 hover:scale-105 transition-all duration-300 group">
               ${content.ctaLabel}
               <span class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center group-hover:translate-x-1 transition-transform duration-300">
-                ${renderIcon('arrow-right', 'w-5 h-5')}
+                ${renderIcon('arrow-right', 'text-xl')}
               </span>
             </a>
           </div>

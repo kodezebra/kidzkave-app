@@ -39,8 +39,8 @@ export const SplitContent = ({ content, settings }: { content: any; settings?: a
                   ${content.cta.label || "Learn More"}
                   <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary/30 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
                 </span>
-                <div class="w-10 h-10 rounded-full border border-primary/20 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
-                  ${renderIcon('arrow-right', 'w-5 h-5')}
+                <div class="w-12 h-12 rounded-full border border-primary/20 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
+                  ${renderIcon('arrow-right', 'text-2xl')}
                 </div>
               </a>
             `) : ''}

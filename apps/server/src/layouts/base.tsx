@@ -85,7 +85,7 @@ export const BaseLayout = async ({ title, description, children, settings }: Bas
       <link rel="stylesheet" href="/style.css" />
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@phosphor-icons/web@2.1.2/src/regular/style.css" />
       <style>
-        ${raw(`
+        ${raw(`i.ph { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; }`)}
         :root {
           --primary: ${primaryColor};
           --accent: ${accentColor};
@@ -107,43 +107,14 @@ export const BaseLayout = async ({ title, description, children, settings }: Bas
           background-size: cover;
           background-position: center;
         }
-        /* Smooth scroll */
-        html {
-          scroll-behavior: smooth;
-        }
-        /* Animation utilities */
-        [data-animate], [data-animate-item] {
-          will-change: transform, opacity;
-        }
-        /* Reduced motion support */
+        html { scroll-behavior: smooth; }
+        [data-animate], [data-animate-item] { will-change: transform, opacity; }
         @media (prefers-reduced-motion: reduce) {
-          *, ::before, ::after {
-            animation-duration: 0.01ms !important;
-            animation-iteration-count: 1 !important;
-            transition-duration: 0.01ms !important;
-          }
+          *, ::before, ::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
         }
-        /* Loading skeleton animation */
-        @keyframes shimmer {
-          0% { background-position: -200% 0; }
-          100% { background-position: 200% 0; }
-        }
-        .skeleton {
-          background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-          background-size: 200% 100%;
-          animation: shimmer 1.5s infinite;
-        }
-        /* Scroll progress bar */
-        .scroll-progress {
-          position: fixed;
-          top: 0;
-          left: 0;
-          height: 3px;
-          background: linear-gradient(90deg, var(--primary), var(--accent));
-          z-index: 9999;
-          transform-origin: left;
-        }
-        `)}
+        @keyframes shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+        .skeleton { background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; }
+        .scroll-progress { position: fixed; top: 0; left: 0; height: 3px; background: linear-gradient(90deg, var(--primary), var(--accent)); z-index: 9999; transform-origin: left; }
       </style>
       <script>${raw(darkModeScript)}</script>
       ${reducedMotionScript}

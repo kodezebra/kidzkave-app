@@ -2,10 +2,14 @@ import { StrictMode } from "react"
 import { createRoot } from "react-dom/client"
 import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { addCollection } from '@iconify/react'
 
 import "./index.css"
 import { ThemeProvider } from "@/components/theme-provider.tsx"
 import { ToastProvider } from "@/components/ui/toast"
+import iconoirIcons from '@iconify-json/iconoir/icons.json'
+
+addCollection(iconoirIcons)
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen'

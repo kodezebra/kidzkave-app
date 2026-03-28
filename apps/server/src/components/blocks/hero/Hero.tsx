@@ -17,11 +17,11 @@ export const Hero = ({ content }: { content: any }) => {
         <div class="max-w-3xl">
           ${content.badge ? html`
             <div class="hero-badge mb-10 inline-flex items-center gap-3 px-5 py-3 rounded-full text-xs sm:text-sm font-black tracking-[0.15em] uppercase whitespace-nowrap ${
-              content.badgeVariant === 'glass' 
-                ? 'bg-white/10 backdrop-blur-md border border-white/20 text-white' 
+              content.badgeVariant === 'glass'
+                ? 'bg-white/10 backdrop-blur-md border border-white/20 text-white'
                 : 'bg-accent text-white shadow-xl shadow-accent/40 ring-2 ring-accent/30'
             } opacity-0">
-              ${content.badgeIcon ? raw(`<span class="w-4 h-4 sm:w-5 sm:h-5 shrink-0">${renderIcon(content.badgeIcon, 'w-4 h-4 sm:w-5 sm:h-5 shrink-0')}</span>`) : html`
+              ${content.badgeIcon ? raw(`<span class="w-5 h-5 sm:w-6 sm:h-6 shrink-0">${renderIcon(content.badgeIcon, 'w-5 h-5 sm:w-6 sm:h-6')}</span>`) : html`
                 <span class="relative flex h-2.5 w-2.5 shrink-0">
                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
                   <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-white"></span>

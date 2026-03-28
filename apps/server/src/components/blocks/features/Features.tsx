@@ -42,8 +42,8 @@ export const Features = ({ content }: { content: any }) => {
                 <div class="relative h-full flex flex-col justify-end p-8 min-h-[420px]">
                   <span class="absolute top-6 right-6 text-7xl font-display font-black text-white/10 group-hover:text-white/20 transition-colors duration-500">${number}</span>
                   ${item.icon ? `
-                    <div class="w-14 h-14 bg-white/15 backdrop-blur-md rounded-2xl flex items-center justify-center mb-5 icon-bounce border border-white/20">
-                      ${renderIcon(item.icon, 'w-7 h-7 text-white')}
+                    <div class="w-16 h-16 bg-white/15 backdrop-blur-md rounded-2xl flex items-center justify-center mb-5 icon-bounce border border-white/20">
+                      ${renderIcon(item.icon, 'text-3xl text-white')}
                     </div>
                   ` : ''}
                   <h3 class="text-2xl md:text-3xl font-display font-bold text-white mb-4 group-hover:translate-x-2 transition-transform duration-300">${item.title}</h3>

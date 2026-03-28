@@ -14,7 +14,7 @@ export const Navbar = ({ content, settings }: { content: any; settings?: any }) 
             {logoType === 'image' && logoImage ? (
               <img src={logoImage} alt={logoText} className="h-9 w-auto object-contain" />
             ) : (
-              <IconSvg icon={logoIcon} className="text-primary w-9 h-9" />
+              <IconSvg icon={logoIcon} className="text-primary w-12 h-12" />
             )}
             <span className="text-2xl font-display font-bold tracking-tight text-slate-900 dark:text-white">
               {logoText}
@@ -30,7 +30,7 @@ export const Navbar = ({ content, settings }: { content: any; settings?: any }) 
                       onclick={`document.getElementById('dropdown-${index}').classList.toggle('hidden'); document.getElementById('dropdown-${index}').classList.toggle('block')`}
                     >
                       {link.label}
-                      <IconSvg icon="chevron-down" className="w-4 h-4" />
+                      <IconSvg icon="chevron-down" className="text-base" />
                     </button>
                     <div id={`dropdown-${index}`} className="hidden absolute top-full left-0 mt-2 w-56 py-2 bg-white dark:bg-slate-800 rounded-lg shadow-xl border border-slate-200 dark:border-slate-700 z-50">
                       {link.children.map((child: any) => (
@@ -97,7 +97,7 @@ export const Navbar = ({ content, settings }: { content: any; settings?: any }) 
               className="p-2 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors"
               onclick="document.getElementById('mobile-menu').classList.toggle('hidden')"
             >
-              <IconSvg icon="menu" className="w-8 h-8" />
+              <IconSvg icon="menu" className="w-10 h-10" />
             </button>
           </div>
         </div>

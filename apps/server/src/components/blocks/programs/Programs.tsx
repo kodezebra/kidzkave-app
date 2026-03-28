@@ -26,7 +26,7 @@ export const Programs = ({ content }: { content: any }) => {
               <div class="relative flex flex-col gap-5 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm p-8 hover:border-primary/30 transition-all duration-300">
                 ${item.icon ? `
                   <div class="w-16 h-16 bg-gradient-to-br from-primary/20 to-accent/10 rounded-2xl flex items-center justify-center border border-primary/20">
-                    ${renderIcon(item.icon, 'w-8 h-8 text-primary')}
+                    ${renderIcon(item.icon, 'w-12 h-12 text-primary')}
                   </div>
                 ` : ''}
                 <div class="flex flex-col gap-3">

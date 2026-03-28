@@ -19,8 +19,8 @@ export const Steps = ({ content }: { content: any }) => {
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           ${(content.items || []).map((item: any, index: number) => raw(`
             <div class="relative flex flex-col items-center text-center p-6 card-hover" data-animate-item>
-              <div class="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 text-primary transition-all group-hover:bg-primary group-hover:text-white">
-                ${item.icon ? renderIcon(item.icon, 'w-8 h-8') : `<span class="text-2xl font-black">${item.number || index + 1}</span>`}
+              <div class="w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center mb-6 text-primary transition-all group-hover:bg-primary group-hover:text-white">
+                ${item.icon ? renderIcon(item.icon, 'text-3xl') : `<span class="text-3xl font-black">${item.number || index + 1}</span>`}
               </div>
               <h4 class="text-xl font-display font-bold text-slate-900 dark:text-white mb-3">${item.title || `Step ${index + 1}`}</h4>
               <p class="text-slate-600 dark:text-slate-400 leading-relaxed font-medium">${item.description || "Step description goes here."}</p>

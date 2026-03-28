@@ -35,7 +35,7 @@ export const Content = ({ content }: { content: any }) => {
             <ul class="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-12">
               ${(content.features || []).map((f: string) => raw(`
                 <li class="flex items-center gap-3">
-                  <span class="text-primary w-6 h-6">${renderIcon(content.featureIcon || 'check-circle', 'w-6 h-6')}</span>
+                  <span class="text-primary w-8 h-8">${renderIcon(content.featureIcon || 'check-circle', 'w-8 h-8')}</span>
                   <span class="font-bold text-slate-700 dark:text-slate-200">${f}</span>
                 </li>
               `))}
@@ -46,8 +46,8 @@ export const Content = ({ content }: { content: any }) => {
                   ${content.cta.label}
                   <span class="absolute bottom-0 left-0 w-full h-0.5 bg-primary/30 scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></span>
                 </span>
-                <div class="w-10 h-10 rounded-full border border-primary/20 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
-                  <span class="w-5 h-5">${renderIcon('arrow-right', 'w-5 h-5')}</span>
+                <div class="w-12 h-12 rounded-full border border-primary/20 flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-all">
+                  ${renderIcon('arrow-right', 'text-2xl')}
                 </div>
               </a>
             `) : ''}
