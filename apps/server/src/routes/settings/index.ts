@@ -44,7 +44,8 @@ app.put('/', async (c) => {
     'navbarConfig', 'navbarCta', 'footerConfig', 'footerSocials',
     'schoolName', 'schoolAddress', 'schoolPhone', 'schoolEmail',
     'theme', 'fontDisplay', 'fontBody', 'borderRadius', 'darkMode',
-    'backgroundLight', 'backgroundDark', 'reportCardTheme'
+    'backgroundLight', 'backgroundDark', 'reportCardTheme',
+    'whatsappEnabled', 'whatsappNumber', 'whatsappMessage'
   ]
 
   for (const field of fields) {
