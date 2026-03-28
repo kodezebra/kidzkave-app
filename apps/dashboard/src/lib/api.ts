@@ -33,14 +33,14 @@ export interface WhatsAppLead {
 }
 
 export async function getWhatsAppLeads(status?: string): Promise<WhatsAppLead[]> {
-  const url = status ? `/api/whatsapp-leads?status=${status}` : '/api/whatsapp-leads'
+  const url = status ? `whatsapp-leads?status=${status}` : 'whatsapp-leads'
   const res = await apiFetch(url)
   if (!res.ok) throw new Error('Failed to fetch WhatsApp leads')
   return res.json()
 }
 
 export async function updateWhatsAppLead(id: string, status: string): Promise<WhatsAppLead> {
-  const res = await apiFetch(`/api/whatsapp-leads/${id}`, {
+  const res = await apiFetch(`whatsapp-leads/${id}`, {
     method: 'PATCH',
     body: JSON.stringify({ status }),
   })
@@ -49,7 +49,7 @@ export async function updateWhatsAppLead(id: string, status: string): Promise<Wh
 }
 
 export async function deleteWhatsAppLead(id: string): Promise<void> {
-  const res = await apiFetch(`/api/whatsapp-leads/${id}`, {
+  const res = await apiFetch(`whatsapp-leads/${id}`, {
     method: 'DELETE',
   })
   if (!res.ok) throw new Error('Failed to delete lead')
