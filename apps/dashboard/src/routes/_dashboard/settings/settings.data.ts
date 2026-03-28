@@ -1,12 +1,12 @@
 import type { ParsedSettings, SiteTheme, ReportCardTheme } from './settings.types'
 
 export const DEFAULT_SETTINGS: ParsedSettings = {
-  logoText: 'SchoolStack',
+  logoText: '',
   logoType: 'icon',
   logoIcon: 'zap',
   logoImage: '',
   favicon: '',
-  footerDescription: 'Empowering businesses with cutting-edge digital solutions and forward-thinking design.',
+  footerDescription: '',
   primaryColor: '#6366f1',
   accentColor: '#ff6b35',
   backgroundLight: '#f6f7f8',

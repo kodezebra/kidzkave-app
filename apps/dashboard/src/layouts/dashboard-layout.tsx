@@ -28,7 +28,10 @@ import {
   ShieldCheck,
   X,
   AlertCircle,
+  Sun,
+  Moon,
 } from 'lucide-react'
+import { useTheme } from '@/components/theme-provider'
 import { Button } from "@/components/ui/button"
 import { Route } from '@/routes/_dashboard/route'
 import { UserMenu } from '@/components/user-menu'
@@ -100,6 +103,11 @@ export function DashboardLayout() {
   const [searchQuery, setSearchQuery] = useState('')
   const searchInputRef = useRef<HTMLInputElement>(null)
   const location = useLocation()
+  const { theme, setTheme } = useTheme()
+
+  const toggleTheme = () => {
+    setTheme(theme === 'dark' ? 'light' : 'dark')
+  }
 
   // Access the user from the route context, which is set by beforeLoad
   const { user } = Route.useRouteContext();
@@ -309,7 +317,7 @@ export function DashboardLayout() {
       }
 
       // Update title: "App Name | Page Name"
-      const brandName = settings.logoText || 'SchoolStack'
+      const brandName = settings.logoText || ''
       document.title = `${brandName} | ${pageName}`
 
       // Update favicon
@@ -340,7 +348,7 @@ export function DashboardLayout() {
           <div className="flex h-14 items-center justify-between border-b px-4">
             <Link to="/" className="flex items-center gap-2 font-semibold text-primary">
               <ShieldCheck className="h-6 w-6" />
-              <span className="font-bold tracking-tight text-slate-900">{settings?.logoText || 'SchoolStack'}</span>
+              <span className="font-bold tracking-tight text-slate-900">{settings?.logoText || ''}</span>
             </Link>
             <Button 
               variant="ghost" 
@@ -462,7 +470,17 @@ export function DashboardLayout() {
           )}
           
           <div className="flex-1" />
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            {/* Theme Toggle */}
+            <Button variant="ghost" size="icon" onClick={toggleTheme} title="Toggle theme">
+              {theme === 'dark' ? (
+                <Sun className="h-5 w-5" />
+              ) : (
+                <Moon className="h-5 w-5" />
+              )}
+              <span className="sr-only">Toggle theme</span>
+            </Button>
+
             {/* Notification Center */}
             <DropdownMenu open={notificationsOpen} onOpenChange={setNotificationsOpen}>
               <DropdownMenuTrigger asChild>
