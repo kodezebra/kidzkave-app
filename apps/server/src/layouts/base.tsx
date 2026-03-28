@@ -123,11 +123,11 @@ export const BaseLayout = async ({ title, description, children, settings }: Bas
     </head>
     <body class="font-body bg-app-bg text-app-text selection:bg-primary/20 antialiased">
       ${children}
-      ${settings?.whatsappNumber ? raw(WhatsAppButton({ whatsappNumber: settings.whatsappNumber })) : ''}
-      ${settings?.whatsappNumber ? raw(WhatsAppModal({ 
-        whatsappNumber: settings.whatsappNumber, 
-        whatsappMessage: settings.whatsappMessage || '',
-        schoolName: settings.schoolName || ''
+      ${(settings?.whatsappNumber || settings?.schoolPhone) ? raw(WhatsAppButton({ whatsappNumber: settings?.whatsappNumber || settings?.schoolPhone || '' })) : ''}
+      ${(settings?.whatsappNumber || settings?.schoolPhone) ? raw(WhatsAppModal({ 
+        whatsappNumber: settings?.whatsappNumber || settings?.schoolPhone || '', 
+        whatsappMessage: settings?.whatsappMessage || '',
+        schoolName: settings?.schoolName || ''
       })) : ''}
       ${animationScript()}
     </body>

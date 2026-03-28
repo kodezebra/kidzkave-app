@@ -2,14 +2,13 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
-import { Loader2, Save, CheckCircle2, Link as LinkIcon, Palette, LayoutTemplate, Share2, MessageCircle } from 'lucide-react'
+import { Loader2, Save, CheckCircle2, Link as LinkIcon, Palette, LayoutTemplate, Share2 } from 'lucide-react'
 import { useSettings, useNavbarLinks, useFooterColumns, useFooterSocials } from './settings.hooks'
 import {
   NavigationSection,
   BrandingSection,
   ThemeSection,
   FooterSection,
-  MarketingSection
 } from './sections/-index'
 import type { SettingsTab } from './settings.types'
 
@@ -110,7 +109,7 @@ function SettingsPage() {
         </div>
 
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as SettingsTab)} className="flex-1 flex flex-col overflow-hidden">
-          <TabsList className="shrink-0 grid grid-cols-5 w-fit">
+          <TabsList className="shrink-0 grid grid-cols-4 w-fit">
             <TabsTrigger value="branding" className="gap-2">
               <Palette className="h-4 w-4" />
               <span className="hidden sm:inline">Branding</span>
@@ -126,10 +125,6 @@ function SettingsPage() {
             <TabsTrigger value="footer" className="gap-2">
               <Share2 className="h-4 w-4" />
               <span className="hidden sm:inline">Footer</span>
-            </TabsTrigger>
-            <TabsTrigger value="marketing" className="gap-2">
-              <MessageCircle className="h-4 w-4" />
-              <span className="hidden sm:inline">Marketing</span>
             </TabsTrigger>
           </TabsList>
 
@@ -164,13 +159,6 @@ function SettingsPage() {
                   ...footerActions,
                   ...footerSocialsActions
                 }}
-              />
-            </TabsContent>
-
-            <TabsContent value="marketing" className="mt-0">
-              <MarketingSection
-                settings={parsedSettings}
-                onUpdate={updateSetting}
               />
             </TabsContent>
           </div>
