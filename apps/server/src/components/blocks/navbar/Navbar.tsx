@@ -1,10 +1,10 @@
 import { IconSvg } from '../utils'
 
 export const Navbar = ({ content, settings }: { content: any; settings?: any }) => {
-  const logoText = content.logoText || settings?.logoText || "KZ Cloud"
-  const logoIcon = content.logoIcon || settings?.logoIcon || "layout"
-  const logoType = content.logoType || settings?.logoType || "icon"
-  const logoImage = content.logoImage || settings?.logoImage || ""
+  const logoText = content?.logoText || settings?.logoText || ""
+  const logoIcon = content?.logoIcon || settings?.logoIcon || "layout"
+  const logoType = content?.logoType || settings?.logoType || "icon"
+  const logoImage = content?.logoImage || settings?.logoImage || ""
   
   return (
     <nav className="sticky top-0 z-50 w-full bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border-b border-slate-200/50 dark:border-slate-800/50">

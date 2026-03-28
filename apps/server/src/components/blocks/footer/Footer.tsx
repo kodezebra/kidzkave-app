@@ -1,14 +1,14 @@
 import { getPadding, renderIcon, IconSvg } from '../utils'
 
 export const Footer = ({ dashboardUrl, content, settings }: { dashboardUrl: string; content: any; settings?: any }) => {
-  const logoText = content?.logoText || settings?.logoText || "KZ Cloud"
+  const logoText = content?.logoText || settings?.logoText || ""
   const logoIcon = content?.logoIcon || settings?.logoIcon || "layout"
   const logoType = content?.logoType || settings?.logoType || "icon"
   const logoImage = content?.logoImage || settings?.logoImage || ""
   const logoLayout = content?.logoLayout || 'horizontal'
   const isMonochrome = content?.monochrome === true
   
-  const description = content?.description || settings?.footerDescription || "Empowering businesses with cutting-edge digital solutions and forward-thinking design."
+  const description = content?.description || settings?.footerDescription || ""
   
   const schoolName = settings?.schoolName
   const schoolAddress = settings?.schoolAddress
@@ -17,16 +17,8 @@ export const Footer = ({ dashboardUrl, content, settings }: { dashboardUrl: stri
   
   const showContactInfo = schoolName || schoolAddress || schoolPhone || schoolEmail
   
-  const columns = content?.columns || [
-    { title: 'Product', links: [{ label: 'Features', href: '#' }, { label: 'Integrations', href: '#' }, { label: 'Pricing', href: '#' }] },
-    { title: 'Company', links: [{ label: 'About Us', href: '#' }, { label: 'Careers', href: '#' }] }
-  ]
-
-  const socials = content?.socials || [
-    { platform: 'Globe', url: '#', icon: 'globe' },
-    { platform: 'Email', url: '#', icon: 'email' },
-    { platform: 'Share', url: '#', icon: 'share' }
-  ]
+  const columns = content?.columns || []
+  const socials = content?.socials || []
 
   return (
     <footer className="bg-slate-50 dark:bg-slate-950 pt-32 pb-12 border-t border-slate-200 dark:border-slate-800" style={getPadding(content.styles)}>
