@@ -35,6 +35,7 @@ export const DEFAULT_SETTINGS: ParsedSettings = {
   schoolPhone: '',
   schoolEmail: '',
   reportCardTheme: 'playful',
+  whatsappEnabled: false,
   whatsappNumber: '',
   whatsappMessage: ''
 }

@@ -46,6 +46,7 @@ export interface SiteSettings {
   schoolPhone: string
   schoolEmail: string
   reportCardTheme: string
+  whatsappEnabled: boolean | null
   whatsappNumber: string | null
   whatsappMessage: string | null
 }
@@ -108,6 +109,7 @@ export interface ParsedSettings {
   schoolPhone: string
   schoolEmail: string
   reportCardTheme: string
+  whatsappEnabled: boolean
   whatsappNumber: string
   whatsappMessage: string
 }

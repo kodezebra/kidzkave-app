@@ -55,6 +55,7 @@ export function useSettings() {
         schoolPhone: settings.schoolPhone,
         schoolEmail: settings.schoolEmail,
         reportCardTheme: settings.reportCardTheme,
+        whatsappEnabled: settings.whatsappEnabled,
         whatsappNumber: settings.whatsappNumber,
         whatsappMessage: settings.whatsappMessage
       }
@@ -137,6 +138,7 @@ export function useSettings() {
       schoolPhone: data.schoolPhone || DEFAULT_SETTINGS.schoolPhone,
       schoolEmail: data.schoolEmail || DEFAULT_SETTINGS.schoolEmail,
       reportCardTheme: data.reportCardTheme || DEFAULT_SETTINGS.reportCardTheme,
+      whatsappEnabled: data.whatsappEnabled ?? DEFAULT_SETTINGS.whatsappEnabled,
       whatsappNumber: data.whatsappNumber || DEFAULT_SETTINGS.whatsappNumber,
       whatsappMessage: data.whatsappMessage || DEFAULT_SETTINGS.whatsappMessage
     })

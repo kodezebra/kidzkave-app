@@ -86,6 +86,7 @@ export const siteSettings = sqliteTable('site_settings', {
   extraFeesLibrary: text('extra_fees_library'), // JSON array of common extra fees
   reportCardTheme: text('report_card_theme').notNull().default('playful'), // 'playful' | 'professional' | 'minimal' | 'elegant'
   // WhatsApp Integration
+  whatsappEnabled: integer('whatsapp_enabled', { mode: 'boolean' }).default(false),
   whatsappNumber: text('whatsapp_number').default(''),
   whatsappMessage: text('whatsapp_message').default(''),
 });
