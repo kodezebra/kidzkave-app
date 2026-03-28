@@ -16,9 +16,41 @@ export async function apiFetch(path: string, options: RequestInit = {}) {
   const response = await fetch(url, {
     ...options,
     headers,
-    // Default to include for auth cookies
     credentials: options.credentials || 'include',
   });
 
   return response;
+}
+
+export interface WhatsAppLead {
+  id: string
+  phone: string | null
+  inquiryType: 'admissions' | 'fees' | 'tour' | 'general'
+  message: string
+  sourcePage: string
+  status: 'new' | 'contacted' | 'converted'
+  createdAt: string
+}
+
+export async function getWhatsAppLeads(status?: string): Promise<WhatsAppLead[]> {
+  const url = status ? `/api/whatsapp-leads?status=${status}` : '/api/whatsapp-leads'
+  const res = await apiFetch(url)
+  if (!res.ok) throw new Error('Failed to fetch WhatsApp leads')
+  return res.json()
+}
+
+export async function updateWhatsAppLead(id: string, status: string): Promise<WhatsAppLead> {
+  const res = await apiFetch(`/api/whatsapp-leads/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ status }),
+  })
+  if (!res.ok) throw new Error('Failed to update lead')
+  return res.json()
+}
+
+export async function deleteWhatsAppLead(id: string): Promise<void> {
+  const res = await apiFetch(`/api/whatsapp-leads/${id}`, {
+    method: 'DELETE',
+  })
+  if (!res.ok) throw new Error('Failed to delete lead')
 }

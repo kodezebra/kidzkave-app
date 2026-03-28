@@ -8,6 +8,7 @@ import pagesApp from './pages'
 import contactApp from './contact'
 import schoolApp from './school'
 import videoApp from './video'
+import whatsappLeadsApp from './whatsapp-leads'
 
 type Bindings = {
   DB: D1Database
@@ -43,5 +44,8 @@ api.route('/school', schoolApp)
 
 // Video Utilities (thumbnails via oEmbed)
 api.route('/video', videoApp)
+
+// WhatsApp Leads
+api.route('/whatsapp-leads', whatsappLeadsApp)
 
 export default api

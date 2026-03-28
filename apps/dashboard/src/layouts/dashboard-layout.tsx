@@ -30,6 +30,7 @@ import {
   AlertCircle,
   Sun,
   Moon,
+  MessageCircle,
 } from 'lucide-react'
 import { useTheme } from '@/components/theme-provider'
 import { Button } from "@/components/ui/button"
@@ -84,6 +85,13 @@ const navigation = [
       { name: 'Fee Reports', to: '/school/reports/fees', icon: DollarSign, description: 'Track unpaid fees', color: 'text-indigo-600', badge: 'outstandingFeesCount' },
       { name: 'Fee Management', to: '/school/fees', icon: Banknote, description: 'Manage fees and payments', color: 'text-orange-600' },
       { name: 'Extra Charges', to: '/school/extra-charges', icon: Plus, description: 'Transport, trips, and other charges', color: 'text-green-600', allowedRoles: ['owner', 'admin'] },
+    ]
+  },
+  {
+    section: 'Marketing',
+    color: 'border-green-400',
+    items: [
+      { name: 'WhatsApp Leads', to: '/whatsapp-leads', icon: MessageCircle, description: 'Track WhatsApp inquiries', color: 'text-green-600', allowedRoles: ['owner', 'admin'] },
     ]
   },
   {

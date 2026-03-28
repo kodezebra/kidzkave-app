@@ -46,6 +46,8 @@ export interface SiteSettings {
   schoolPhone: string
   schoolEmail: string
   reportCardTheme: string
+  whatsappNumber: string | null
+  whatsappMessage: string | null
 }
 
 export interface ThemeColors {
@@ -106,6 +108,8 @@ export interface ParsedSettings {
   schoolPhone: string
   schoolEmail: string
   reportCardTheme: string
+  whatsappNumber: string
+  whatsappMessage: string
 }
 
-export type SettingsTab = 'branding' | 'theme' | 'navigation' | 'footer'
+export type SettingsTab = 'branding' | 'theme' | 'navigation' | 'footer' | 'marketing'

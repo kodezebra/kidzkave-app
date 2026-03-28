@@ -85,6 +85,24 @@ export const siteSettings = sqliteTable('site_settings', {
   updatedAt: integer('updated_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
   extraFeesLibrary: text('extra_fees_library'), // JSON array of common extra fees
   reportCardTheme: text('report_card_theme').notNull().default('playful'), // 'playful' | 'professional' | 'minimal' | 'elegant'
+  // WhatsApp Integration
+  whatsappNumber: text('whatsapp_number').default(''),
+  whatsappMessage: text('whatsapp_message').default(''),
+});
+
+export const whatsappLeads = sqliteTable('whatsapp_leads', {
+  id: text('id').primaryKey().$defaultFn(() => createId()),
+  phone: text('phone'),
+  inquiryType: text('inquiry_type', { 
+    enum: ['admissions', 'fees', 'tour', 'general'] 
+  }).notNull(),
+  message: text('message').notNull(),
+  sourcePage: text('source_page').notNull(),
+  status: text('status', { 
+    enum: ['new', 'contacted', 'converted'] 
+  }).notNull().default('new'),
+  createdAt: integer('created_at', { mode: 'timestamp' })
+    .notNull().$defaultFn(() => new Date()),
 });
 
 export const contactSubmissions = sqliteTable('contact_submissions', {

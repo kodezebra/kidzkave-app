@@ -1,6 +1,8 @@
 import { html, raw } from 'hono/html'
 import { getFontStack, BORDER_RADIUS_OPTIONS } from '../lib/themes'
 import { animationScript, reducedMotionScript } from '../lib/animation-init'
+import { WhatsAppButton } from '../lib/whatsapp-button'
+import { WhatsAppModal } from '../lib/whatsapp-modal'
 
 interface BaseLayoutProps {
   title: string
@@ -121,6 +123,12 @@ export const BaseLayout = async ({ title, description, children, settings }: Bas
     </head>
     <body class="font-body bg-app-bg text-app-text selection:bg-primary/20 antialiased">
       ${children}
+      ${settings?.whatsappNumber ? raw(WhatsAppButton({ whatsappNumber: settings.whatsappNumber })) : ''}
+      ${settings?.whatsappNumber ? raw(WhatsAppModal({ 
+        whatsappNumber: settings.whatsappNumber, 
+        whatsappMessage: settings.whatsappMessage || '',
+        schoolName: settings.schoolName || ''
+      })) : ''}
       ${animationScript()}
     </body>
   </html>

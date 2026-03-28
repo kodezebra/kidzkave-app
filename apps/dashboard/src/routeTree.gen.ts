@@ -13,6 +13,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as DashboardRouteRouteImport } from './routes/_dashboard/route'
 import { Route as AuthRouteRouteImport } from './routes/_auth/route'
 import { Route as DashboardIndexRouteImport } from './routes/_dashboard/index'
+import { Route as DashboardWhatsappLeadsRouteImport } from './routes/_dashboard/whatsapp-leads'
 import { Route as DashboardUsersRouteImport } from './routes/_dashboard/users'
 import { Route as DashboardSubmissionsRouteImport } from './routes/_dashboard/submissions'
 import { Route as DashboardProfileRouteImport } from './routes/_dashboard/profile'
@@ -53,6 +54,11 @@ const AuthRouteRoute = AuthRouteRouteImport.update({
 const DashboardIndexRoute = DashboardIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => DashboardRouteRoute,
+} as any)
+const DashboardWhatsappLeadsRoute = DashboardWhatsappLeadsRouteImport.update({
+  id: '/whatsapp-leads',
+  path: '/whatsapp-leads',
   getParentRoute: () => DashboardRouteRoute,
 } as any)
 const DashboardUsersRoute = DashboardUsersRouteImport.update({
@@ -191,6 +197,7 @@ export interface FileRoutesByFullPath {
   '/profile': typeof DashboardProfileRoute
   '/submissions': typeof DashboardSubmissionsRoute
   '/users': typeof DashboardUsersRoute
+  '/whatsapp-leads': typeof DashboardWhatsappLeadsRoute
   '/cms/$pageId': typeof DashboardCmsPageIdRoute
   '/school/extra-charges': typeof DashboardSchoolExtraChargesRoute
   '/school/settings': typeof DashboardSchoolSettingsRoute
@@ -218,6 +225,7 @@ export interface FileRoutesByTo {
   '/profile': typeof DashboardProfileRoute
   '/submissions': typeof DashboardSubmissionsRoute
   '/users': typeof DashboardUsersRoute
+  '/whatsapp-leads': typeof DashboardWhatsappLeadsRoute
   '/cms/$pageId': typeof DashboardCmsPageIdRoute
   '/school/extra-charges': typeof DashboardSchoolExtraChargesRoute
   '/school/settings': typeof DashboardSchoolSettingsRoute
@@ -247,6 +255,7 @@ export interface FileRoutesById {
   '/_dashboard/profile': typeof DashboardProfileRoute
   '/_dashboard/submissions': typeof DashboardSubmissionsRoute
   '/_dashboard/users': typeof DashboardUsersRoute
+  '/_dashboard/whatsapp-leads': typeof DashboardWhatsappLeadsRoute
   '/_dashboard/': typeof DashboardIndexRoute
   '/_dashboard/cms/$pageId': typeof DashboardCmsPageIdRoute
   '/_dashboard/school/extra-charges': typeof DashboardSchoolExtraChargesRoute
@@ -277,6 +286,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/submissions'
     | '/users'
+    | '/whatsapp-leads'
     | '/cms/$pageId'
     | '/school/extra-charges'
     | '/school/settings'
@@ -304,6 +314,7 @@ export interface FileRouteTypes {
     | '/profile'
     | '/submissions'
     | '/users'
+    | '/whatsapp-leads'
     | '/cms/$pageId'
     | '/school/extra-charges'
     | '/school/settings'
@@ -332,6 +343,7 @@ export interface FileRouteTypes {
     | '/_dashboard/profile'
     | '/_dashboard/submissions'
     | '/_dashboard/users'
+    | '/_dashboard/whatsapp-leads'
     | '/_dashboard/'
     | '/_dashboard/cms/$pageId'
     | '/_dashboard/school/extra-charges'
@@ -387,6 +399,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRouteRoute
+    }
+    '/_dashboard/whatsapp-leads': {
+      id: '/_dashboard/whatsapp-leads'
+      path: '/whatsapp-leads'
+      fullPath: '/whatsapp-leads'
+      preLoaderRoute: typeof DashboardWhatsappLeadsRouteImport
       parentRoute: typeof DashboardRouteRoute
     }
     '/_dashboard/users': {
@@ -570,6 +589,7 @@ interface DashboardRouteRouteChildren {
   DashboardProfileRoute: typeof DashboardProfileRoute
   DashboardSubmissionsRoute: typeof DashboardSubmissionsRoute
   DashboardUsersRoute: typeof DashboardUsersRoute
+  DashboardWhatsappLeadsRoute: typeof DashboardWhatsappLeadsRoute
   DashboardIndexRoute: typeof DashboardIndexRoute
   DashboardCmsPageIdRoute: typeof DashboardCmsPageIdRoute
   DashboardSchoolExtraChargesRoute: typeof DashboardSchoolExtraChargesRoute
@@ -596,6 +616,7 @@ const DashboardRouteRouteChildren: DashboardRouteRouteChildren = {
   DashboardProfileRoute: DashboardProfileRoute,
   DashboardSubmissionsRoute: DashboardSubmissionsRoute,
   DashboardUsersRoute: DashboardUsersRoute,
+  DashboardWhatsappLeadsRoute: DashboardWhatsappLeadsRoute,
   DashboardIndexRoute: DashboardIndexRoute,
   DashboardCmsPageIdRoute: DashboardCmsPageIdRoute,
   DashboardSchoolExtraChargesRoute: DashboardSchoolExtraChargesRoute,

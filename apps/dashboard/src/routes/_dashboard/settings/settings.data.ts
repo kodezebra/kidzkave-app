@@ -34,7 +34,9 @@ export const DEFAULT_SETTINGS: ParsedSettings = {
   schoolAddress: '',
   schoolPhone: '',
   schoolEmail: '',
-  reportCardTheme: 'playful'
+  reportCardTheme: 'playful',
+  whatsappNumber: '',
+  whatsappMessage: ''
 }
 
 export const THEMES: SiteTheme[] = [

@@ -54,7 +54,9 @@ export function useSettings() {
         schoolAddress: settings.schoolAddress,
         schoolPhone: settings.schoolPhone,
         schoolEmail: settings.schoolEmail,
-        reportCardTheme: settings.reportCardTheme
+        reportCardTheme: settings.reportCardTheme,
+        whatsappNumber: settings.whatsappNumber,
+        whatsappMessage: settings.whatsappMessage
       }
 
       const res = await apiFetch('/settings', {
@@ -134,7 +136,9 @@ export function useSettings() {
       schoolAddress: data.schoolAddress || DEFAULT_SETTINGS.schoolAddress,
       schoolPhone: data.schoolPhone || DEFAULT_SETTINGS.schoolPhone,
       schoolEmail: data.schoolEmail || DEFAULT_SETTINGS.schoolEmail,
-      reportCardTheme: data.reportCardTheme || DEFAULT_SETTINGS.reportCardTheme
+      reportCardTheme: data.reportCardTheme || DEFAULT_SETTINGS.reportCardTheme,
+      whatsappNumber: data.whatsappNumber || DEFAULT_SETTINGS.whatsappNumber,
+      whatsappMessage: data.whatsappMessage || DEFAULT_SETTINGS.whatsappMessage
     })
   }, [])
 
