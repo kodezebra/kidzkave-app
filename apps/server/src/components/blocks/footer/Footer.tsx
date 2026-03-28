@@ -104,12 +104,13 @@ export const Footer = ({ dashboardUrl, content, settings }: { dashboardUrl: stri
           </div>
         </div>
         <div className="pt-10 border-t border-slate-200 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">© {new Date().getFullYear()} {logoText} Inc. All rights reserved.</p>
-          <div className="flex items-center gap-8">
-            <span className="text-sm text-slate-500 dark:text-slate-400 font-medium flex items-center gap-2">
-              <IconSvg icon="globe" className="text-lg" /> English (US)
-            </span>
-          </div>
+          <p className="text-sm text-slate-500 dark:text-slate-400 font-medium">© {new Date().getFullYear()} {logoText}. All rights reserved.</p>
+          <a 
+            href="mailto:kodezebra@gmail.com" 
+            className="text-xs text-slate-400 dark:text-slate-500 hover:text-primary transition-colors"
+          >
+            Powered by <span className="font-medium">KodeZebra</span>
+          </a>
         </div>
       </div>
     </footer>
