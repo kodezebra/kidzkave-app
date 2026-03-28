@@ -2,13 +2,14 @@ import { createFileRoute } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Button } from '@/components/ui/button'
-import { Loader2, Save, CheckCircle2, Link as LinkIcon, Palette, LayoutTemplate, Share2 } from 'lucide-react'
+import { Loader2, Save, CheckCircle2, Link as LinkIcon, Palette, LayoutTemplate, Share2, Building2 } from 'lucide-react'
 import { useSettings, useNavbarLinks, useFooterColumns, useFooterSocials } from './settings.hooks'
 import {
   NavigationSection,
   BrandingSection,
   ThemeSection,
   FooterSection,
+  SchoolSection,
 } from './sections/-index'
 import type { SettingsTab } from './settings.types'
 
@@ -109,10 +110,14 @@ function SettingsPage() {
         </div>
 
         <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as SettingsTab)} className="flex-1 flex flex-col overflow-hidden">
-          <TabsList className="shrink-0 grid grid-cols-4 w-fit">
+          <TabsList className="shrink-0 grid grid-cols-5 w-fit">
             <TabsTrigger value="branding" className="gap-2">
               <Palette className="h-4 w-4" />
               <span className="hidden sm:inline">Branding</span>
+            </TabsTrigger>
+            <TabsTrigger value="school" className="gap-2">
+              <Building2 className="h-4 w-4" />
+              <span className="hidden sm:inline">School</span>
             </TabsTrigger>
             <TabsTrigger value="theme" className="gap-2">
               <LayoutTemplate className="h-4 w-4" />
@@ -131,6 +136,13 @@ function SettingsPage() {
           <div className="flex-1 overflow-y-auto mt-6">
             <TabsContent value="branding" className="mt-0">
               <BrandingSection
+                settings={parsedSettings}
+                onUpdate={updateSetting}
+              />
+            </TabsContent>
+
+            <TabsContent value="school" className="mt-0">
+              <SchoolSection
                 settings={parsedSettings}
                 onUpdate={updateSetting}
               />
