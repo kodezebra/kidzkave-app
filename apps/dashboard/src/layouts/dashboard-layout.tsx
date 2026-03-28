@@ -91,7 +91,7 @@ const navigation = [
     section: 'Marketing',
     color: 'border-green-400',
     items: [
-      { name: 'WhatsApp Leads', to: '/whatsapp-leads', icon: MessageCircle, description: 'Track WhatsApp inquiries', color: 'text-green-600', allowedRoles: ['owner', 'admin'] },
+      { name: 'WhatsApp Leads', to: '/whatsapp-leads', icon: MessageCircle, description: 'Track WhatsApp inquiries', color: 'text-green-600', allowedRoles: ['owner', 'admin'], badge: 'whatsappLeadsCount' },
     ]
   },
   {
@@ -155,6 +155,21 @@ export function DashboardLayout() {
       }
     },
     refetchInterval: 60000 // Refresh every minute
+  })
+
+  const { data: whatsappLeadsCount } = useQuery({
+    queryKey: ['whatsapp-leads', 'new', 'count'],
+    queryFn: async () => {
+      try {
+        const res = await apiFetch('whatsapp-leads?status=new')
+        if (!res.ok) return 0
+        const data = await res.json()
+        return Array.isArray(data) ? data.length : 0
+      } catch {
+        return 0
+      }
+    },
+    refetchInterval: 30000 // Refresh every 30 seconds
   })
 
   const { data: currentYear } = useQuery({
@@ -399,7 +414,7 @@ export function DashboardLayout() {
                   {/* Navigation Items */}
                   <div className="space-y-0.5">
                     {section.items.map((item: any) => {
-                      const badgeValue = item.badge === 'messagesCount' ? messagesCount : item.badge === 'outstandingFeesCount' ? outstandingFeesCount : undefined
+                      const badgeValue = item.badge === 'messagesCount' ? messagesCount : item.badge === 'outstandingFeesCount' ? outstandingFeesCount : item.badge === 'whatsappLeadsCount' ? whatsappLeadsCount : undefined
                       const hasBadge = badgeValue !== undefined && badgeValue !== null && badgeValue > 0
 
                       return (
