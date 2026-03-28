@@ -114,4 +114,4 @@ export interface ParsedSettings {
   whatsappMessage: string
 }
 
-export type SettingsTab = 'branding' | 'school' | 'theme' | 'navigation' | 'footer'
+export type SettingsTab = 'branding' | 'theme' | 'navigation' | 'footer'
