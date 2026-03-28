@@ -1,7 +1,7 @@
 import { IconSvg } from '../utils'
 
 export const Navbar = ({ content, settings }: { content: any; settings?: any }) => {
-  const logoText = content?.logoText || settings?.logoText || ""
+  const logoText = content?.logoText || settings?.logoText || settings?.schoolName || ""
   const logoIcon = content?.logoIcon || settings?.logoIcon || "layout"
   const logoType = content?.logoType || settings?.logoType || "icon"
   const logoImage = content?.logoImage || settings?.logoImage || ""
