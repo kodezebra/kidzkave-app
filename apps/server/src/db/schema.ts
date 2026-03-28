@@ -53,7 +53,7 @@ export const assets = sqliteTable('assets', {
 
 export const siteSettings = sqliteTable('site_settings', {
   id: text('id').primaryKey().$defaultFn(() => 'default'),
-  logoText: text('logo_text').notNull().default('KZ Cloud'),
+  logoText: text('logo_text').notNull().default(''),
   logoType: text('logo_type').notNull().default('icon'), // 'icon' | 'image'
   logoIcon: text('logo_icon').notNull().default('zap'),
   logoImage: text('logo_image'),
@@ -70,10 +70,10 @@ export const siteSettings = sqliteTable('site_settings', {
   // Additional footer logo specific settings for differentiation
   footerLogoLayout: text('footer_logo_layout', { enum: ['horizontal', 'vertical'] }).default('horizontal'),
   footerLogoMonochrome: integer('footer_logo_monochrome', { mode: 'boolean' }).default(false),
-  schoolName: text('school_name').notNull().default('Your School Name'),
-  schoolAddress: text('school_address').default('Kampala, Uganda'),
-  schoolPhone: text('school_phone').default('+256 700 000 000'),
-  schoolEmail: text('school_email').default('info@school.com'),
+  schoolName: text('school_name').notNull().default(''),
+  schoolAddress: text('school_address').default(''),
+  schoolPhone: text('school_phone').default(''),
+  schoolEmail: text('school_email').default(''),
   // Theme configuration
   theme: text('theme').notNull().default('modern'), // 'modern' | 'minimal' | 'bold' | 'playful'
   backgroundLight: text('background_light').notNull().default('#f6f7f8'),

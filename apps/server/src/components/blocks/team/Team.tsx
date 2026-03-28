@@ -9,10 +9,10 @@ export const Team = ({ content }: { content: any }) => html`
           ${content.tagline || "Our Team"}
         </h2>
         <h3 class="text-4xl font-display font-bold text-slate-900 dark:text-white sm:text-5xl">
-          ${content.title || "Meet the Minds Behind KZ Cloud"}
+          ${content.title || ""}
         </h3>
         <p class="mt-6 text-lg text-slate-600 dark:text-slate-400 font-medium">
-          ${content.subtitle || "A diverse group of designers, developers, and strategists dedicated to excellence and innovation."}
+          ${content.subtitle || ""}
         </p>
       </div>
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
