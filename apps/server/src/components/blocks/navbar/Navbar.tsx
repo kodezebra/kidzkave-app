@@ -55,8 +55,8 @@ export const Navbar = ({ content, settings }: { content: any; settings?: any }) 
                 className="p-2 text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors cursor-pointer flex-shrink-0"
                 title="Toggle Theme"
               >
-                <IconSvg icon="sun-light" className="hidden dark:block w-5 h-5" />
-                <IconSvg icon="half-moon" className="block dark:hidden w-5 h-5" />
+                <IconSvg icon="sun-light" className="hidden dark:block w-6 h-6" />
+                <IconSvg icon="half-moon" className="block dark:hidden w-6 h-6" />
               </button>
               {content.cta && (
                 <a
@@ -73,8 +73,8 @@ export const Navbar = ({ content, settings }: { content: any; settings?: any }) 
               onclick="window.toggleTheme()"
               className="p-2 text-slate-500 hover:text-primary dark:text-slate-400 dark:hover:text-primary transition-colors cursor-pointer flex-shrink-0"
             >
-              <IconSvg icon="sun-light" className="hidden dark:block w-5 h-5" />
-              <IconSvg icon="half-moon" className="block dark:hidden w-5 h-5" />
+              <IconSvg icon="sun-light" className="hidden dark:block w-6 h-6" />
+              <IconSvg icon="half-moon" className="block dark:hidden w-6 h-6" />
             </button>
             <button 
               id="mobile-menu-button"
