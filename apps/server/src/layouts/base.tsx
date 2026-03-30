@@ -126,7 +126,6 @@ export const BaseLayout = async ({ title, description, children, settings }: Bas
       ${settings?.whatsappEnabled && (settings?.whatsappNumber || settings?.schoolPhone) ? raw(WhatsAppButton({ whatsappNumber: settings?.whatsappNumber || settings?.schoolPhone || '' })) : ''}
       ${settings?.whatsappEnabled && (settings?.whatsappNumber || settings?.schoolPhone) ? raw(WhatsAppModal({ 
         whatsappNumber: settings?.whatsappNumber || settings?.schoolPhone || '', 
-        whatsappMessage: settings?.whatsappMessage || '',
         schoolName: settings?.schoolName || ''
       })) : ''}
       ${animationScript()}

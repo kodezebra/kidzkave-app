@@ -2,7 +2,6 @@ import { html } from 'hono/html'
 
 interface WhatsAppModalProps {
   whatsappNumber: string
-  whatsappMessage: string
   schoolName: string
 }
 
@@ -47,10 +46,11 @@ function getWaMeUrl(whatsappNumber: string): string {
   return `https://wa.me/${formatPhoneNumber(whatsappNumber)}`
 }
 
-export const WhatsAppModal = ({ whatsappNumber, whatsappMessage, schoolName }: WhatsAppModalProps) => {
+export const WhatsAppModal = ({ whatsappNumber, schoolName }: WhatsAppModalProps) => {
   const waMeUrl = getWaMeUrl(whatsappNumber)
   const phoneDisplay = formatPhoneDisplay(whatsappNumber)
   const isValidNumber = waMeUrl !== ''
+  const baseMessage = `Hello, I'd like to know more about ${schoolName || 'your school'}.`
   
   return html`
     <div id="whatsapp-modal" class="fixed inset-0 z-[100] hidden">
@@ -136,7 +136,7 @@ export const WhatsAppModal = ({ whatsappNumber, whatsappMessage, schoolName }: W
         
         <input type="hidden" id="selected-inquiry-type" value="" />
         <input type="hidden" id="whatsapp-number" value="${whatsappNumber}" />
-        <input type="hidden" id="whatsapp-base-message" value="${whatsappMessage || `Hello, I'd like to know more about ${schoolName || 'your school'}.`}" />
+        <input type="hidden" id="whatsapp-base-message" value="${baseMessage}" />
         <input type="hidden" id="whatsapp-school-name" value="${schoolName}" />
         <input type="hidden" id="wa-me-url" value="${waMeUrl}" />
       </div>

@@ -1,0 +1,1 @@
+ALTER TABLE `site_settings` ADD `whatsapp_enabled` integer DEFAULT false;
