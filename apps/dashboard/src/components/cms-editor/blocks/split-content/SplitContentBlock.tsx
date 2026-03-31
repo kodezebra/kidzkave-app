@@ -1,6 +1,8 @@
 import { cn } from "@/lib/utils"
+import { useThemeClasses } from '../../useThemeClasses'
 
 export function SplitContentBlock({ content }: { content: any }) {
+  const { primary } = useThemeClasses()
   const isRight = content.imagePosition === 'right'
   
   return (
@@ -16,11 +18,11 @@ export function SplitContentBlock({ content }: { content: any }) {
         )}
       </div>
       <div className="flex-1 space-y-6">
-        <div className="text-primary font-bold text-xs uppercase tracking-widest">{content.eyebrow}</div>
+        <div className="font-bold text-xs uppercase tracking-widest" style={{ color: primary }}>{content.eyebrow}</div>
         <h2 className="text-4xl font-black text-slate-900">{content.title}</h2>
         <p className="text-slate-600 leading-relaxed">{content.description}</p>
         {content.cta?.label && (
-          <div className="bg-primary text-white px-6 py-3 rounded-xl font-bold inline-block">
+          <div className="text-white px-6 py-3 rounded-xl font-bold inline-block" style={{ backgroundColor: primary }}>
             {content.cta.label}
           </div>
         )}

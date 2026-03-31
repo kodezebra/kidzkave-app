@@ -1,10 +1,13 @@
 import { renderDynamicIcon } from '../utils'
+import { useThemeClasses } from '../../useThemeClasses'
 
 export function ProgramsBlock({ content }: { content: any }) {
+  const { primary, primaryWithOpacity } = useThemeClasses()
+
   return (
     <div className="py-20 px-12 bg-white">
       <div className="text-center mb-16">
-        <div className="text-primary font-bold text-xs uppercase tracking-widest mb-2">{content.tagline}</div>
+        <div className="font-bold text-xs uppercase tracking-widest mb-2" style={{ color: primary }}>{content.tagline}</div>
         <h2 className="text-4xl font-black text-slate-900">{content.title}</h2>
         {content.subtitle && <p className="text-slate-500 mt-4 max-w-2xl mx-auto">{content.subtitle}</p>}
       </div>
@@ -12,7 +15,7 @@ export function ProgramsBlock({ content }: { content: any }) {
         {content.items?.map((item: any, i: number) => (
           <div key={i} className="bg-slate-50 rounded-2xl p-8 space-y-4">
             {item.icon && (
-              <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: primaryWithOpacity(0.1), color: primary }}>
                 {renderDynamicIcon(item.icon, 'h-6 w-6')}
               </div>
             )}
@@ -22,7 +25,7 @@ export function ProgramsBlock({ content }: { content: any }) {
               <ul className="space-y-2 pt-2">
                 {item.list.map((listItem: string, j: number) => (
                   <li key={j} className="flex items-start gap-2 text-sm text-slate-600">
-                    <span className="text-primary mt-0.5">✓</span>
+                    <span className="mt-0.5" style={{ color: primary }}>✓</span>
                     <span>{listItem}</span>
                   </li>
                 ))}
@@ -35,7 +38,8 @@ export function ProgramsBlock({ content }: { content: any }) {
         <div className="text-center mt-12">
           <a
             href={content.cta.href || '#'}
-            className="inline-flex items-center gap-2 px-8 py-3 bg-primary text-white font-semibold rounded-full hover:bg-primary/90 transition-colors"
+            className="inline-flex items-center gap-2 px-8 py-3 text-white font-semibold rounded-full transition-colors"
+            style={{ backgroundColor: primary }}
           >
             {content.cta.label}
             <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">

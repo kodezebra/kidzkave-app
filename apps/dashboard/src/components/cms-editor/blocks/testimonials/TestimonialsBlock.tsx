@@ -1,10 +1,13 @@
 import { Icon } from '@iconify/react'
+import { useThemeClasses } from '../../useThemeClasses'
 
 export function TestimonialsBlock({ content }: { content: any }) {
+  const { accent } = useThemeClasses()
+
   return (
     <div className="py-20 px-12 bg-slate-50/50">
       <div className="text-center mb-16">
-        <div className="text-accent font-bold text-xs uppercase tracking-widest mb-2">{content.tagline}</div>
+        <div className="font-bold text-xs uppercase tracking-widest mb-2" style={{ color: accent }}>{content.tagline}</div>
         <h2 className="text-4xl font-black text-slate-900">{content.title}</h2>
       </div>
       <div className="grid grid-cols-3 gap-6">

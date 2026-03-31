@@ -1,10 +1,13 @@
 import { Icon } from '@iconify/react'
+import { useThemeClasses } from '../../useThemeClasses'
 
 export function FaqBlock({ content }: { content: any }) {
+  const { primary } = useThemeClasses()
+
   return (
     <div className="py-20 px-12 bg-white max-w-4xl mx-auto">
       <div className="text-center mb-16">
-        <div className="text-primary font-bold text-xs uppercase tracking-widest mb-2">{content.tagline}</div>
+        <div className="font-bold text-xs uppercase tracking-widest mb-2" style={{ color: primary }}>{content.tagline}</div>
         <h2 className="text-4xl font-black text-slate-900">{content.title}</h2>
       </div>
       <div className="space-y-4">

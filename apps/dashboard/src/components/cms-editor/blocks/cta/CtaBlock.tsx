@@ -1,6 +1,9 @@
 import { renderDynamicIcon } from '../utils'
+import { useThemeClasses } from '../../useThemeClasses'
 
 export function CtaBlock({ content }: { content: any }) {
+  const { primary, accent, primaryWithOpacity, accentWithOpacity } = useThemeClasses()
+
   const getEyebrowStyle = (style: string | undefined, text: string) => {
     switch (style) {
       case 'badge':
@@ -20,13 +23,13 @@ export function CtaBlock({ content }: { content: any }) {
   }
 
   return (
-    <div className="py-20 px-12 text-center bg-primary text-white mx-8 rounded-[3rem] shadow-2xl relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/80 to-primary"></div>
+    <div className="py-20 px-12 text-center text-white mx-8 rounded-[3rem] shadow-2xl relative overflow-hidden" style={{ backgroundColor: primary }}>
+      <div className="absolute inset-0" style={{ background: `linear-gradient(to bottom right, ${primaryWithOpacity(0.8)}, ${primary})` }}></div>
       <div className="relative z-10 space-y-6">
         {content.eyebrow && getEyebrowStyle(content.eyebrowStyle, content.eyebrow)}
         <h2 className="text-4xl font-black">{content.title}</h2>
         <p className="text-white/80 max-w-xl mx-auto">{content.subtitle}</p>
-        <div className="bg-accent text-white px-8 py-4 rounded-2xl font-bold inline-block shadow-lg shadow-accent/20">
+        <div className="text-white px-8 py-4 rounded-2xl font-bold inline-block shadow-lg" style={{ backgroundColor: accent, boxShadow: `0 10px 15px -3px ${accent}33` }}>
           {content.ctaLabel}
         </div>
         {content.secondaryInfo && content.secondaryInfo.length > 0 && (

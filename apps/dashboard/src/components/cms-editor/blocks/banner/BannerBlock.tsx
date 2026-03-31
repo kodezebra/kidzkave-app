@@ -1,3 +1,5 @@
+import { useThemeClasses } from '../../useThemeClasses'
+
 interface BannerContent {
   title?: string
   eyebrow?: string
@@ -16,6 +18,8 @@ interface BannerContent {
 }
 
 export function BannerBlock({ content }: { content: BannerContent }) {
+  const { primary, primaryWithOpacity, accent, accentWithOpacity } = useThemeClasses()
+  
   const heightMap = {
     small: '240px',
     medium: '360px',
@@ -47,11 +51,12 @@ export function BannerBlock({ content }: { content: BannerContent }) {
       )}
       
       <div 
-        className={`absolute inset-0 ${hasImage ? 'bg-gradient-to-b from-slate-900/70 via-slate-900/50 to-slate-900/70' : 'bg-gradient-to-br from-primary/10 via-surface-container-low to-primary-container/10'}`}
+        className={`absolute inset-0 ${hasImage ? 'bg-gradient-to-b from-slate-900/70 via-slate-900/50 to-slate-900/70' : ''}`}
+        style={hasImage ? {} : { background: `linear-gradient(to bottom right, ${primaryWithOpacity(0.1)}, var(--surface-container-low, #f5f5f5), ${primaryWithOpacity(0.05)})` }}
       />
 
       {hasImage && (
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/30 to-accent/20" />
+        <div className="absolute inset-0" style={{ background: `linear-gradient(to right, ${primaryWithOpacity(0.3)}, ${accentWithOpacity(0.2)})` }} />
       )}
       
       {showOffsetImage && (
@@ -69,11 +74,11 @@ export function BannerBlock({ content }: { content: BannerContent }) {
             {content.eyebrow}
           </p>
         )}
-        <h1 className={`font-headline font-bold ${hasImage ? 'text-white' : 'text-primary'} ${titleSize} tracking-tight leading-[1.1]`}>
+        <h1 className={`font-headline font-bold ${hasImage ? 'text-white' : ''} ${titleSize} tracking-tight leading-[1.1]`} style={!hasImage ? { color: primary } : {}}>
           {content.title || 'Page Title'}
         </h1>
         {content.showDivider !== false && (
-          <div className={`mt-8 h-1.5 w-32 mx-auto rounded-full ${hasImage ? 'bg-white' : 'bg-primary'}`}></div>
+          <div className="mt-8 h-1.5 w-32 mx-auto rounded-full" style={{ backgroundColor: hasImage ? 'white' : primary }}></div>
         )}
         {content.subtitle && (
           <p className={`mt-8 font-body text-xl leading-relaxed max-w-2xl mx-auto ${hasImage ? 'text-white/80' : 'text-secondary'}`}>

@@ -1,10 +1,13 @@
 import { renderDynamicIcon } from '../utils'
+import { useThemeClasses } from '../../useThemeClasses'
 
 export function PricingBlock({ content }: { content: any }) {
+  const { primary, primaryWithOpacity } = useThemeClasses()
+
   return (
     <div className="py-16 px-12 bg-slate-50">
       <div className="text-center mb-12">
-        <div className="text-primary font-bold text-xs uppercase tracking-widest mb-2">{content.tagline}</div>
+        <div className="font-bold text-xs uppercase tracking-widest mb-2" style={{ color: primary }}>{content.tagline}</div>
         <h2 className="text-4xl font-black text-slate-900">{content.title}</h2>
         {content.subtitle && <p className="text-slate-500 mt-4 max-w-2xl mx-auto">{content.subtitle}</p>}
       </div>
@@ -13,11 +16,12 @@ export function PricingBlock({ content }: { content: any }) {
           <div
             key={i}
             className={`relative rounded-2xl border-2 p-6 ${
-              tier.recommended ? 'border-primary bg-primary/5' : 'border-slate-200 bg-white'
+              tier.recommended ? 'border-solid bg-white' : 'border-slate-200 bg-white'
             }`}
+            style={tier.recommended ? { borderColor: primary, backgroundColor: primaryWithOpacity(0.05) } : {}}
           >
             {tier.recommended && (
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-white px-3 py-0.5 rounded-full text-[10px] font-bold uppercase">
+              <div className="absolute -top-3 left-1/2 -translate-x-1/2 text-white px-3 py-0.5 rounded-full text-[10px] font-bold uppercase" style={{ backgroundColor: primary }}>
                 Popular
               </div>
             )}
@@ -37,9 +41,7 @@ export function PricingBlock({ content }: { content: any }) {
                 </li>
               ))}
             </ul>
-            <button className={`w-full py-2 rounded-lg text-sm font-semibold ${
-              tier.recommended ? 'bg-primary text-white' : 'bg-slate-900 text-white'
-            }`}>
+            <button className="w-full py-2 rounded-lg text-sm font-semibold text-white" style={{ backgroundColor: tier.recommended ? primary : '#1e293b' }}>
               {tier.ctaLabel || 'Get Started'}
             </button>
           </div>

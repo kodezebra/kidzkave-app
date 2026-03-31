@@ -1,10 +1,13 @@
+import { useThemeClasses } from '../../useThemeClasses'
+
 export function GalleryBlock({ content }: { content: any }) {
+  const { primary } = useThemeClasses()
   const layout = content.layout || 'default'
   
   return (
     <div className="py-16 px-12">
       <div className="text-center mb-12">
-        <div className="text-primary font-bold text-xs uppercase tracking-widest mb-2">{content.tagline}</div>
+        <div className="font-bold text-xs uppercase tracking-widest mb-2" style={{ color: primary }}>{content.tagline}</div>
         <h2 className="text-4xl font-black text-slate-900">{content.title}</h2>
         {content.subtitle && <p className="text-slate-500 mt-4 max-w-2xl mx-auto">{content.subtitle}</p>}
       </div>

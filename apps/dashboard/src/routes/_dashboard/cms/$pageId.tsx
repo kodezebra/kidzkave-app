@@ -6,6 +6,7 @@ import { EditorHeader } from '@/components/cms-editor/EditorHeader'
 import { EditorSidebar } from '@/components/cms-editor/EditorSidebar'
 import { EditorCanvas } from '@/components/cms-editor/EditorCanvas'
 import { EditorInspector } from '@/components/cms-editor/EditorInspector'
+import { EditorThemeProvider } from '@/components/cms-editor/ThemeContext'
 import { useToast } from '@/components/ui/toast'
 import { useState, useEffect } from 'react'
 
@@ -27,6 +28,16 @@ function CMSPageEditor() {
       if (!res.ok) throw new Error('Failed to fetch page')
       return res.json()
     }
+  })
+
+  const { data: siteSettings } = useQuery({
+    queryKey: ['siteSettings'],
+    queryFn: async () => {
+      const res = await apiFetch('/settings')
+      if (!res.ok) return null
+      return res.json()
+    },
+    staleTime: 1000 * 60 * 5
   })
 
   const {
@@ -165,6 +176,7 @@ function CMSPageEditor() {
   const selectedBlock = localBlocks.find(b => b.id === selectedBlockId) || null
 
   return (
+    <EditorThemeProvider initialTheme={siteSettings ? { primary: siteSettings.primaryColor, accent: siteSettings.accentColor } : undefined}>
     <div className="flex flex-col h-screen bg-background overflow-hidden">
       <EditorHeader
         pageData={pageData}
@@ -220,5 +232,6 @@ function CMSPageEditor() {
         )}
       </div>
     </div>
+    </EditorThemeProvider>
   )
 }

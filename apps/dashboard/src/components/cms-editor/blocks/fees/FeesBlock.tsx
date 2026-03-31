@@ -1,13 +1,15 @@
 import { Icon } from '@iconify/react'
+import { useThemeClasses } from '../../useThemeClasses'
 
 export function FeesBlock({ content }: { content: any }) {
+  const { primary } = useThemeClasses()
   const currency = content.currency || 'UGX'
   const sections = content.sections || []
 
   return (
     <div className="py-20 px-12 bg-slate-50">
       <div className="text-center mb-16">
-        <div className="text-primary font-bold text-xs uppercase tracking-widest mb-2">{content.tagline}</div>
+        <div className="font-bold text-xs uppercase tracking-widest mb-2" style={{ color: primary }}>{content.tagline}</div>
         <h2 className="text-4xl font-black text-slate-900">{content.title || 'School Fees'}</h2>
         {content.subtitle && <p className="mt-4 text-slate-600">{content.subtitle}</p>}
       </div>
@@ -40,7 +42,7 @@ export function FeesBlock({ content }: { content: any }) {
                   {section.items?.map((item: any, j: number) => (
                     <tr key={j} className={j < section.items.length - 1 ? 'border-b' : ''}>
                       <td className="p-4 text-slate-700">{item.name}</td>
-                      <td className="p-4 text-right font-semibold text-slate-900">{item.price} {currency}</td>
+                      <td className="p-4 text-right font-semibold" style={{ color: primary }}>{item.price} {currency}</td>
                     </tr>
                   ))}
                 </tbody>
@@ -51,7 +53,7 @@ export function FeesBlock({ content }: { content: any }) {
               {section.items?.map((item: any, j: number) => (
                 <div key={j} className="flex items-center justify-between p-4 bg-white rounded-xl border">
                   <span className="text-slate-700 font-medium">{item.name}</span>
-                  <span className="text-primary font-bold">{item.price} {currency}</span>
+                  <span className="font-bold" style={{ color: primary }}>{item.price} {currency}</span>
                 </div>
               ))}
             </div>
@@ -61,7 +63,7 @@ export function FeesBlock({ content }: { content: any }) {
 
       {content.ctaLabel && content.ctaHref && (
         <div className="text-center mt-12">
-          <button className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-white font-semibold rounded-full">
+          <button className="inline-flex items-center gap-2 px-8 py-4 text-white font-semibold rounded-full" style={{ backgroundColor: primary }}>
             {content.ctaLabel}
             <Icon icon="ph:arrow-right" className="w-5 h-5" />
           </button>

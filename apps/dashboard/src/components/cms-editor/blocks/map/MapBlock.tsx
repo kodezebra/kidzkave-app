@@ -1,4 +1,5 @@
 import { MapPin, Navigation } from 'lucide-react'
+import { useThemeClasses } from '../../useThemeClasses'
 
 interface MapContent {
   title?: string
@@ -9,6 +10,8 @@ interface MapContent {
 }
 
 export function MapBlock({ content }: { content: MapContent }) {
+  const { primary, primaryWithOpacity } = useThemeClasses()
+  
   const heightMap = {
     small: '200px',
     medium: '300px',
@@ -43,8 +46,8 @@ export function MapBlock({ content }: { content: MapContent }) {
           </div>
           
           <div className="relative flex flex-col items-center gap-4">
-            <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center">
-              <MapPin className="h-8 w-8 text-primary" />
+            <div className="h-16 w-16 rounded-full flex items-center justify-center" style={{ backgroundColor: primaryWithOpacity(0.1) }}>
+              <MapPin className="h-8 w-8" style={{ color: primary }} />
             </div>
             <div className="text-center">
               <p className="text-sm font-medium text-slate-600">School Location</p>
@@ -67,7 +70,8 @@ export function MapBlock({ content }: { content: MapContent }) {
               href="https://maps.google.com?q=0.0,0.0"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-lg text-sm font-medium hover:bg-primary/90 transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 text-white rounded-lg text-sm font-medium transition-colors"
+              style={{ backgroundColor: primary }}
             >
               <Navigation className="h-4 w-4" />
               {directionsLabel}

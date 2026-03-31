@@ -1,8 +1,10 @@
 import { Icon } from '@iconify/react'
 import { useState } from 'react'
 import type { VideoItem } from '../../types'
+import { useThemeClasses } from '../../useThemeClasses'
 
 export function VideoGalleryBlock({ content }: { content: any }) {
+  const { primary } = useThemeClasses()
   const [playingIndex, setPlayingIndex] = useState<number | null>(null)
   const [tiktokFailed, setTiktokFailed] = useState<Record<number, boolean>>({})
   const items = (content.items || []) as VideoItem[]
@@ -27,7 +29,7 @@ export function VideoGalleryBlock({ content }: { content: any }) {
   return (
     <div className="py-20 px-12 bg-white">
       <div className="text-center mb-16">
-        <div className="text-primary font-bold text-xs uppercase tracking-widest mb-2">{content.tagline}</div>
+        <div className="font-bold text-xs uppercase tracking-widest mb-2" style={{ color: primary }}>{content.tagline}</div>
         <h2 className="text-4xl font-black text-slate-900">{content.title}</h2>
       </div>
       <div className="grid grid-cols-2 gap-8">
