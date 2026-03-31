@@ -62,7 +62,7 @@ export function useEditor(initialBlocks: any[] = []) {
         content = { tagline: 'Testimonials', title: 'What They Say', items: [{ name: 'Michael Ross', role: 'Founder', text: 'Remarkable partner.', image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCWlQHMA1cEx0gKL790g0ZSQtK4uG-cWX8kJuM39rjHoHNd01FvsZN99YlTL3e4EBJFB5DNqij2zFdUf2vdaza3FM6jevuL8ikrAzIs4QrpTLRjYCO_AXeE8LLATNPDFLjehbpSDRKmTJK2yR3a4yW-LGwrdRMKU5IeHchRiaXn9XIpESZpIkocuwMAR0WXHgWImcmHBsZ47hSVe07kw2625YnfxDihv7ZlnSAr7IjAXe2Kwwg1k-u6xX4lnDk92_Ewr127rKukMzc' }] }
         break
       case 'cta':
-        content = { title: 'Ready to Revolutionize?', subtitle: 'Join hundreds of forward-thinking companies.', ctaLabel: 'Start Today' }
+        content = { title: 'Ready to Get Started?', subtitle: 'Join our community and start your journey today.', eyebrow: 'Limited Spots Available', eyebrowStyle: 'badge', eyebrowIcon: 'star', ctaLabel: 'Apply Now', ctaHref: '/admissions', secondaryInfo: [] }
         break
       case 'steps':
         content = { tagline: 'How It Works', title: 'Our Process', subtitle: 'Simple steps to get started.', items: [{ icon: 'zap', title: 'Step 1', description: 'First step description.' }, { icon: 'settings', title: 'Step 2', description: 'Second step description.' }] }

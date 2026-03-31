@@ -19,9 +19,9 @@ export const Values = ({ content }: { content: any }) => {
           </h2>
           ${content.subtitle ? html`<p class="text-lg text-slate-600 dark:text-slate-400 font-medium leading-relaxed max-w-2xl mx-auto">${content.subtitle}</p>` : ''}
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="flex flex-wrap justify-center gap-8 max-w-5xl mx-auto">
           ${(content.items || []).map((item: any, index: number) => raw(`
-            <div class="group relative" data-animate-item>
+            <div class="group relative w-full sm:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.5rem)] max-w-sm" data-animate-item>
               <div class="absolute -inset-4 bg-primary/5 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"></div>
               <div class="relative flex flex-col gap-5 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm p-8 value-glow hover:border-primary/30 transition-all duration-300">
                 <div class="w-20 h-20 bg-gradient-to-br from-primary/20 to-accent/10 rounded-2xl flex items-center justify-center icon-bounce border border-primary/20 group-hover:from-primary group-hover:to-accent group-hover:border-primary/30 transition-all duration-300">

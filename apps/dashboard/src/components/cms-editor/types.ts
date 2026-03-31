@@ -82,8 +82,12 @@ export interface TestimonialsContent extends CommonBlockContent {
 export interface CtaContent extends CommonBlockContent {
   title: string;
   subtitle: string;
+  eyebrow?: string;
+  eyebrowStyle?: 'badge' | 'minimal' | 'icon';
+  eyebrowIcon?: string;
   ctaLabel: string;
   ctaHref: string;
+  secondaryInfo?: Array<{ label: string; href: string }>;
 }
 
 export interface StepsContent extends CommonBlockContent {

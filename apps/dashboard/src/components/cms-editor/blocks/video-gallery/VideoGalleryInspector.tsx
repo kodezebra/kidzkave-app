@@ -1,6 +1,6 @@
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Icon } from '@iconify/react'
+import { Plus } from 'lucide-react'
 import { useState } from 'react'
 import { Section, Field, ItemAccordion } from '../common'
 import { MediaPicker } from '../../MediaPicker'
@@ -176,7 +176,7 @@ export function VideoGalleryInspector({
               <Field label="Custom Thumbnail (Optional)">
                 <div className="flex items-center gap-2">
                   <Input value={item.thumbnail || ''} onChange={(e) => updateItem('items', i, { thumbnail: e.target.value })} className="flex-1" placeholder="Leave empty to use auto-generated" />
-                  <MediaPicker onSelect={(url) => updateItem('items', i, { thumbnail: url })} trigger={<Button variant="outline" size="icon"><Icon icon="ph:image-plus-fill" className="h-4 w-4" /></Button>} />
+                  <MediaPicker onSelect={(url) => updateItem('items', i, { thumbnail: url })} trigger={<Button variant="outline" size="icon"><Plus className="h-4 w-4" /></Button>} />
                 </div>
               </Field>
             </ItemAccordion>
