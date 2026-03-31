@@ -109,6 +109,27 @@ export function VideoGalleryInspector({
         <Field label="Title"><Input value={content.title || ''} onChange={(e) => onUpdateContent({ ...content, title: e.target.value })} /></Field>
         <Field label="Subtitle"><textarea className="flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-xs shadow-sm" value={content.subtitle || ''} onChange={(e) => onUpdateContent({ ...content, subtitle: e.target.value })} /></Field>
       </Section>
+      <Section title="Layout">
+        <div className="flex gap-1 p-1 bg-muted rounded-lg">
+          {[
+            { value: 'compact', label: 'Compact' },
+            { value: 'standard', label: 'Standard' },
+            { value: 'list', label: 'List' },
+          ].map((layout) => (
+            <button
+              key={layout.value}
+              onClick={() => onUpdateContent({ ...content, layout: layout.value })}
+              className={`flex-1 py-1.5 px-3 text-xs font-medium rounded-md transition-colors ${
+                (content.layout || 'compact') === layout.value
+                  ? 'bg-background shadow-sm text-foreground'
+                  : 'text-muted-foreground hover:text-foreground'
+              }`}
+            >
+              {layout.label}
+            </button>
+          ))}
+        </div>
+      </Section>
       <Section title="Videos">
         <div className="space-y-2">
           {content.items?.map((item: any, i: number) => (

@@ -8,6 +8,21 @@ export const VideoGallery = ({ content }: { content: any }) => {
     : ''
 
   const items = (content.items || []) as VideoItem[]
+  const layout = content.layout || 'compact'
+
+  const gridClass = layout === 'compact' 
+    ? 'grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-4' 
+    : layout === 'standard' 
+      ? 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'
+      : 'grid grid-cols-1 gap-4'
+
+  const cardClass = layout === 'compact'
+    ? 'video-item group rounded-xl overflow-hidden bg-slate-200 dark:bg-slate-800 shadow-md card-hover relative aspect-video'
+    : layout === 'standard'
+      ? 'video-item group rounded-2xl overflow-hidden bg-slate-200 dark:bg-slate-800 shadow-lg card-hover relative aspect-video'
+      : 'video-item group flex gap-4 bg-slate-200 dark:bg-slate-800 rounded-xl overflow-hidden shadow-md card-hover relative aspect-video'
+
+  const titlePosition = layout === 'compact' ? 'below' : layout === 'standard' ? 'overlay' : 'right'
 
   return html`
     <section class="py-32 bg-slate-50 dark:bg-slate-900/50" data-animate="fade-up" style="${paddingStyleStr}">
@@ -19,13 +34,15 @@ export const VideoGallery = ({ content }: { content: any }) => {
           </h3>
           ${content.subtitle ? html`<p class="mt-6 text-lg text-slate-600 dark:text-slate-400 font-medium leading-relaxed">${content.subtitle}</p>` : ''}
         </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" data-video-gallery>
+        <div class="${gridClass}" data-video-gallery>
           ${items.map((item, index) => {
             const isPortrait = item.platform === 'tiktok'
             const aspectClass = isPortrait ? 'aspect-[9/16] max-h-[80vh]' : 'aspect-video'
+            const playBtnSize = layout === 'compact' ? 'w-12 h-12' : 'w-20 h-20'
+            const playBtnText = layout === 'compact' ? 'text-xl' : 'text-3xl'
             return raw(`
             <div 
-              class="video-item group rounded-2xl overflow-hidden ${aspectClass} bg-slate-200 dark:bg-slate-800 shadow-lg card-hover relative" 
+              class="${cardClass}" 
               data-video-index="${index}"
               data-platform="${item.platform}"
               data-embed-url="${item.embedUrl || ''}"
@@ -33,7 +50,7 @@ export const VideoGallery = ({ content }: { content: any }) => {
               data-embed-allowed="${item.embedAllowed !== false}"
               data-animate-item
             >
-              <div class="video-thumbnail absolute inset-0" style="${item.thumbnail ? `background-image: url('${item.thumbnail}'); background-size: cover; background-position: center;` : ''}">
+              <div class="video-thumbnail absolute inset-0${layout === 'list' ? ' min-w-[200px] relative' : ''}" style="${item.thumbnail ? `background-image: url('${item.thumbnail}'); background-size: cover; background-position: center;` : ''}">
                 ${!item.thumbnail ? `
                   <div class="w-full h-full bg-gradient-to-br from-slate-300 to-slate-400 dark:from-slate-700 dark:to-slate-800 flex items-center justify-center">
                     <span class="text-slate-500 dark:text-slate-600 font-medium text-sm uppercase">${item.platform || 'Video'}</span>
@@ -41,8 +58,8 @@ export const VideoGallery = ({ content }: { content: any }) => {
                 ` : ''}
                 <div class="absolute inset-0 bg-slate-900/40 flex items-center justify-center group-hover:bg-slate-900/50 transition-colors">
                   ${item.embedAllowed !== false ? `
-                    <button class="play-btn w-20 h-20 bg-primary/90 backdrop-blur-md rounded-full flex items-center justify-center border border-primary/50 cursor-pointer hover:scale-110 hover:bg-primary transition-all shadow-xl" data-play="${index}">
-                      ${renderIcon('play', 'text-3xl text-white')}
+                    <button class="play-btn ${playBtnSize} bg-primary/90 backdrop-blur-md rounded-full flex items-center justify-center border border-primary/50 cursor-pointer hover:scale-110 hover:bg-primary transition-all shadow-xl" data-play="${index}">
+                      ${renderIcon('play', '${playBtnText} text-white')}
                     </button>
                   ` : `
                     <button class="play-btn tiktok-btn flex items-center gap-2 px-5 py-3 bg-slate-900/90 backdrop-blur-md rounded-full border border-slate-700 cursor-pointer hover:bg-slate-800 hover:scale-105 transition-all shadow-xl" data-play="${index}" data-external="${item.url}">
@@ -51,12 +68,23 @@ export const VideoGallery = ({ content }: { content: any }) => {
                     </button>
                   `}
                 </div>
-                ${item.title ? `
+                ${titlePosition === 'overlay' && item.title ? `
                   <div class="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-slate-900/80 to-transparent">
                     <p class="text-white font-bold text-sm">${item.title}</p>
                   </div>
                 ` : ''}
               </div>
+              ${(titlePosition === 'below' || titlePosition === 'right') && item.title ? `
+                <div class="p-3">
+                  <p class="text-slate-900 dark:text-white font-semibold text-sm line-clamp-2">${item.title}</p>
+                </div>
+              ` : ''}
+              ${layout === 'list' ? `
+                <div class="flex-1 p-4 flex flex-col justify-center">
+                  <p class="text-slate-900 dark:text-white font-bold text-lg">${item.title}</p>
+                  <p class="text-slate-500 dark:text-slate-400 text-sm mt-1">${item.platform === 'tiktok' ? 'TikTok' : 'YouTube'}</p>
+                </div>
+              ` : ''}
               <div class="video-player absolute inset-0 hidden">
                 <iframe 
                   class="video-iframe w-full h-full"
