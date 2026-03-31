@@ -520,6 +520,124 @@ Set your preference:
    - Dark
    - System (follows device)
 `
+  },
+  {
+    id: "contact-inbox",
+    title: "Managing Contact Inbox",
+    role: "admin",
+    category: "Communications",
+    keywords: ["contact", "inbox", "message", "inquiry", "submissions", "enquiry", "form"],
+    content: `
+# Managing Contact Inbox
+
+The Contact Inbox stores all inquiries submitted through your website's contact form.
+
+## Accessing Submissions
+
+1. Go to **Submissions** in the sidebar
+2. View all contact form submissions
+3. Filter by date, status, or search
+
+## Submission Details
+
+Each submission includes:
+- **Name** - Sender's name
+- **Email** - Sender's email address
+- **Phone** - Sender's phone number (if provided)
+- **Subject** - Topic of inquiry
+- **Message** - Full inquiry text
+- **Date** - When submitted
+
+## Managing Inquiries
+
+### Marking as Read
+
+Click on a submission to open it and automatically mark it as read.
+
+### Status Tracking
+
+Keep track of inquiry status:
+- **New** - Unread inquiries
+- **Read** - Viewed but not yet responded
+- **Replied** - You have responded to this inquiry
+
+### Responding to Inquiries
+
+1. Open the submission
+2. Use the sender's email to reply directly
+3. Update status to "Replied" after responding
+
+## Filtering and Search
+
+Find specific submissions:
+- Use **Search** to find by name, email, or subject
+- Filter by **Status** to focus on new or unread
+- Sort by **Date** to see newest or oldest first
+`
+  },
+  {
+    id: "whatsapp-leads",
+    title: "Managing WhatsApp Leads",
+    role: "admin",
+    category: "Communications",
+    keywords: ["whatsapp", "lead", "leads", "inquiry", "chat", "whatsapp button", "contact"],
+    content: `
+# Managing WhatsApp Leads
+
+WhatsApp Leads capture inquiries from visitors who click the WhatsApp button on your website.
+
+## Accessing WhatsApp Leads
+
+1. Go to **WhatsApp Leads** in the sidebar
+2. View all leads from WhatsApp inquiries
+3. Track the source and status of each lead
+
+## Lead Information
+
+Each WhatsApp lead captures:
+- **Name** - Visitor's name (if provided)
+- **Phone** - Visitor's WhatsApp number
+- **Message** - Initial inquiry message
+- **Source Page** - Which page they were on when they inquired
+- **Date** - When the inquiry was received
+- **Status** - Lead status (New, Contacted, Qualified, Lost)
+
+## Lead Lifecycle
+
+### New Leads
+
+New leads appear automatically when someone clicks your WhatsApp button and sends a message.
+
+### Lead Statuses
+
+| Status | Meaning |
+|--------|---------|
+| New | Recently captured, needs attention |
+| Contacted | You have reached out to this lead |
+| Qualified | Lead is a serious prospect |
+| Lost | Lead is no longer interested |
+
+### Updating Lead Status
+
+1. Click on a lead to open details
+2. Change status from the dropdown
+3. Add notes for follow-up
+4. Save changes
+
+## Converting Leads
+
+For serious inquiries:
+1. Create a new student record
+2. Mark lead status as "Qualified"
+3. Add relevant notes for future reference
+
+## WhatsApp Button Setup
+
+The WhatsApp button appears on your website automatically. To configure:
+1. Go to **Settings** → **Website**
+2. Set your WhatsApp business number
+3. Customize the welcome message
+`
   }
 ]
 
@@ -530,6 +648,7 @@ export const helpCategories = [
   "Fees",
   "Exams",
   "CMS",
+  "Communications",
   "Administration",
   "Academics",
   "Settings"
