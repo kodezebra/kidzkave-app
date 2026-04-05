@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import type { Block } from './types'
+import { blockRegistry } from './blockRegistry'
 
 const MAX_HISTORY = 50
 
@@ -40,69 +41,8 @@ export function useEditor(initialBlocks: any[] = []) {
   }, [historyIndex])
 
   const addBlock = useCallback((type: string) => {
-    let content: any = {}
-
-    switch (type) {
-      case 'hero':
-        content = { title: 'Design Your Future with Precision', subtitle: 'Elevate your digital presence with our modern, professional solutions.', primaryCta: { label: 'Start Building' }, secondaryCta: { label: 'View Portfolio' } }
-        break
-      case 'features':
-        content = { tagline: 'Expertise', title: 'Tailored Solutions', subtitle: 'High-quality services for digital-first businesses.', items: [{ icon: 'zap', title: 'Strategy', text: 'Data-driven strategies.' }, { icon: 'palette', title: 'Design', text: 'User-centric designs.' }, { icon: 'code', title: 'Web', text: 'Scalable applications.' }] }
-        break
-      case 'content':
-        content = { title: 'About Our Vision', text1: 'Innovation at the core.', text2: 'We build partnerships.', features: ['10+ Years Excellence', 'Global Network'], cta: { label: 'Learn More', href: '#' } }
-        break
-      case 'stats':
-        content = { items: [{ value: '500+', label: 'Clients' }, { value: '12M+', label: 'Users' }, { value: '45', label: 'Countries' }, { value: '99.9%', label: 'Uptime' }] }
-        break
-      case 'team':
-        content = { tagline: 'Our Team', title: 'Meet the Minds', subtitle: 'Dedicated to excellence.', members: [{ name: 'Alex Rivera', role: 'CEO', image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDBR9L2w1l_K_qS-1v2n_T_S8u9R6f4z_W7v7m1q_W8v8_v8_v8_v8_v8_v8_v8_v8_v8_v8_v8_v8' }] }
-        break
-      case 'testimonials':
-        content = { tagline: 'Testimonials', title: 'What They Say', items: [{ name: 'Michael Ross', role: 'Founder', text: 'Remarkable partner.', image: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCWlQHMA1cEx0gKL790g0ZSQtK4uG-cWX8kJuM39rjHoHNd01FvsZN99YlTL3e4EBJFB5DNqij2zFdUf2vdaza3FM6jevuL8ikrAzIs4QrpTLRjYCO_AXeE8LLATNPDFLjehbpSDRKmTJK2yR3a4yW-LGwrdRMKU5IeHchRiaXn9XIpESZpIkocuwMAR0WXHgWImcmHBsZ47hSVe07kw2625YnfxDihv7ZlnSAr7IjAXe2Kwwg1k-u6xX4lnDk92_Ewr127rKukMzc' }] }
-        break
-      case 'cta':
-        content = { title: 'Ready to Get Started?', subtitle: 'Join our community and start your journey today.', eyebrow: 'Limited Spots Available', eyebrowStyle: 'badge', eyebrowIcon: 'star', ctaLabel: 'Apply Now', ctaHref: '/admissions', secondaryInfo: [] }
-        break
-      case 'steps':
-        content = { tagline: 'How It Works', title: 'Our Process', subtitle: 'Simple steps to get started.', items: [{ icon: 'zap', title: 'Step 1', description: 'First step description.' }, { icon: 'settings', title: 'Step 2', description: 'Second step description.' }] }
-        break
-      case 'values':
-        content = { tagline: 'Our Values', title: 'What We Believe', subtitle: 'Core principles guiding us.', items: [{ icon: 'heart', title: 'Integrity', description: 'We do the right thing.' }, { icon: 'users', title: 'Teamwork', description: 'Together we achieve more.' }] }
-        break
-      case 'programs':
-        content = { tagline: 'Programs', title: 'Our Learning Programs', subtitle: 'Age-appropriate curriculum designed for holistic development.', items: [{ icon: 'graduation-cap', title: 'Play Group', description: 'Early childhood development through play.', list: ['Age 18 months - 2 years', 'Child-centered curriculum', 'Motor skill development'] }, { icon: 'book', title: 'Nursery', description: 'Building foundations for learning.', list: ['Age 3-4 years', 'Phonics & numeracy', 'Creative arts & crafts'] }] }
-        break
-      case 'splitContent':
-        content = { eyebrow: 'Since 2024', title: 'About Our Vision', description: 'We believe in innovation.', image: '', cta: { label: 'Learn More', href: '#' }, imagePosition: 'left' }
-        break
-      case 'videoGallery':
-        content = { tagline: 'Portfolio', title: 'Video Showcase', subtitle: 'See our work in action.', items: [{ title: 'Project Demo', thumbnail: '', videoUrl: '' }] }
-        break
-      case 'faq':
-        content = { tagline: 'FAQ', title: 'Common Questions', subtitle: 'Find answers here.', items: [{ question: 'How do I get started?', answer: 'Contact us to begin.' }] }
-        break
-      case 'pricing':
-        content = { tagline: 'Pricing', title: 'Simple Pricing', tiers: [{ name: 'Basic', price: '9', period: 'month', features: ['Feature 1'], ctaLabel: 'Get Started', ctaHref: '#', recommended: false }] }
-        break
-      case 'gallery':
-        content = { tagline: 'Gallery', title: 'Our Work', layout: 'grid', images: [{ src: '/image1.jpg', alt: 'Image 1' }] }
-        break
-      case 'services':
-        content = { tagline: 'Services', title: 'What We Offer', layout: 'grid', items: [{ icon: 'zap', title: 'Service 1', description: 'Description 1' }] }
-        break
-      case 'contact-form':
-        content = { tagline: 'Contact', title: 'Get In Touch', submitLabel: 'Send Message', fields: [{ name: 'name', label: 'Name', type: 'text', required: true }] }
-        break
-      case 'map':
-        content = { title: 'Visit Our Campus', height: 'medium', showDirections: true, directionsLabel: 'Get Directions' }
-        break
-      case 'banner':
-        content = { title: 'Page Title', height: 'small', showBreadcrumb: true }
-        break
-      default:
-        content = { text: 'New content block.' }
-    }
+    const blockDef = blockRegistry[type]
+    const content = blockDef ? { ...blockDef.defaultContent } : { text: 'New content block.' }
 
     const newBlock: Block = {
       id: `temp-${Date.now()}`,

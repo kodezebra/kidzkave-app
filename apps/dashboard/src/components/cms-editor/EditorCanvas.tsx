@@ -13,29 +13,7 @@ import {
 } from "@/components/ui/tooltip"
 
 import type { Block } from './types'
-
-// Block Components
-import { HeroBlock } from './blocks/hero/HeroBlock'
-import { FeaturesBlock } from './blocks/features/FeaturesBlock'
-import { ContentBlock } from './blocks/content/ContentBlock'
-import { StatsBlock } from './blocks/stats/StatsBlock'
-import { TeamBlock } from './blocks/team/TeamBlock'
-import { TestimonialsBlock } from './blocks/testimonials/TestimonialsBlock'
-import { TextBlock } from './blocks/text/TextBlock'
-import { CtaBlock } from './blocks/cta/CtaBlock'
-import { StepsBlock } from './blocks/steps/StepsBlock'
-import { ValuesBlock } from './blocks/values/ValuesBlock'
-import { SplitContentBlock } from './blocks/split-content/SplitContentBlock'
-import { VideoGalleryBlock } from './blocks/video-gallery/VideoGalleryBlock'
-import { FaqBlock } from './blocks/faq/FaqBlock'
-import { PricingBlock } from './blocks/pricing/PricingBlock'
-import { GalleryBlock } from './blocks/gallery/GalleryBlock'
-import { ServicesBlock } from './blocks/services/ServicesBlock'
-import { ContactFormBlock } from './blocks/contact-form/ContactFormBlock'
-import { MapBlock } from './blocks/map/MapBlock'
-import { BannerBlock } from './blocks/banner/BannerBlock'
-import { FeesBlock } from './blocks/fees/FeesBlock'
-import { ProgramsBlock } from './blocks/programs/ProgramsBlock'
+import { getCanvasComponent } from './blockRegistry'
 
 export function EditorCanvas({
   blocks,
@@ -46,7 +24,9 @@ export function EditorCanvas({
   leftOpen,
   rightOpen,
   onDuplicateBlock,
-  onRemoveBlock
+  onRemoveBlock,
+  onUpdateBlockContent,
+  onSelectCta
 }: {
   blocks: Block[],
   onSelectBlock: (id: string) => void,
@@ -56,7 +36,9 @@ export function EditorCanvas({
   leftOpen: boolean,
   rightOpen: boolean,
   onDuplicateBlock: (id: string) => void,
-  onRemoveBlock: (id: string) => void
+  onRemoveBlock: (id: string) => void,
+  onUpdateBlockContent: (id: string, content: any) => void,
+  onSelectCta?: (blockId: string, ctaType: string) => void
 }) {
   const [device, setDevice] = useState<'desktop' | 'tablet' | 'mobile'>('desktop')
   const blockRefs = useRef<{ [key: string]: HTMLDivElement | null }>({})
@@ -77,43 +59,25 @@ export function EditorCanvas({
   }
 
   const renderBlock = (block: Block) => {
-    switch (block.type) {
-      case 'hero': return <HeroBlock content={block.content as any} />
-      case 'features': return <FeaturesBlock content={block.content as any} />
-      case 'content': return <ContentBlock content={block.content as any} />
-      case 'stats': return <StatsBlock content={block.content as any} />
-      case 'team': return <TeamBlock content={block.content as any} />
-      case 'testimonials': return <TestimonialsBlock content={block.content as any} />
-      case 'cta': return <CtaBlock content={block.content as any} />
-      case 'steps': return <StepsBlock content={block.content as any} />
-      case 'values': return <ValuesBlock content={block.content as any} />
-      case 'splitContent': return <SplitContentBlock content={block.content as any} />
-      case 'videoGallery': return <VideoGalleryBlock content={block.content as any} />
-      case 'faq': return <FaqBlock content={block.content as any} />
-      case 'text': return <TextBlock content={block.content as any} />
-      case 'pricing': return <PricingBlock content={block.content as any} />
-      case 'gallery': return <GalleryBlock content={block.content as any} />
-      case 'services': return <ServicesBlock content={block.content as any} />
-      case 'contact-form': return <ContactFormBlock content={block.content as any} />
-      case 'map': return <MapBlock content={block.content as any} />
-      case 'banner': return <BannerBlock content={block.content as any} />
-      case 'fees': return <FeesBlock content={block.content as any} />
-      case 'programs': return <ProgramsBlock content={block.content as any} />
-      default:
-        return (
-          <div className="px-12 py-16 border-2 border-dashed rounded-2xl m-6 text-center bg-muted/30 border-muted-foreground/10">
-            <div className="h-12 w-12 rounded-full bg-background border shadow-sm flex items-center justify-center mx-auto mb-4">
-              <Plus className="h-6 w-6 text-muted-foreground/40" />
-            </div>
-            <div className="text-sm font-bold uppercase tracking-widest text-muted-foreground mb-1">
-              {(block as any).type} Component
-            </div>
-            <div className="text-xs text-muted-foreground/60 max-w-[200px] mx-auto italic">
-              This component is currently being updated or is not yet available in the preview canvas.
-            </div>
+    const CanvasComponent = getCanvasComponent(block.type)
+    
+    if (!CanvasComponent) {
+      return (
+        <div className="px-12 py-16 border-2 border-dashed rounded-2xl m-6 text-center bg-muted/30 border-muted-foreground/10">
+          <div className="h-12 w-12 rounded-full bg-background border shadow-sm flex items-center justify-center mx-auto mb-4">
+            <Plus className="h-6 w-6 text-muted-foreground/40" />
           </div>
-        )
+          <div className="text-sm font-bold uppercase tracking-widest text-muted-foreground mb-1">
+            {block.type} Component
+          </div>
+          <div className="text-xs text-muted-foreground/60 max-w-[200px] mx-auto italic">
+            This component is currently being updated or is not yet available in the preview canvas.
+          </div>
+        </div>
+      )
     }
+
+    return <CanvasComponent content={block.content} onChange={(content) => onUpdateBlockContent(block.id, content)} onSelectCta={(ctaType) => onSelectCta?.(block.id, ctaType)} />
   }
 
   return (

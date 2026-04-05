@@ -20,6 +20,7 @@ function CMSPageEditor() {
   const queryClient = useQueryClient()
   const { toast } = useToast()
   const [settings, setSettings] = useState<any>(null)
+  const [selectedCta, setSelectedCta] = useState<{ blockId: string; ctaType: string } | null>(null)
 
   const { data: pageData, isLoading } = useQuery({
     queryKey: ['pages', pageId],
@@ -217,6 +218,12 @@ function CMSPageEditor() {
           rightOpen={rightSidebarOpen}
           onDuplicateBlock={duplicateBlock}
           onRemoveBlock={removeBlock}
+          onUpdateBlockContent={updateBlockContent}
+          onSelectCta={(blockId, ctaType) => {
+            setSelectedBlockId(blockId)
+            setRightSidebarOpen(true)
+            setSelectedCta({ blockId, ctaType })
+          }}
         />
 
         {rightSidebarOpen && (
@@ -227,6 +234,7 @@ function CMSPageEditor() {
               onUpdateStyles={(styles) => updateBlockStyles(selectedBlockId!, styles)}
               onRemoveBlock={removeBlock}
               onDuplicateBlock={duplicateBlock}
+              selectedCta={selectedCta}
             />
           </div>
         )}

@@ -1,6 +1,7 @@
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Plus } from 'lucide-react'
+import { Icon } from '@iconify/react'
 import { Section, Field, ItemAccordion } from '../common'
 import { MediaPicker } from '../../MediaPicker'
 

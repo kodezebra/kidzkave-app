@@ -6,14 +6,14 @@ import { Icon } from '@iconify/react'
 
 export const Section = ({ title, children }: { title: string, children: React.ReactNode }) => (
   <div className="space-y-4">
-    <h3 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest opacity-50">{title}</h3>
+    <h3 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest opacity-50 select-none">{title}</h3>
     {children}
   </div>
 )
 
 export const Field = ({ label, children }: { label: string, children: React.ReactNode }) => (
   <div className="grid gap-2">
-    <Label className="text-[10px] font-bold uppercase tracking-tight text-muted-foreground/80">{label}</Label>
+    <Label className="text-[10px] font-bold uppercase tracking-tight text-muted-foreground/80 select-none">{label}</Label>
     {children}
   </div>
 )

@@ -3,47 +3,24 @@ import { Button } from "@/components/ui/button"
 import {
   Settings2, MousePointer2, Trash2, Copy, AlertCircle
 } from 'lucide-react'
-import { useState } from 'react'
 import type { Block } from './types'
-
-// Modular Inspectors
-import { HeroInspector } from './blocks/hero/HeroInspector'
-import { FeaturesInspector } from './blocks/features/FeaturesInspector'
-import { ContentInspector } from './blocks/content/ContentInspector'
-import { StatsInspector } from './blocks/stats/StatsInspector'
-import { TeamInspector } from './blocks/team/TeamInspector'
-import { TestimonialsInspector } from './blocks/testimonials/TestimonialsInspector'
-import { TextInspector } from './blocks/text/TextInspector'
-import { CtaInspector } from './blocks/cta/CtaInspector'
-import { StepsInspector } from './blocks/steps/StepsInspector'
-import { ValuesInspector } from './blocks/values/ValuesInspector'
-import { SplitContentInspector } from './blocks/split-content/SplitContentInspector'
-import { VideoGalleryInspector } from './blocks/video-gallery/VideoGalleryInspector'
-import { FaqInspector } from './blocks/faq/FaqInspector'
-import { PricingInspector } from './blocks/pricing/PricingInspector'
-import { GalleryInspector } from './blocks/gallery/GalleryInspector'
-import { ServicesInspector } from './blocks/services/ServicesInspector'
-import { ContactFormInspector } from './blocks/contact-form/ContactFormInspector'
-import { MapInspector } from './blocks/map/MapInspector'
-import { BannerInspector } from './blocks/banner/BannerInspector'
-import { FeesInspector } from './blocks/fees/FeesInspector'
-import { ProgramsInspector } from './blocks/programs/ProgramsInspector'
+import { getInspectorComponent } from './blockRegistry'
 
 export function EditorInspector({
   selectedBlock,
   onUpdateContent,
   onUpdateStyles,
   onRemoveBlock,
-  onDuplicateBlock
+  onDuplicateBlock,
+  selectedCta
 }: {
   selectedBlock: Block | null,
   onUpdateContent: (content: any) => void,
   onUpdateStyles: (styles: any) => void,
   onRemoveBlock: (id: string) => void,
-  onDuplicateBlock: (id: string) => void
+  onDuplicateBlock: (id: string) => void,
+  selectedCta?: { blockId: string; ctaType: string } | null
 }) {
-  const [openItems, setOpenItems] = useState<Record<string, number | null>>({})
-
   if (!selectedBlock) {
     return (
       <div className="w-full border-l bg-card flex flex-col items-center justify-center text-muted-foreground/30 p-12 text-center h-full">
@@ -58,48 +35,17 @@ export function EditorInspector({
     !(selectedBlock.content as any).text && 
     selectedBlock.type !== 'stats'
 
-  const toggleItem = (index: number) => {
-    setOpenItems(prev => ({
-      ...prev,
-      [selectedBlock.id]: prev[selectedBlock.id] === index ? null : index
-    }))
-  }
-
   const content = selectedBlock.content
   const styles = content.styles || { paddingY: 48 }
 
   const renderInspector = () => {
-    const commonProps = {
-      content: content as any,
-      onUpdateContent,
-      openItem: openItems[selectedBlock.id] ?? null,
-      onToggleItem: toggleItem
+    const InspectorComponent = getInspectorComponent(selectedBlock.type)
+    
+    if (!InspectorComponent) {
+      return <div className="p-4 text-xs text-muted-foreground italic">No specialized inspector for this block type.</div>
     }
 
-    switch (selectedBlock.type) {
-      case 'hero': return <HeroInspector content={content as any} onUpdateContent={onUpdateContent} />
-      case 'features': return <FeaturesInspector {...commonProps} />
-      case 'content': return <ContentInspector content={content as any} onUpdateContent={onUpdateContent} />
-      case 'stats': return <StatsInspector content={content as any} onUpdateContent={onUpdateContent} />
-      case 'team': return <TeamInspector {...commonProps} />
-      case 'testimonials': return <TestimonialsInspector {...commonProps} />
-      case 'cta': return <CtaInspector content={content as any} onUpdateContent={onUpdateContent} />
-      case 'steps': return <StepsInspector {...commonProps} />
-      case 'values': return <ValuesInspector {...commonProps} />
-      case 'splitContent': return <SplitContentInspector content={content as any} onUpdateContent={onUpdateContent} />
-      case 'videoGallery': return <VideoGalleryInspector {...commonProps} />
-      case 'faq': return <FaqInspector {...commonProps} />
-      case 'text': return <TextInspector content={content as any} onUpdateContent={onUpdateContent} />
-      case 'pricing': return <PricingInspector {...commonProps} />
-      case 'gallery': return <GalleryInspector {...commonProps} />
-      case 'services': return <ServicesInspector {...commonProps} />
-      case 'contact-form': return <ContactFormInspector {...commonProps} />
-      case 'map': return <MapInspector content={content as any} onUpdateContent={onUpdateContent} />
-      case 'banner': return <BannerInspector content={content as any} onUpdateContent={onUpdateContent} />
-      case 'fees': return <FeesInspector {...commonProps} />
-      case 'programs': return <ProgramsInspector {...commonProps} />
-      default: return <div className="p-4 text-xs text-muted-foreground italic">No specialized inspector for this block type.</div>
-    }
+    return <InspectorComponent content={content} onChange={onUpdateContent} selectedCta={selectedCta} />
   }
 
   return (
