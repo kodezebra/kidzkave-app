@@ -40,7 +40,7 @@ export function useEditor(initialBlocks: any[] = []) {
     setHistoryIndex(prev => Math.min(prev + 1, MAX_HISTORY - 1))
   }, [historyIndex])
 
-  const addBlock = useCallback((type: string) => {
+  const addBlock = useCallback((type: string, index?: number) => {
     const blockDef = blockRegistry[type]
     const content = blockDef ? { ...blockDef.defaultContent } : { text: 'New content block.' }
 
@@ -49,7 +49,14 @@ export function useEditor(initialBlocks: any[] = []) {
       type: type as any,
       content,
     }
-    const newBlocks = [...localBlocks, newBlock]
+    
+    const newBlocks = [...localBlocks]
+    if (typeof index === 'number') {
+      newBlocks.splice(index, 0, newBlock)
+    } else {
+      newBlocks.push(newBlock)
+    }
+    
     setLocalBlocks(newBlocks)
     saveToHistory(newBlocks)
     setSelectedBlockId(newBlock.id)

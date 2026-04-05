@@ -9,6 +9,7 @@ import { EditorInspector } from '@/components/cms-editor/EditorInspector'
 import { EditorThemeProvider } from '@/components/cms-editor/ThemeContext'
 import { useToast } from '@/components/ui/toast'
 import { useState, useEffect } from 'react'
+import { cn } from '@/lib/utils'
 
 export const Route = createFileRoute('/_dashboard/cms/$pageId')({
   component: CMSPageEditor,
@@ -21,6 +22,7 @@ function CMSPageEditor() {
   const { toast } = useToast()
   const [settings, setSettings] = useState<any>(null)
   const [selectedCta, setSelectedCta] = useState<{ blockId: string; ctaType: string } | null>(null)
+  const [device, setDevice] = useState<'desktop' | 'tablet' | 'mobile'>('desktop')
 
   const { data: pageData, isLoading } = useQuery({
     queryKey: ['pages', pageId],
@@ -193,6 +195,12 @@ function CMSPageEditor() {
         canRedo={canRedo}
         onUndo={undo}
         onRedo={redo}
+        device={device}
+        setDevice={setDevice}
+        leftOpen={leftSidebarOpen}
+        onToggleLeft={() => setLeftSidebarOpen(!leftSidebarOpen)}
+        rightOpen={rightSidebarOpen}
+        onToggleRight={() => setRightSidebarOpen(!rightSidebarOpen)}
       />
       
       <div className="flex-1 flex overflow-hidden">
@@ -218,26 +226,30 @@ function CMSPageEditor() {
           rightOpen={rightSidebarOpen}
           onDuplicateBlock={duplicateBlock}
           onRemoveBlock={removeBlock}
+          onAddBlock={addBlock}
           onUpdateBlockContent={updateBlockContent}
           onSelectCta={(blockId, ctaType) => {
             setSelectedBlockId(blockId)
             setRightSidebarOpen(true)
             setSelectedCta({ blockId, ctaType })
           }}
+          device={device}
         />
 
-        {rightSidebarOpen && (
-          <div className="w-[320px] shrink-0 overflow-y-auto">
+        <div className={cn(
+          "shrink-0 overflow-hidden transition-all duration-300 ease-in-out border-l",
+          rightSidebarOpen ? "w-[320px]" : "w-0"
+        )}>
+          <div className="w-[320px] h-full overflow-y-auto">
             <EditorInspector 
               selectedBlock={selectedBlock}
               onUpdateContent={(content) => updateBlockContent(selectedBlockId!, content)}
-              onUpdateStyles={(styles) => updateBlockStyles(selectedBlockId!, styles)}
               onRemoveBlock={removeBlock}
               onDuplicateBlock={duplicateBlock}
               selectedCta={selectedCta}
             />
           </div>
-        )}
+        </div>
       </div>
     </div>
     </EditorThemeProvider>

@@ -1,5 +1,6 @@
 import { MapPin, Navigation } from 'lucide-react'
 import { useThemeClasses } from '../../useThemeClasses'
+import { EditableText } from '../editable/EditableText'
 
 interface MapContent {
   title?: string
@@ -9,8 +10,12 @@ interface MapContent {
   styles?: { paddingY?: number }
 }
 
-export function MapBlock({ content }: { content: MapContent }) {
+export function MapBlock({ content, onChange }: { content: MapContent, onChange?: (content: MapContent) => void }) {
   const { primary, primaryWithOpacity } = useThemeClasses()
+  
+  const updateField = (field: string, value: any) => {
+    onChange?.({ ...content, [field]: value })
+  }
   
   const heightMap = {
     small: '200px',
@@ -26,7 +31,9 @@ export function MapBlock({ content }: { content: MapContent }) {
     <div className="px-12">
       {content.title && (
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-slate-900">{content.title}</h2>
+          <h2 className="text-3xl font-bold text-slate-900">
+            <EditableText value={content.title} onChange={onChange ? (v) => updateField('title', v) : undefined} />
+          </h2>
         </div>
       )}
       
@@ -74,7 +81,7 @@ export function MapBlock({ content }: { content: MapContent }) {
               style={{ backgroundColor: primary }}
             >
               <Navigation className="h-4 w-4" />
-              {directionsLabel}
+              <EditableText value={directionsLabel} onChange={onChange ? (v) => updateField('directionsLabel', v) : undefined} />
             </a>
           </div>
         )}

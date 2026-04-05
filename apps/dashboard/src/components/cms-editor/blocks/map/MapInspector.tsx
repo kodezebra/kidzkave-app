@@ -55,14 +55,6 @@ export function MapInspector({
   return (
     <>
       <Section title="Map Settings">
-        <Field label="Section Title (optional)">
-          <Input 
-            value={content.title || ''} 
-            onChange={(e) => onUpdateContent({ ...content, title: e.target.value })} 
-            placeholder="e.g. Visit Our Campus"
-          />
-        </Field>
-
         <Field label="Map Height">
           <div className="flex gap-2">
             {['small', 'medium', 'large', 'full'].map((size) => (
@@ -93,16 +85,6 @@ export function MapInspector({
             Show "Get Directions" button
           </label>
         </div>
-
-        {content.showDirections && (
-          <Field label="Directions Button Text">
-            <Input 
-              value={content.directionsLabel || 'Get Directions'} 
-              onChange={(e) => onUpdateContent({ ...content, directionsLabel: e.target.value })} 
-              placeholder="Get Directions"
-            />
-          </Field>
-        )}
       </Section>
 
       <Section title="Location Coordinates">
@@ -212,6 +194,9 @@ export function MapInspector({
           </div>
         )}
       </Section>
+      <p className="text-xs text-muted-foreground border-t pt-4 px-4">
+        Edit title & directions button label on canvas
+      </p>
     </>
   )
 }

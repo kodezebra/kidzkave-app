@@ -1,4 +1,3 @@
-import { Slider } from "@/components/ui/slider"
 import { Button } from "@/components/ui/button"
 import {
   Settings2, MousePointer2, Trash2, Copy, AlertCircle
@@ -9,14 +8,12 @@ import { getInspectorComponent } from './blockRegistry'
 export function EditorInspector({
   selectedBlock,
   onUpdateContent,
-  onUpdateStyles,
   onRemoveBlock,
   onDuplicateBlock,
   selectedCta
 }: {
   selectedBlock: Block | null,
   onUpdateContent: (content: any) => void,
-  onUpdateStyles: (styles: any) => void,
   onRemoveBlock: (id: string) => void,
   onDuplicateBlock: (id: string) => void,
   selectedCta?: { blockId: string; ctaType: string } | null
@@ -36,7 +33,6 @@ export function EditorInspector({
     selectedBlock.type !== 'stats'
 
   const content = selectedBlock.content
-  const styles = content.styles || { paddingY: 48 }
 
   const renderInspector = () => {
     const InspectorComponent = getInspectorComponent(selectedBlock.type)
@@ -45,7 +41,7 @@ export function EditorInspector({
       return <div className="p-4 text-xs text-muted-foreground italic">No specialized inspector for this block type.</div>
     }
 
-    return <InspectorComponent content={content} onChange={onUpdateContent} selectedCta={selectedCta} />
+    return <InspectorComponent content={content} onUpdateContent={onUpdateContent} selectedCta={selectedCta} />
   }
 
   return (
@@ -88,24 +84,6 @@ export function EditorInspector({
 
       <div className="flex-1 overflow-y-auto p-6 space-y-8">
         {renderInspector()}
-
-        {/* --- GLOBAL LAYOUT --- */}
-        <div className="pt-8 border-t space-y-6">
-           <h3 className="text-[10px] font-black text-muted-foreground uppercase tracking-widest opacity-50">Layout</h3>
-           <div className="grid gap-5">
-              <div className="flex items-center justify-between text-[11px] font-medium">
-                <span className="text-muted-foreground">Vertical Spacing</span>
-                <span className="text-[10px] font-mono bg-primary/10 text-primary px-2 py-0.5 rounded-full">{styles.paddingY}px</span>
-              </div>
-              <Slider 
-                value={[styles.paddingY || 48]} 
-                onValueChange={([val]) => onUpdateStyles({ ...styles, paddingY: val })}
-                max={200} 
-                step={4} 
-                className="py-2" 
-              />
-           </div>
-        </div>
       </div>
 
       <div className="p-4 border-t bg-muted/10 text-[9px] text-center text-muted-foreground font-medium uppercase tracking-tighter">

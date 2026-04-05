@@ -1,35 +1,24 @@
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Icon } from '@iconify/react'
-import { Section, Field, ItemAccordion } from '../common'
+import { Plus, Trash2 } from 'lucide-react'
+import { Section, Field } from '../common'
 import { IconPicker } from '../../IconPicker'
 
-export function ProgramsInspector({ 
-  content, 
-  onUpdateContent, 
-  openItem, 
-  onToggleItem 
-}: { 
-  content: any, 
-  onUpdateContent: (c: any) => void,
-  openItem: number | null,
-  onToggleItem: (i: number) => void
-}) {
-  const updateItem = (key: string, index: number, value: any) => {
-    const newItems = [...(content[key] || [])]
+export function ProgramsInspector({ content, onUpdateContent }: { content: any, onUpdateContent: (c: any) => void }) {
+  const updateItem = (index: number, value: any) => {
+    const newItems = [...(content.items || [])]
     newItems[index] = { ...newItems[index], ...value }
-    onUpdateContent({ ...content, [key]: newItems })
+    onUpdateContent({ ...content, items: newItems })
   }
 
-  const addItem = (key: string, defaultValue: any) => {
-    const newItems = [...(content[key] || []), defaultValue]
-    onUpdateContent({ ...content, [key]: newItems })
-    onToggleItem(newItems.length - 1)
+  const addItem = () => {
+    const newItems = [...(content.items || []), { icon: 'graduation-cap', title: 'New Program', description: '', list: ['Item 1', 'Item 2'] }]
+    onUpdateContent({ ...content, items: newItems })
   }
 
-  const removeItem = (key: string, index: number) => {
-    const newItems = content[key].filter((_: any, i: number) => i !== index)
-    onUpdateContent({ ...content, [key]: newItems })
+  const removeItem = (index: number) => {
+    const newItems = content.items.filter((_: any, i: number) => i !== index)
+    onUpdateContent({ ...content, items: newItems })
   }
 
   const updateListItem = (itemIndex: number, listIndex: number, value: string) => {
@@ -45,7 +34,6 @@ export function ProgramsInspector({
     const newList = [...(newItems[itemIndex].list || []), '']
     newItems[itemIndex] = { ...newItems[itemIndex], list: newList }
     onUpdateContent({ ...content, items: newItems })
-    onToggleItem(itemIndex)
   }
 
   const removeListItem = (itemIndex: number, listIndex: number) => {
@@ -60,24 +48,23 @@ export function ProgramsInspector({
       <Section title="Header">
         <Field label="Tagline"><Input value={content.tagline || ''} onChange={(e) => onUpdateContent({ ...content, tagline: e.target.value })} /></Field>
         <Field label="Title"><Input value={content.title || ''} onChange={(e) => onUpdateContent({ ...content, title: e.target.value })} /></Field>
-        <Field label="Subtitle"><textarea className="flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-xs shadow-sm" value={content.subtitle || ''} onChange={(e) => onUpdateContent({ ...content, subtitle: e.target.value })} /></Field>
       </Section>
       <Section title="Programs">
         <div className="space-y-2">
           {content.items?.map((item: any, i: number) => (
-            <ItemAccordion key={i} title={item.title || `Program ${i+1}`} onRemove={() => removeItem('items', i)} isOpen={openItem === i} onToggle={() => onToggleItem(i)}>
+            <div key={i} className="p-3 border rounded-lg space-y-3">
+              <div className="flex items-center justify-between">
+                <p className="text-sm font-medium">{item.title || `Program ${i+1}`}</p>
+                <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => removeItem(i)}>
+                  <Trash2 className="h-3 w-3" />
+                </Button>
+              </div>
               <Field label="Icon">
-                <IconPicker value={item.icon} onSelect={(icon) => updateItem('items', i, { icon })} />
+                <IconPicker value={item.icon} onSelect={(icon) => updateItem(i, { icon })} />
               </Field>
-              <Field label="Title"><Input value={item.title || ''} onChange={(e) => updateItem('items', i, { title: e.target.value })} /></Field>
-              <Field label="Description (Optional)">
-                <textarea 
-                  className="flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-xs shadow-sm" 
-                  value={item.description || ''} 
-                  onChange={(e) => updateItem('items', i, { description: e.target.value })} 
-                  placeholder="Brief description before the list..."
-                />
-              </Field>
+              <p className="text-xs text-muted-foreground border-t pt-2">
+                Edit title & description on canvas
+              </p>
               <Field label="Checklist Items">
                 <div className="space-y-2">
                   {(item.list || []).map((listItem: string, j: number) => (
@@ -95,7 +82,7 @@ export function ProgramsInspector({
                         className="h-8 w-8"
                         onClick={() => removeListItem(i, j)}
                       >
-                        <Icon icon="ph:x-fill" className="h-3 w-3 text-destructive" />
+                        <Trash2 className="h-3 w-3" />
                       </Button>
                     </div>
                   ))}
@@ -105,24 +92,19 @@ export function ProgramsInspector({
                     className="w-full gap-2 text-xs"
                     onClick={() => addListItem(i)}
                   >
-                    <Icon icon="ph:plus-fill" className="h-3 w-3" /> Add Item
+                    <Plus className="h-3 w-3" /> Add Item
                   </Button>
                 </div>
               </Field>
-            </ItemAccordion>
+            </div>
           ))}
           <Button 
             variant="outline" 
             size="sm" 
             className="w-full gap-2 border-dashed" 
-            onClick={() => addItem('items', { 
-              icon: 'graduation-cap', 
-              title: 'New Program', 
-              description: '', 
-              list: ['Item 1', 'Item 2'] 
-            })}
+            onClick={addItem}
           >
-            <Icon icon="ph:plus-fill" className="h-3 w-3" /> Add Program
+            <Plus className="h-3 w-3" /> Add Program
           </Button>
         </div>
       </Section>

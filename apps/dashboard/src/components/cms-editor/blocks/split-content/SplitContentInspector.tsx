@@ -7,11 +7,6 @@ import { MediaPicker } from '../../MediaPicker'
 export function SplitContentInspector({ content, onUpdateContent }: { content: any, onUpdateContent: (c: any) => void }) {
   return (
     <>
-      <Section title="Content">
-        <Field label="Eyebrow Text"><Input value={content.eyebrow || ''} onChange={(e) => onUpdateContent({ ...content, eyebrow: e.target.value })} placeholder="Since 2014" /></Field>
-        <Field label="Title"><Input value={content.title || ''} onChange={(e) => onUpdateContent({ ...content, title: e.target.value })} /></Field>
-        <Field label="Description"><textarea className="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-xs shadow-sm" value={content.description || ''} onChange={(e) => onUpdateContent({ ...content, description: e.target.value })} /></Field>
-      </Section>
       <Section title="Image">
         <div className="flex items-center gap-2">
           <Input value={content.image || ''} onChange={(e) => onUpdateContent({ ...content, image: e.target.value })} className="flex-1" />
@@ -35,6 +30,9 @@ export function SplitContentInspector({ content, onUpdateContent }: { content: a
           <Field label="Href"><Input value={content.cta?.href || ''} onChange={(e) => onUpdateContent({ ...content, cta: { ...content.cta, href: e.target.value } })} placeholder="/about" /></Field>
         </div>
       </Section>
+      <p className="text-xs text-muted-foreground border-t pt-4 px-4">
+        Edit eyebrow, title & description on canvas
+      </p>
     </>
   )
 }

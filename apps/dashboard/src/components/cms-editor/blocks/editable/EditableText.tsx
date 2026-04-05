@@ -6,17 +6,17 @@ interface EditableTextProps {
 
 export function EditableText({ value, onChange, className }: EditableTextProps) {
   if (!onChange) {
-    return <div className={className}>{value}</div>
+    return <span className={className}>{value}</span>
   }
 
-  const handleBlur = (e: React.FocusEvent<HTMLDivElement>) => {
+  const handleBlur = (e: React.FocusEvent<HTMLSpanElement>) => {
     const newValue = e.currentTarget.textContent || ''
     if (newValue !== value) {
       onChange(newValue)
     }
   }
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLSpanElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault()
       e.currentTarget.blur()
@@ -24,7 +24,7 @@ export function EditableText({ value, onChange, className }: EditableTextProps) 
   }
 
   return (
-    <div
+    <span
       contentEditable
       suppressContentEditableWarning
       className={className}
@@ -32,6 +32,6 @@ export function EditableText({ value, onChange, className }: EditableTextProps) 
       onKeyDown={handleKeyDown}
     >
       {value}
-    </div>
+    </span>
   )
 }

@@ -2,15 +2,26 @@ import { Icon } from '@iconify/react'
 import { useState } from 'react'
 import type { VideoItem } from '../../types'
 import { useThemeClasses } from '../../useThemeClasses'
+import { EditableText } from '../editable/EditableText'
 
 type LayoutMode = 'compact' | 'standard' | 'list'
 
-export function VideoGalleryBlock({ content }: { content: any }) {
+export function VideoGalleryBlock({ content, onChange }: { content: any, onChange?: (content: any) => void }) {
   const { primary } = useThemeClasses()
   const [playingIndex, setPlayingIndex] = useState<number | null>(null)
   const [tiktokFailed, setTiktokFailed] = useState<Record<number, boolean>>({})
   const items = (content.items || []) as VideoItem[]
   const layout = (content.layout || 'compact') as LayoutMode
+
+  const updateField = (field: string, value: any) => {
+    onChange?.({ ...content, [field]: value })
+  }
+
+  const updateItem = (index: number, field: string, value: any) => {
+    const newItems = [...items]
+    newItems[index] = { ...newItems[index], [field]: value }
+    onChange?.({ ...content, items: newItems })
+  }
 
   const handlePlay = (index: number, item: VideoItem) => {
     if (item.platform === 'tiktok') {
@@ -50,8 +61,12 @@ export function VideoGalleryBlock({ content }: { content: any }) {
   return (
     <div className="py-20 px-12 bg-white">
       <div className="text-center mb-16">
-        <div className="font-bold text-xs uppercase tracking-widest mb-2" style={{ color: primary }}>{content.tagline}</div>
-        <h2 className="text-4xl font-black text-slate-900">{content.title}</h2>
+        <div className="font-bold text-xs uppercase tracking-widest mb-2" style={{ color: primary }}>
+          <EditableText value={content.tagline} onChange={onChange ? (v) => updateField('tagline', v) : undefined} />
+        </div>
+        <h2 className="text-4xl font-black text-slate-900">
+          <EditableText value={content.title} onChange={onChange ? (v) => updateField('title', v) : undefined} />
+        </h2>
       </div>
       <div className={gridClass}>
         {items.map((item: VideoItem, i: number) => {
@@ -152,7 +167,9 @@ export function VideoGalleryBlock({ content }: { content: any }) {
                   {renderCard()}
                 </div>
                 <div className="flex-1 p-4 flex flex-col justify-center">
-                  <h3 className="text-white font-bold text-lg">{item.title}</h3>
+                  <h3 className="text-white font-bold text-lg">
+                    <EditableText value={item.title} onChange={onChange ? (v) => updateItem(i, 'title', v) : undefined} />
+                  </h3>
                   <p className="text-white/60 text-sm mt-1">{item.platform === 'tiktok' ? 'TikTok' : 'YouTube'}</p>
                 </div>
               </div>
@@ -164,7 +181,9 @@ export function VideoGalleryBlock({ content }: { content: any }) {
               {renderCard()}
               {(titlePosition === 'below' || titlePosition === 'right') && (
                 <div className="p-2 sm:p-3">
-                  <h3 className="text-slate-900 dark:text-white font-semibold text-sm line-clamp-2">{item.title}</h3>
+                  <h3 className="text-slate-900 dark:text-white font-semibold text-sm line-clamp-2">
+                    <EditableText value={item.title} onChange={onChange ? (v) => updateItem(i, 'title', v) : undefined} />
+                  </h3>
                 </div>
               )}
             </div>

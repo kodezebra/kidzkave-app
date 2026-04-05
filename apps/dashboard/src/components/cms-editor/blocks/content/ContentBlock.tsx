@@ -1,9 +1,14 @@
 import { Icon } from '@iconify/react'
 import { renderDynamicIcon } from '../utils'
 import { useThemeClasses } from '../../useThemeClasses'
+import { EditableText } from '../editable/EditableText'
 
-export function ContentBlock({ content }: { content: any }) {
+export function ContentBlock({ content, onChange }: { content: any, onChange?: (content: any) => void }) {
   const { primary, primaryWithOpacity } = useThemeClasses()
+
+  const updateField = (field: string, value: any) => {
+    onChange?.({ ...content, [field]: value })
+  }
 
   return (
     <div className="py-20 px-12 flex items-center gap-16 bg-white">
@@ -18,9 +23,15 @@ export function ContentBlock({ content }: { content: any }) {
         <div className="absolute inset-0 mix-blend-overlay" style={{ backgroundColor: primaryWithOpacity(0.1) }}></div>
       </div>
       <div className="flex-1 space-y-6 text-left">
-        <h2 className="text-4xl font-black text-slate-900">{content.title}</h2>
-        <p className="text-slate-600 leading-relaxed">{content.text1}</p>
-        <p className="text-slate-500 text-sm leading-relaxed">{content.text2}</p>
+        <h2 className="text-4xl font-black text-slate-900">
+          <EditableText value={content.title} onChange={onChange ? (v) => updateField('title', v) : undefined} />
+        </h2>
+        <p className="text-slate-600 leading-relaxed">
+          <EditableText value={content.text1} onChange={onChange ? (v) => updateField('text1', v) : undefined} />
+        </p>
+        <p className="text-slate-500 text-sm leading-relaxed">
+          <EditableText value={content.text2} onChange={onChange ? (v) => updateField('text2', v) : undefined} />
+        </p>
         <div className="grid grid-cols-2 gap-3 pt-4">
           {content.features?.map((f: string) => (
             <div key={f} className="flex items-center gap-2 font-bold text-[11px] text-slate-700">

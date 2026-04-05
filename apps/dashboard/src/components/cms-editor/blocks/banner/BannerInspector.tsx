@@ -4,13 +4,7 @@ import { Section, Field } from '../common'
 import { MediaPicker } from '../../MediaPicker'
 import { Upload, X, Image as ImageIcon } from 'lucide-react'
 
-export function BannerInspector({
-  content,
-  onUpdateContent,
-}: {
-  content: any,
-  onUpdateContent: (c: any) => void,
-}) {
+export function BannerInspector({ content, onUpdateContent }: { content: any, onUpdateContent: (c: any) => void }) {
   const renderImageField = (field: string, label: string, previewHeight: string) => (
     <Field label={label}>
       {content[field] ? (
@@ -50,35 +44,12 @@ export function BannerInspector({
 
   return (
     <>
-      <Section title="Banner Settings">
-        <Field label="Page Title">
-          <Input 
-            value={content.title || ''} 
-            onChange={(e) => onUpdateContent({ ...content, title: e.target.value })} 
-            placeholder="e.g. About Us"
-          />
-        </Field>
-
-        <Field label="Eyebrow Text">
-          <Input 
-            value={content.eyebrow || ''} 
-            onChange={(e) => onUpdateContent({ ...content, eyebrow: e.target.value })} 
-            placeholder="e.g. Established 1994"
-          />
-        </Field>
-
-        <Field label="Subtitle">
-          <Input 
-            value={content.subtitle || ''} 
-            onChange={(e) => onUpdateContent({ ...content, subtitle: e.target.value })} 
-            placeholder="Optional subtitle text"
-          />
-        </Field>
-
+      <Section title="Images">
         {renderImageField('image', 'Background Image', 'h-32')}
         {renderImageField('textureImage', 'Texture/Pattern', 'h-16')}
         {renderImageField('offsetImage', 'Offset Decoration', 'h-20')}
-
+      </Section>
+      <Section title="Layout">
         <Field label="Height">
           <div className="flex gap-2">
             {['small', 'medium', 'large'].map((size) => (
@@ -96,7 +67,6 @@ export function BannerInspector({
             ))}
           </div>
         </Field>
-
         <div className="flex items-center gap-2">
           <input
             type="checkbox"
@@ -110,6 +80,9 @@ export function BannerInspector({
           </label>
         </div>
       </Section>
+      <p className="text-xs text-muted-foreground border-t pt-4 px-4">
+        Edit title, eyebrow & subtitle on canvas
+      </p>
     </>
   )
 }

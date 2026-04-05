@@ -1,58 +1,46 @@
-import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Icon } from '@iconify/react'
-import { Section, Field, ItemAccordion } from '../common'
+import { Section } from '../common'
 import { IconPicker } from '../../IconPicker'
+import { Trash2, Plus } from 'lucide-react'
 
-export function StepsInspector({ 
-  content, 
-  onUpdateContent, 
-  openItem, 
-  onToggleItem 
-}: { 
-  content: any, 
-  onUpdateContent: (c: any) => void,
-  openItem: number | null,
-  onToggleItem: (i: number) => void
-}) {
-  const updateItem = (key: string, index: number, value: any) => {
-    const newItems = [...(content[key] || [])]
-    newItems[index] = { ...newItems[index], ...value }
-    onUpdateContent({ ...content, [key]: newItems })
+export function StepsInspector({ content, onUpdateContent }: { content: any, onUpdateContent: (c: any) => void }) {
+  const addItem = (defaultValue: any) => {
+    const newItems = [...(content.items || []), defaultValue]
+    onUpdateContent({ ...content, items: newItems })
   }
 
-  const addItem = (key: string, defaultValue: any) => {
-    const newItems = [...(content[key] || []), defaultValue]
-    onUpdateContent({ ...content, [key]: newItems })
-    onToggleItem(newItems.length - 1)
+  const removeItem = (index: number) => {
+    const newItems = content.items.filter((_: any, i: number) => i !== index)
+    onUpdateContent({ ...content, items: newItems })
   }
 
-  const removeItem = (key: string, index: number) => {
-    const newItems = content[key].filter((_: any, i: number) => i !== index)
-    onUpdateContent({ ...content, [key]: newItems })
+  const updateItemIcon = (index: number, icon: string) => {
+    const newItems = [...(content.items || [])]
+    newItems[index] = { ...newItems[index], icon }
+    onUpdateContent({ ...content, items: newItems })
   }
 
   return (
-    <>
-      <Section title="Header">
-        <Field label="Tagline"><Input value={content.tagline || ''} onChange={(e) => onUpdateContent({ ...content, tagline: e.target.value })} /></Field>
-        <Field label="Title"><Input value={content.title || ''} onChange={(e) => onUpdateContent({ ...content, title: e.target.value })} /></Field>
-        <Field label="Subtitle"><textarea className="flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-xs shadow-sm" value={content.subtitle || ''} onChange={(e) => onUpdateContent({ ...content, subtitle: e.target.value })} /></Field>
-      </Section>
-      <Section title="Steps">
-        <div className="space-y-2">
-          {content.items?.map((item: any, i: number) => (
-            <ItemAccordion key={i} title={item.title || `Step ${i+1}`} onRemove={() => removeItem('items', i)} isOpen={openItem === i} onToggle={() => onToggleItem(i)}>
-              <Field label="Icon"><IconPicker value={item.icon} onSelect={(icon) => updateItem('items', i, { icon })} /></Field>
-              <Field label="Title"><Input value={item.title || ''} onChange={(e) => updateItem('items', i, { title: e.target.value })} /></Field>
-              <Field label="Description"><textarea className="flex min-h-[60px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-xs shadow-sm" value={item.description || ''} onChange={(e) => updateItem('items', i, { description: e.target.value })} /></Field>
-            </ItemAccordion>
-          ))}
-          <Button variant="outline" size="sm" className="w-full gap-2 border-dashed" onClick={() => addItem('items', { icon: 'zap', title: 'New Step', description: 'Step description' })}>
-            <Icon icon="ph:plus-fill" className="h-3 w-3" /> Add Step
-          </Button>
-        </div>
-      </Section>
-    </>
+    <Section title="Steps">
+      <div className="space-y-2">
+        {content.items?.map((item: any, i: number) => (
+          <div key={i} className="p-3 border rounded-lg space-y-3">
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-medium">Step {i + 1}: {item.title}</p>
+              <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => removeItem(i)}>
+                <Trash2 className="h-3 w-3" />
+              </Button>
+            </div>
+            <IconPicker value={item.icon} onSelect={(icon) => updateItemIcon(i, icon)} />
+            <div className="text-xs text-muted-foreground border-t pt-2">
+              Edit title & description on canvas
+            </div>
+          </div>
+        ))}
+        <Button variant="outline" size="sm" className="w-full gap-2 border-dashed" onClick={() => addItem({ icon: 'zap', title: 'New Step', description: '' })}>
+          <Plus className="h-3 w-3" /> Add Step
+        </Button>
+      </div>
+    </Section>
   )
 }

@@ -10,7 +10,8 @@ const eyebrowStyles = [
   { value: 'icon', label: 'Icon Badge' },
 ] as const
 
-export function CtaInspector({ content, onUpdateContent }: { content: any, onUpdateContent: (c: any) => void }) {
+export function CtaInspector({ content, onUpdateContent, selectedCta }: { content: any, onUpdateContent: (c: any) => void, selectedCta?: { blockId: string; ctaType: string } | null }) {
+  const isCtaSelected = selectedCta?.ctaType === 'cta'
   const secondaryInfo = content.secondaryInfo || []
 
   const addSecondaryInfo = () => {
@@ -33,12 +34,7 @@ export function CtaInspector({ content, onUpdateContent }: { content: any, onUpd
 
   return (
     <>
-      <Section title="Text Content">
-        <Field label="Title"><Input value={content.title || ''} onChange={(e) => onUpdateContent({ ...content, title: e.target.value })} /></Field>
-        <Field label="Subtitle"><textarea className="flex min-h-[80px] w-full rounded-md border border-input bg-transparent px-3 py-2 text-xs shadow-sm" value={content.subtitle || ''} onChange={(e) => onUpdateContent({ ...content, subtitle: e.target.value })} /></Field>
-      </Section>
       <Section title="Eyebrow">
-        <Field label="Text"><Input value={content.eyebrow || ''} onChange={(e) => onUpdateContent({ ...content, eyebrow: e.target.value })} placeholder="e.g., 2026 Admissions Open Now" /></Field>
         <div className="space-y-2">
           <label className="text-xs font-medium text-muted-foreground">Style</label>
           <div className="flex flex-wrap gap-2">
@@ -68,14 +64,17 @@ export function CtaInspector({ content, onUpdateContent }: { content: any, onUpd
           </div>
         )}
       </Section>
-      <Section title="Button">
-        <div className="p-3 border rounded-lg bg-muted/20 space-y-3">
-          <Field label="Label"><Input value={content.ctaLabel || ''} onChange={(e) => onUpdateContent({ ...content, ctaLabel: e.target.value })} /></Field>
-          <Field label="Href"><Input value={content.ctaHref || ''} onChange={(e) => onUpdateContent({ ...content, ctaHref: e.target.value })} placeholder="/contact" /></Field>
+
+      <Section title="CTA">
+        <div className={`p-3 border rounded-lg bg-muted/20 space-y-3 transition-all ${isCtaSelected ? 'ring-2 ring-primary ring-offset-2' : ''}`}>
+          <Field label="Link">
+            <Input value={content.ctaHref || ''} onChange={(e) => onUpdateContent({ ...content, ctaHref: e.target.value })} placeholder="/contact" />
+          </Field>
         </div>
       </Section>
+
       <Section title="Secondary Info">
-        <p className="text-xs text-muted-foreground mb-3">Optional links displayed below the main button (e.g., "View Fees • Call Us")</p>
+        <p className="text-xs text-muted-foreground mb-3">Optional links below the button</p>
         {secondaryInfo.map((item: any, index: number) => (
           <div key={index} className="flex gap-2 mb-2">
             <Input

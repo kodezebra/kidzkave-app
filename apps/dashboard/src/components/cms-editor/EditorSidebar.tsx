@@ -4,16 +4,9 @@ import {
   ChevronUp, ChevronDown
 } from 'lucide-react'
 import { useState, useEffect } from 'react'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
 import { cn } from "@/lib/utils"
-import { getAllBlocks, getBlockDefinition } from './blockRegistry'
+import { getBlockDefinition } from './blockRegistry'
+import { BlockPicker } from './BlockPicker'
 
 export function EditorSidebar({
   blocks,
@@ -32,14 +25,7 @@ export function EditorSidebar({
   onMoveBlockUp: (index: number) => void,
   onMoveBlockDown: (index: number) => void
 }) {
-  const [isPickerOpen, setIsPickerOpen] = useState(false)
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null)
-  const availableBlocks = getAllBlocks()
-
-  const handleAddBlock = (type: string) => {
-    onAddBlock(type)
-    setIsPickerOpen(false)
-  }
 
   // Keyboard shortcuts for moving layers (Alt+ArrowUp/ArrowDown)
   useEffect(() => {
@@ -82,66 +68,14 @@ export function EditorSidebar({
   }
 
   return (
-    <div className="w-[280px] border-r bg-card flex flex-col h-full shadow-sm">
+    <div className="w-[220px] border-r bg-card flex flex-col h-full shadow-sm transition-all duration-200">
       <div className="p-4 border-b flex items-center justify-between bg-muted/30">
         <div className="flex items-center gap-2">
           <Layers className="h-4 w-4 text-primary" />
           <h2 className="font-bold text-xs uppercase tracking-widest">Layers</h2>
         </div>
 
-        <Dialog open={isPickerOpen} onOpenChange={setIsPickerOpen}>
-          <DialogTrigger asChild>
-            <Button size="icon" variant="ghost" className="h-7 w-7 rounded-full bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all">
-              <Plus className="h-4 w-4" />
-            </Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[650px] p-0 gap-0 overflow-hidden">
-            <DialogHeader className="p-6 pb-4 border-b">
-              <DialogTitle className="text-xl font-bold">Add Block</DialogTitle>
-              <DialogDescription>
-                Click a block to add it to your page.
-              </DialogDescription>
-            </DialogHeader>
-            
-            {/* Blocks Grid */}
-            <div className="p-6 max-h-[400px] overflow-y-auto">
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                {availableBlocks.map((block) => {
-                  const Icon = block.icon
-                  
-                  return (
-                    <button
-                      key={block.type}
-                      onClick={() => handleAddBlock(block.type)}
-                      className="group flex flex-col rounded-lg border overflow-hidden text-left transition-all hover:border-primary hover:shadow-md"
-                    >
-                      {/* Preview Area */}
-                      <div className={cn(
-                        "h-24 flex items-center justify-center bg-gradient-to-br",
-                        block.color
-                      )}>
-                        {block.preview === 'placeholder' ? (
-                          <Icon className="h-8 w-8 text-white/80" />
-                        ) : (
-                          <img src={block.preview} alt={block.label} className="w-full h-full object-cover" />
-                        )}
-                      </div>
-                      {/* Label */}
-                      <div className="p-3 bg-background">
-                        <span className="text-sm font-medium">{block.label}</span>
-                      </div>
-                    </button>
-                  )
-                })}
-              </div>
-            </div>
-
-            {/* Footer */}
-            <div className="px-6 py-3 border-t bg-muted/30 text-[10px] text-muted-foreground">
-              {availableBlocks.length} blocks available
-            </div>
-          </DialogContent>
-        </Dialog>
+        <BlockPicker onAddBlock={onAddBlock} />
       </div>
 
       <div className="flex-1 overflow-y-auto p-2 space-y-1">

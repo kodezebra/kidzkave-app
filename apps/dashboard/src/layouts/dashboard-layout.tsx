@@ -220,6 +220,9 @@ export function DashboardLayout() {
 
   const [notificationsOpen, setNotificationsOpen] = useState(false)
 
+  // Zen Mode: Hide global sidebar and header when in CMS editor
+  const isCmsEditor = location.pathname.includes('/cms/') && location.pathname.split('/').filter(Boolean).length >= 2
+
   // Filter navigation items based on search and user role
   const filterNavigationItems = (items: any[], userRole: string) => {
     return items.filter(item => {
@@ -358,7 +361,7 @@ export function DashboardLayout() {
   return (
     <div className="flex min-h-screen w-full bg-background">
       {/* Mobile Sidebar Overlay */}
-      {sidebarOpen && (
+      {sidebarOpen && !isCmsEditor && (
         <div
           className="fixed inset-0 z-40 bg-black/50 md:hidden"
           onClick={() => setSidebarOpen(false)}
@@ -366,229 +369,239 @@ export function DashboardLayout() {
       )}
 
       {/* Sidebar */}
-      <aside className={`fixed inset-y-0 left-0 z-50 w-64 border-r bg-background transition-transform duration-300 md:block md:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <div className="flex h-full flex-col">
-          <div className="flex h-14 items-center justify-between border-b px-4">
-            <Link to="/" className="flex items-center gap-2 font-semibold text-primary">
-              <ShieldCheck className="h-6 w-6" />
-              <span className="font-bold tracking-tight text-slate-900">{settings?.logoText || ''}</span>
-            </Link>
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="md:hidden h-8 w-8"
-              onClick={() => setSidebarOpen(false)}
-            >
-              <X className="h-4 w-4" />
-            </Button>
-          </div>
-
-          {/* Search */}
-          <div className="border-b px-3 py-2">
-            <div className="relative">
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
-              <input
-                ref={searchInputRef}
-                type="text"
-                placeholder="Search menu..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full rounded-md border border-input bg-background pl-9 pr-3 py-2 text-sm outline-none focus:border-ring focus:ring-1 focus:ring-ring placeholder:text-muted-foreground/70"
-              />
+      {!isCmsEditor && (
+        <aside className={`fixed inset-y-0 left-0 z-50 w-64 border-r bg-background transition-transform duration-300 md:block md:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+          <div className="flex h-full flex-col">
+            <div className="flex h-14 items-center justify-between border-b px-4">
+              <Link to="/" className="flex items-center gap-2 font-semibold text-primary">
+                <ShieldCheck className="h-6 w-6" />
+                <span className="font-bold tracking-tight text-slate-900">{settings?.logoText || ''}</span>
+              </Link>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className="md:hidden h-8 w-8"
+                onClick={() => setSidebarOpen(false)}
+              >
+                <X className="h-4 w-4" />
+              </Button>
             </div>
-          </div>
 
-          {/* Scrollable Navigation */}
-          <div className="flex-1 min-h-0 overflow-auto py-2 scrollbar-thin">
-            <nav className="grid gap-1 px-2 text-sm font-medium">
-              {filteredNavigation.map((section: any) => (
-                <div key={section.section} className="mb-4">
-                  {/* Section Header with color accent */}
-                  {!searchQuery && (
-                    <div className="mb-2 px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
-                      <div className={cn('h-3 w-0.5 rounded-full', section.color || 'border-slate-400')} />
-                      {section.section}
+            {/* Search */}
+            <div className="border-b px-3 py-2">
+              <div className="relative">
+                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  placeholder="Search menu..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full rounded-md border border-input bg-background pl-9 pr-3 py-2 text-sm outline-none focus:border-ring focus:ring-1 focus:ring-ring placeholder:text-muted-foreground/70"
+                />
+              </div>
+            </div>
+
+            {/* Scrollable Navigation */}
+            <div className="flex-1 min-h-0 overflow-auto py-2 scrollbar-thin">
+              <nav className="grid gap-1 px-2 text-sm font-medium">
+                {filteredNavigation.map((section: any) => (
+                  <div key={section.section} className="mb-4">
+                    {/* Section Header with color accent */}
+                    {!searchQuery && (
+                      <div className="mb-2 px-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider flex items-center gap-2">
+                        <div className={cn('h-3 w-0.5 rounded-full', section.color || 'border-slate-400')} />
+                        {section.section}
+                      </div>
+                    )}
+
+                    {/* Navigation Items */}
+                    <div className="space-y-0.5">
+                      {section.items.map((item: any) => {
+                        const badgeValue = item.badge === 'messagesCount' ? messagesCount : item.badge === 'outstandingFeesCount' ? outstandingFeesCount : item.badge === 'whatsappLeadsCount' ? whatsappLeadsCount : undefined
+                        const hasBadge = badgeValue !== undefined && badgeValue !== null && badgeValue > 0
+
+                        return (
+                          <Link
+                            key={item.name}
+                            to={item.to}
+                            title={item.description}
+                            className="group flex items-center justify-between gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-muted/50 [&.active]:bg-muted [&.active]:text-primary"
+                            onClick={() => setSidebarOpen(false)}
+                          >
+                            <div className="flex items-center gap-3">
+                              <item.icon className={cn('h-4 w-4', item.color)} />
+                              <span>{item.name}</span>
+                            </div>
+                            <div className="flex items-center gap-1.5">
+                              {hasBadge && (
+                                <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[9px] font-bold text-primary-foreground">
+                                  {badgeValue}
+                                </span>
+                              )}
+                              <HelpCircle className="h-3.5 w-3.5 opacity-0 group-hover:opacity-50 transition-opacity" />
+                            </div>
+                          </Link>
+                        )
+                      })}
                     </div>
-                  )}
-
-                  {/* Navigation Items */}
-                  <div className="space-y-0.5">
-                    {section.items.map((item: any) => {
-                      const badgeValue = item.badge === 'messagesCount' ? messagesCount : item.badge === 'outstandingFeesCount' ? outstandingFeesCount : item.badge === 'whatsappLeadsCount' ? whatsappLeadsCount : undefined
-                      const hasBadge = badgeValue !== undefined && badgeValue !== null && badgeValue > 0
-
-                      return (
-                        <Link
-                          key={item.name}
-                          to={item.to}
-                          title={item.description}
-                          className="group flex items-center justify-between gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary hover:bg-muted/50 [&.active]:bg-muted [&.active]:text-primary"
-                          onClick={() => setSidebarOpen(false)}
-                        >
-                          <div className="flex items-center gap-3">
-                            <item.icon className={cn('h-4 w-4', item.color)} />
-                            <span>{item.name}</span>
-                          </div>
-                          <div className="flex items-center gap-1.5">
-                            {hasBadge && (
-                              <span className="flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[9px] font-bold text-primary-foreground">
-                                {badgeValue}
-                              </span>
-                            )}
-                            <HelpCircle className="h-3.5 w-3.5 opacity-0 group-hover:opacity-50 transition-opacity" />
-                          </div>
-                        </Link>
-                      )
-                    })}
                   </div>
-                </div>
-              ))}
-            </nav>
-          </div>
+                ))}
+              </nav>
+            </div>
 
-          {/* User Info */}
-          <div className="mt-auto p-4 border-t bg-muted">
-            <div className="flex items-center gap-3 px-2">
-              <Avatar
-                photo={user?.photo}
-                name={user?.name || 'User'}
-                size="sm"
-                className="w-8 h-8"
-              />
-              <div className="min-w-0">
-                <p className="text-xs font-semibold truncate">{user?.name || 'Admin'}</p>
-                <p className="text-[10px] text-muted-foreground truncate">{user?.email}</p>
+            {/* User Info */}
+            <div className="mt-auto p-4 border-t bg-muted">
+              <div className="flex items-center gap-3 px-2">
+                <Avatar
+                  photo={user?.photo}
+                  name={user?.name || 'User'}
+                  size="sm"
+                  className="w-8 h-8"
+                />
+                <div className="min-w-0">
+                  <p className="text-xs font-semibold truncate">{user?.name || 'Admin'}</p>
+                  <p className="text-[10px] text-muted-foreground truncate">{user?.email}</p>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </aside>
+        </aside>
+      )}
 
       {/* Main Content */}
-      <div className="flex flex-1 flex-col md:ml-64">
+      <div className={cn(
+        "flex flex-1 flex-col transition-all duration-300",
+        !isCmsEditor ? "md:ml-64" : "ml-0"
+      )}>
         {/* Header */}
-        <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-6">
-          <Button variant="outline" size="icon" className="md:hidden" onClick={() => setSidebarOpen(!sidebarOpen)}>
-            <Menu className="h-5 w-5" />
-            <span className="sr-only">Toggle navigation menu</span>
-          </Button>
-          
-          {/* Context Badge - Current Term/Year */}
-          {(currentYear || currentTerm) && (
-            <div className="hidden md:flex items-center gap-2 text-sm">
-              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-primary/10 text-primary">
-                <GraduationCap className="h-3.5 w-3.5" />
-                <span className="font-medium">{currentYear?.name || 'Current Year'}</span>
-              </div>
-              {currentTerm && (
-                <>
-                  <ChevronDown className="h-4 w-4 rotate-[-90deg] text-muted-foreground" />
-                  <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-accent text-accent-foreground">
-                    <Calendar className="h-3.5 w-3.5" />
-                    <span className="font-medium">{currentTerm.name}</span>
-                  </div>
-                </>
-              )}
-            </div>
-          )}
-          
-          <div className="flex-1" />
-          <div className="flex items-center gap-2">
-            {/* Theme Toggle */}
-            <Button variant="ghost" size="icon" onClick={toggleTheme} title="Toggle theme">
-              {theme === 'dark' ? (
-                <Sun className="h-5 w-5" />
-              ) : (
-                <Moon className="h-5 w-5" />
-              )}
-              <span className="sr-only">Toggle theme</span>
+        {!isCmsEditor && (
+          <header className="flex h-14 items-center gap-4 border-b bg-muted/40 px-6">
+            <Button variant="outline" size="icon" className="md:hidden" onClick={() => setSidebarOpen(!sidebarOpen)}>
+              <Menu className="h-5 w-5" />
+              <span className="sr-only">Toggle navigation menu</span>
             </Button>
-
-            {/* Notification Center */}
-            <DropdownMenu open={notificationsOpen} onOpenChange={setNotificationsOpen}>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="relative">
-                  <Bell className="h-5 w-5" />
-                  {notifications && notifications.total > 0 && (
-                    <span className="absolute top-1.5 right-1.5 flex h-2.5 w-2.5">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
-                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary" />
-                    </span>
-                  )}
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-80 p-0" align="end">
-                <div className="flex items-center justify-between p-3 border-b">
-                  <h4 className="text-sm font-semibold">Notifications</h4>
-                  <span className="text-xs text-muted-foreground">
-                    {notifications?.total || 0} new
-                  </span>
-                </div>
-                <div className="max-h-[300px] overflow-auto">
-                  {/* Pending Messages */}
-                  {notifications && notifications.pendingMessages > 0 && (
-                    <Link 
-                      to="/submissions"
-                      className="flex items-start gap-3 p-3 hover:bg-muted/50 transition-colors border-b"
-                      onClick={() => setNotificationsOpen(false)}
-                    >
-                      <div className="h-8 w-8 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center flex-shrink-0">
-                        <Inbox className="h-4 w-4 text-amber-600 dark:text-amber-400" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium">
-                          {notifications.pendingMessages} Pending Message{notifications.pendingMessages > 1 ? 's' : ''}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          Contact form submissions need attention
-                        </p>
-                      </div>
-                      <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                    </Link>
-                  )}
-                  
-                  {/* Outstanding Fees Alert */}
-                  {notifications && notifications.outstandingFees > 10 && (
-                    <Link 
-                      to="/school/reports/fees"
-                      className="flex items-start gap-3 p-3 hover:bg-muted/50 transition-colors"
-                      onClick={() => setNotificationsOpen(false)}
-                    >
-                      <div className="h-8 w-8 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center flex-shrink-0">
-                        <AlertCircle className="h-4 w-4 text-red-600 dark:text-red-400" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-medium">
-                          {notifications.outstandingFees} Students with Outstanding Fees
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          High arrears count - review needed
-                        </p>
-                      </div>
-                      <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                    </Link>
-                  )}
-                  
-                  {/* No Notifications */}
-                  {(!notifications || notifications.total === 0) && (
-                    <div className="p-8 text-center">
-                      <CheckCircle className="h-8 w-8 text-muted-foreground/40 mx-auto mb-2" />
-                      <p className="text-sm text-muted-foreground">All caught up!</p>
-                      <p className="text-xs text-muted-foreground mt-1">No new notifications</p>
-                    </div>
-                  )}
-                </div>
-              </DropdownMenuContent>
-            </DropdownMenu>
-            <UserMenu user={user} />
             
-            {/* Help Button - Floating in bottom right, but we'll also show a small icon here */}
-            <HelpButton />
-          </div>
-        </header>
+            {/* Context Badge - Current Term/Year */}
+            {(currentYear || currentTerm) && (
+              <div className="hidden md:flex items-center gap-2 text-sm">
+                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-primary/10 text-primary">
+                  <GraduationCap className="h-3.5 w-3.5" />
+                  <span className="font-medium">{currentYear?.name || 'Current Year'}</span>
+                </div>
+                {currentTerm && (
+                  <>
+                    <ChevronDown className="h-4 w-4 rotate-[-90deg] text-muted-foreground" />
+                    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-accent text-accent-foreground">
+                      <Calendar className="h-3.5 w-3.5" />
+                      <span className="font-medium">{currentTerm.name}</span>
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+            
+            <div className="flex-1" />
+            <div className="flex items-center gap-2">
+              {/* Theme Toggle */}
+              <Button variant="ghost" size="icon" onClick={toggleTheme} title="Toggle theme">
+                {theme === 'dark' ? (
+                  <Sun className="h-5 w-5" />
+                ) : (
+                  <Moon className="h-5 w-5" />
+                )}
+                <span className="sr-only">Toggle theme</span>
+              </Button>
+
+              {/* Notification Center */}
+              <DropdownMenu open={notificationsOpen} onOpenChange={setNotificationsOpen}>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="relative">
+                    <Bell className="h-5 w-5" />
+                    {notifications && notifications.total > 0 && (
+                      <span className="absolute top-1.5 right-1.5 flex h-2.5 w-2.5">
+                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
+                        <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary" />
+                      </span>
+                    )}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-80 p-0" align="end">
+                  <div className="flex items-center justify-between p-3 border-b">
+                    <h4 className="text-sm font-semibold">Notifications</h4>
+                    <span className="text-xs text-muted-foreground">
+                      {notifications?.total || 0} new
+                    </span>
+                  </div>
+                  <div className="max-h-[300px] overflow-auto">
+                    {/* Pending Messages */}
+                    {notifications && notifications.pendingMessages > 0 && (
+                      <Link 
+                        to="/submissions"
+                        className="flex items-start gap-3 p-3 hover:bg-muted/50 transition-colors border-b"
+                        onClick={() => setNotificationsOpen(false)}
+                      >
+                        <div className="h-8 w-8 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center flex-shrink-0">
+                          <Inbox className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium">
+                            {notifications.pendingMessages} Pending Message{notifications.pendingMessages > 1 ? 's' : ''}
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            Contact form submissions need attention
+                          </p>
+                        </div>
+                        <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                      </Link>
+                    )}
+                    
+                    {/* Outstanding Fees Alert */}
+                    {notifications && notifications.outstandingFees > 10 && (
+                      <Link 
+                        to="/school/reports/fees"
+                        className="flex items-start gap-3 p-3 hover:bg-muted/50 transition-colors"
+                        onClick={() => setNotificationsOpen(false)}
+                      >
+                        <div className="h-8 w-8 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center flex-shrink-0">
+                          <AlertCircle className="h-4 w-4 text-red-600 dark:text-red-400" />
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium">
+                            {notifications.outstandingFees} Students with Outstanding Fees
+                          </p>
+                          <p className="text-xs text-muted-foreground">
+                            High arrears count - review needed
+                          </p>
+                        </div>
+                        <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                      </Link>
+                    )}
+                    
+                    {/* No Notifications */}
+                    {(!notifications || notifications.total === 0) && (
+                      <div className="p-8 text-center">
+                        <CheckCircle className="h-8 w-8 text-muted-foreground/40 mx-auto mb-2" />
+                        <p className="text-sm text-muted-foreground">All caught up!</p>
+                        <p className="text-xs text-muted-foreground mt-1">No new notifications</p>
+                      </div>
+                    )}
+                  </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
+              <UserMenu user={user} />
+              
+              {/* Help Button - Floating in bottom right, but we'll also show a small icon here */}
+              <HelpButton />
+            </div>
+          </header>
+        )}
 
         {/* Page Content */}
-        <main className="flex-1 overflow-auto p-6 lg:p-10 print:p-2 print:overflow-visible">
+        <main className={cn(
+          "flex-1 overflow-auto print:p-2 print:overflow-visible",
+          !isCmsEditor ? "p-6 lg:p-10" : "p-0"
+        )}>
           <Outlet />
         </main>
       </div>

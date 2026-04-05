@@ -1,5 +1,8 @@
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, Settings2, Globe, ExternalLink, Rocket, Undo2, Redo2, Trash2, Sun, Moon } from 'lucide-react'
+import { 
+  ArrowLeft, Settings2, Globe, ExternalLink, Rocket, Undo2, Redo2, 
+  Trash2, Sun, Moon, Monitor, Tablet, Smartphone, PanelLeft, PanelRight 
+} from 'lucide-react'
 import { Link } from '@tanstack/react-router'
 import { useState, useEffect } from 'react'
 import {
@@ -23,7 +26,13 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { SITE_URL } from '@/config'
-// import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 export function EditorHeader({ 
   pageData, 
@@ -38,7 +47,13 @@ export function EditorHeader({
   canUndo,
   canRedo,
   onUndo,
-  onRedo
+  onRedo,
+  device,
+  setDevice,
+  leftOpen,
+  onToggleLeft,
+  rightOpen,
+  onToggleRight
 }: {
   pageData: any,
   settings: any,
@@ -52,7 +67,13 @@ export function EditorHeader({
   canUndo: boolean,
   canRedo: boolean,
   onUndo: () => void,
-  onRedo: () => void
+  onRedo: () => void,
+  device: 'desktop' | 'tablet' | 'mobile',
+  setDevice: (d: 'desktop' | 'tablet' | 'mobile') => void,
+  leftOpen: boolean,
+  onToggleLeft: () => void,
+  rightOpen: boolean,
+  onToggleRight: () => void
 }) {
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
@@ -74,7 +95,6 @@ export function EditorHeader({
   useEffect(() => {
     if (isSavingBlocks === false && showSuccess === false && isSavingSettings === false) {
       // Logic to detect if we just finished saving
-      // This is a bit of a hack without a proper toast system
     }
   }, [isSavingBlocks, isSavingSettings])
 
@@ -100,7 +120,6 @@ export function EditorHeader({
   // Keyboard shortcuts for undo/redo
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Don't trigger when typing in inputs
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return
       
       if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
@@ -118,23 +137,83 @@ export function EditorHeader({
   }, [onUndo, onRedo])
 
   return (
+    <TooltipProvider>
     <header className="h-14 border-b flex items-center justify-between px-4 bg-background z-20 shadow-sm shrink-0">
       <div className="flex items-center gap-3">
         <Link to="/cms">
           <Button variant="ghost" size="sm" className="h-8 gap-2 hover:bg-muted px-2">
             <ArrowLeft className="h-4 w-4" />
-            <span className="text-[10px] font-bold uppercase tracking-wider">Back</span>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground group-hover:text-foreground transition-colors">Back</span>
           </Button>
         </Link>
         <div className="h-4 w-[1px] bg-border mx-1" />
-        <div>
+        
+        <div className="flex items-center gap-1">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className={cn("h-8 w-8", leftOpen ? "text-primary bg-primary/10" : "text-muted-foreground")}
+                onClick={onToggleLeft}
+              >
+                <PanelLeft className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{leftOpen ? 'Hide' : 'Show'} Layers</p>
+            </TooltipContent>
+          </Tooltip>
+        </div>
+
+        <div className="h-4 w-[1px] bg-border mx-1" />
+        <div className="max-w-[200px] truncate">
           <div className="flex items-center gap-2">
-            <span className="font-bold text-xs tracking-tight">{pageData?.title}</span>
-            <span className="text-[9px] text-muted-foreground bg-muted border border-border px-1.5 py-0.5 rounded uppercase font-bold tracking-widest">
+            <span className="font-bold text-xs tracking-tight truncate">{pageData?.title}</span>
+            <span className={cn(
+              "text-[9px] border px-1.5 py-0.5 rounded uppercase font-bold tracking-widest shrink-0",
+              settings.status === 'published' ? "text-emerald-600 bg-emerald-50 border-emerald-100" : "text-amber-600 bg-amber-50 border-amber-100"
+            )}>
               {settings.status}
             </span>
           </div>
         </div>
+      </div>
+
+      {/* Middle Section: Device Switcher */}
+      <div className="flex items-center gap-1 bg-muted/50 p-1 rounded-full border shadow-sm">
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant={device === 'desktop' ? 'secondary' : 'ghost'} size="icon" className="h-7 w-7 rounded-full" onClick={() => setDevice('desktop')}>
+              <Monitor className="h-3.5 w-3.5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">
+            <p>Desktop View</p>
+          </TooltipContent>
+        </Tooltip>
+
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant={device === 'tablet' ? 'secondary' : 'ghost'} size="icon" className="h-7 w-7 rounded-full" onClick={() => setDevice('tablet')}>
+              <Tablet className="h-3.5 w-3.5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">
+            <p>Tablet View</p>
+          </TooltipContent>
+        </Tooltip>
+
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button variant={device === 'mobile' ? 'secondary' : 'ghost'} size="icon" className="h-7 w-7 rounded-full" onClick={() => setDevice('mobile')}>
+              <Smartphone className="h-3.5 w-3.5" />
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent side="bottom">
+            <p>Mobile View</p>
+          </TooltipContent>
+        </Tooltip>
       </div>
 
       <div className="flex items-center gap-3">
@@ -145,28 +224,56 @@ export function EditorHeader({
           </div>
         )}
 
-        {/* Undo/Redo */}
+        <div className="flex items-center gap-1">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button 
+                variant="ghost" 
+                size="icon" 
+                className={cn("h-8 w-8", rightOpen ? "text-primary bg-primary/10" : "text-muted-foreground")}
+                onClick={onToggleRight}
+              >
+                <PanelRight className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>{rightOpen ? 'Hide' : 'Show'} Inspector</p>
+            </TooltipContent>
+          </Tooltip>
+        </div>
+
+        <div className="h-4 w-[1px] bg-border mx-1" />
+
         <div className="flex items-center gap-1 mr-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8"
-            onClick={onUndo}
-            disabled={!canUndo}
-            title="Undo (Ctrl+Z)"
-          >
-            <Undo2 className="h-4 w-4" />
-          </Button>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="h-8 w-8"
-            onClick={onRedo}
-            disabled={!canRedo}
-            title="Redo (Ctrl+Shift+Z)"
-          >
-            <Redo2 className="h-4 w-4" />
-          </Button>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8"
+                onClick={onUndo}
+                disabled={!canUndo}
+              >
+                <Undo2 className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent><p>Undo (Ctrl+Z)</p></TooltipContent>
+          </Tooltip>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="h-8 w-8"
+                onClick={onRedo}
+                disabled={!canRedo}
+              >
+                <Redo2 className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent><p>Redo (Ctrl+Shift+Z)</p></TooltipContent>
+          </Tooltip>
         </div>
 
         <Button 
@@ -307,5 +414,6 @@ export function EditorHeader({
         </Button>
       </div>
     </header>
+    </TooltipProvider>
   )
 }

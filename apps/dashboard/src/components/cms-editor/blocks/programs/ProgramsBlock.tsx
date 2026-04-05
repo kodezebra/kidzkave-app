@@ -1,15 +1,32 @@
 import { renderDynamicIcon } from '../utils'
 import { useThemeClasses } from '../../useThemeClasses'
+import { EditableText } from '../editable/EditableText'
 
-export function ProgramsBlock({ content }: { content: any }) {
+export function ProgramsBlock({ content, onChange }: { content: any, onChange?: (content: any) => void }) {
   const { primary, primaryWithOpacity } = useThemeClasses()
+
+  const updateField = (field: string, value: any) => {
+    onChange?.({ ...content, [field]: value })
+  }
+
+  const updateItem = (index: number, field: string, value: any) => {
+    const newItems = [...(content.items || [])]
+    newItems[index] = { ...newItems[index], [field]: value }
+    onChange?.({ ...content, items: newItems })
+  }
 
   return (
     <div className="py-20 px-12 bg-white">
       <div className="text-center mb-16">
-        <div className="font-bold text-xs uppercase tracking-widest mb-2" style={{ color: primary }}>{content.tagline}</div>
-        <h2 className="text-4xl font-black text-slate-900">{content.title}</h2>
-        {content.subtitle && <p className="text-slate-500 mt-4 max-w-2xl mx-auto">{content.subtitle}</p>}
+        <div className="font-bold text-xs uppercase tracking-widest mb-2" style={{ color: primary }}>
+          <EditableText value={content.tagline} onChange={onChange ? (v) => updateField('tagline', v) : undefined} />
+        </div>
+        <h2 className="text-4xl font-black text-slate-900">
+          <EditableText value={content.title} onChange={onChange ? (v) => updateField('title', v) : undefined} />
+        </h2>
+        {content.subtitle && <p className="text-slate-500 mt-4 max-w-2xl mx-auto">
+          <EditableText value={content.subtitle} onChange={onChange ? (v) => updateField('subtitle', v) : undefined} />
+        </p>}
       </div>
       <div className="grid grid-cols-3 gap-8">
         {content.items?.map((item: any, i: number) => (
@@ -19,8 +36,12 @@ export function ProgramsBlock({ content }: { content: any }) {
                 {renderDynamicIcon(item.icon, 'h-6 w-6')}
               </div>
             )}
-            <h3 className="font-bold text-lg text-slate-900">{item.title}</h3>
-            {item.description && <p className="text-sm text-slate-500">{item.description}</p>}
+            <h3 className="font-bold text-lg text-slate-900">
+              <EditableText value={item.title} onChange={onChange ? (v) => updateItem(i, 'title', v) : undefined} />
+            </h3>
+            {item.description && <p className="text-sm text-slate-500">
+              <EditableText value={item.description} onChange={onChange ? (v) => updateItem(i, 'description', v) : undefined} />
+            </p>}
             {item.list && item.list.length > 0 && (
               <ul className="space-y-2 pt-2">
                 {item.list.map((listItem: string, j: number) => (

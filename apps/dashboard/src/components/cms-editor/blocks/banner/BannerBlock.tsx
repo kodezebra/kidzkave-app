@@ -1,4 +1,5 @@
 import { useThemeClasses } from '../../useThemeClasses'
+import { EditableText } from '../editable/EditableText'
 
 interface BannerContent {
   title?: string
@@ -17,8 +18,12 @@ interface BannerContent {
   styles?: { paddingY?: number }
 }
 
-export function BannerBlock({ content }: { content: BannerContent }) {
+export function BannerBlock({ content, onChange }: { content: BannerContent, onChange?: (content: BannerContent) => void }) {
   const { primary, primaryWithOpacity, accent, accentWithOpacity } = useThemeClasses()
+  
+  const updateField = (field: string, value: any) => {
+    onChange?.({ ...content, [field]: value })
+  }
   
   const heightMap = {
     small: '240px',
@@ -70,19 +75,19 @@ export function BannerBlock({ content }: { content: BannerContent }) {
       
       <div className="max-w-4xl mx-auto px-6 w-full relative z-10 text-center">
         {content.eyebrow && (
-          <p className={`font-label text-sm uppercase tracking-[0.35em ${hasImage ? 'text-white/80' : 'text-secondary'} mb-6`}>
-            {content.eyebrow}
+          <p className={`font-label text-sm uppercase tracking-[0.35em] ${hasImage ? 'text-white/80' : 'text-secondary'} mb-6`}>
+            <EditableText value={content.eyebrow} onChange={onChange ? (v) => updateField('eyebrow', v) : undefined} />
           </p>
         )}
         <h1 className={`font-headline font-bold ${hasImage ? 'text-white' : ''} ${titleSize} tracking-tight leading-[1.1]`} style={!hasImage ? { color: primary } : {}}>
-          {content.title || 'Page Title'}
+          <EditableText value={content.title || 'Page Title'} onChange={onChange ? (v) => updateField('title', v) : undefined} />
         </h1>
         {content.showDivider !== false && (
           <div className="mt-8 h-1.5 w-32 mx-auto rounded-full" style={{ backgroundColor: hasImage ? 'white' : primary }}></div>
         )}
         {content.subtitle && (
           <p className={`mt-8 font-body text-xl leading-relaxed max-w-2xl mx-auto ${hasImage ? 'text-white/80' : 'text-secondary'}`}>
-            {content.subtitle}
+            <EditableText value={content.subtitle} onChange={onChange ? (v) => updateField('subtitle', v) : undefined} />
           </p>
         )}
       </div>
