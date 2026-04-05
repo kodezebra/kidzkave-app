@@ -68,7 +68,7 @@ export function EditorSidebar({
   }
 
   return (
-    <div className="w-[220px] border-r bg-card flex flex-col h-full shadow-sm transition-all duration-200">
+    <div className="w-[200px] border-r bg-card flex flex-col h-full shadow-sm transition-all duration-200">
       <div className="p-4 border-b flex items-center justify-between bg-muted/30">
         <div className="flex items-center gap-2">
           <Layers className="h-4 w-4 text-primary" />

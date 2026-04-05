@@ -238,9 +238,9 @@ function CMSPageEditor() {
 
         <div className={cn(
           "shrink-0 overflow-hidden transition-all duration-300 ease-in-out border-l",
-          rightSidebarOpen ? "w-[320px]" : "w-0"
+          rightSidebarOpen ? "w-[280px]" : "w-0"
         )}>
-          <div className="w-[320px] h-full overflow-y-auto">
+          <div className="w-[280px] h-full overflow-y-auto">
             <EditorInspector 
               selectedBlock={selectedBlock}
               onUpdateContent={(content) => updateBlockContent(selectedBlockId!, content)}

@@ -45,7 +45,7 @@ export function EditorInspector({
   }
 
   return (
-    <div className="w-full border-l bg-card flex flex-col h-full shadow-lg font-sans">
+    <div className="w-[280px] border-l bg-card flex flex-col h-full shadow-lg font-sans">
       <div className="p-4 border-b flex items-center justify-between bg-muted/30">
         <div className="flex items-center gap-2">
            <Settings2 className="h-4 w-4 text-primary" />
